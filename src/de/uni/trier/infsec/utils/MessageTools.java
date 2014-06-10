@@ -91,7 +91,7 @@ public class MessageTools {
 	}
 
 	public static final int byteArrayToInt(byte [] b) {
-        return (b[0] << 24)
+        return (b[0]  << 24)
                 + ((b[1] & 0xFF) << 16)
                 + ((b[2] & 0xFF) << 8)
                 + (b[3] & 0xFF);
@@ -105,4 +105,24 @@ public class MessageTools {
 	                (byte)(value >>> 8),
 	                (byte)value};
 	}
+	
+	
+	public static final byte[] longToByteArray(long value){
+		byte[] b = new byte[8];
+		for (int i = 0; i < b.length; i++) {
+			int offset = (b.length - 1 - i) * 8;
+			b[i] = (byte) ((value >>> offset) & 0xFF);
+		}
+		return b;
+	}
+	
+	public static final long byteArrayToLong(byte [] b){
+		long value=0;
+		for(int i=0; i<b.length; i++){
+			int offset=(b.length -1 - i) * 8;
+			value += (long) (b[i] & 0xFF) << offset;
+		}
+		return value;
+	}
+	
 }
