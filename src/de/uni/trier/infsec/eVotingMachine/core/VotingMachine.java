@@ -1,13 +1,11 @@
 package de.uni.trier.infsec.eVotingMachine.core;
 
-import java.util.Arrays;
 
-import de.uni.trier.infsec.functionalities.pkienc.Decryptor;
+
 import de.uni.trier.infsec.functionalities.pkienc.Encryptor;
 import de.uni.trier.infsec.functionalities.pkisig.Signer;
 import de.uni.trier.infsec.lib.network.NetworkClient;
 import de.uni.trier.infsec.lib.network.NetworkError;
-import de.uni.trier.infsec.utils.MessageTools;
 import de.uni.trier.infsec.utils.Utilities;
 
 import static de.uni.trier.infsec.utils.MessageTools.intToByteArray;
@@ -55,7 +53,7 @@ public class VotingMachine
 	
 	public int collectBallot(int voterChoice) throws NetworkError, MalformedVote
 	{
-		if (voterChoice < 0 || voterChoice >= numberOfCandidates ) 
+		if ( voterChoice < 0 || voterChoice >= numberOfCandidates ) 
 			throw new MalformedVote();
 		
 		
@@ -67,9 +65,12 @@ public class VotingMachine
 		
 		operationCounter++;
 		
-		createAndSendEntry(operationCounter, Params.VOTE, ballot);
+		byte[] entry=createAndSendEntry(operationCounter, Params.VOTE, ballot, bb_encryptor, signer);
 		
-		// if the message was successfully sent to the bullettin board,
+		// add the the message (without the signature) to the log as an entry
+		entryLog.add(copyOf(entry));
+		
+		// if the message was successfully sent to the bulletin board,
 		// we can increase the vote for the corresponding candidate
 		votesForCandidates[voterChoice]++;
 		lastBallot=ballot;
@@ -83,24 +84,47 @@ public class VotingMachine
 			return;
 		operationCounter++;
 		
-		createAndSendEntry(operationCounter, Params.CANCEL, lastBallot);
+		byte[] entry=createAndSendEntry(operationCounter, Params.CANCEL, lastBallot, bb_encryptor, signer);
+		
+		// add the the message (without the signature) to the log as an entry
+		entryLog.add(copyOf(entry));
 		
 		// if the message to delete the ballot was successfully sent 
-		// to the bullettin board, we can decrease the vote 
+		// to the bulletin board, we can decrease the vote 
 		// for the corresponding candidate
 		votesForCandidates[lastBallot.voterChoice]--;
 		lastBallot=null;
 	}
 	
+	/**
+	 * 	Sign_VM [ RESULTS, timestamp, results ]
+	 * @throws NetworkError
+	 */
+	public void publishResult() throws NetworkError
+	{
+		signAndSendPayload(Params.RESULTS, getResult(), signer);
+	}
+	
+	/** 
+	 * Sign_VM [ LOG, timestamp, concatenationEntry ]
+	 * @throws NetworkError 
+	 */
+	public void publishLog() throws NetworkError
+	{
+		signAndSendPayload(Params.LOG, entryLog.getEntries(), signer);
+	}
+	
+	
 	
 	/**
 	 * Encrypt the inner_ballot with the tag, concatenate the operation counter, sign and send the message to the bullettin board.
 	 * 
-	 *   Sign_VM [ operationCounter, ENC_BB{ TAG, timestamp, voterChoice, voteCounter} ]
+	 *   Sign_VM [ MACHINE_ENTRY, operationCounter, ENC_BB{ TAG, timestamp, voterChoice, voteCounter} ]
 	 *   
 	 *   Concatenation is made right to left
 	 */
-	private void createAndSendEntry(int operationCounter, byte[] tag, InnerBallot inner_ballot) throws NetworkError{
+	private static byte[] createAndSendEntry(int operationCounter, byte[] tag, InnerBallot inner_ballot, Encryptor encryptor, Signer signer) throws NetworkError
+	{
 		byte[] vote_voteCounter = concatenate(	
 							intToByteArray(inner_ballot.voterChoice),
 							intToByteArray(inner_ballot.voteCounter));
@@ -109,46 +133,33 @@ public class VotingMachine
 							vote_voteCounter);
 		byte[] tag_ballot= concatenate(tag, ballot);
 		
-		byte[] encrMsg = bb_encryptor.encrypt(tag_ballot);
+		byte[] encrMsg = encryptor.encrypt(tag_ballot);
 		
-		byte[] entry = concatenate(		intToByteArray(operationCounter),
-										encrMsg);
+		byte[] opCounter_encryMsg = concatenate(		intToByteArray(operationCounter),
+														encrMsg);
 		
-		// add the ballot to the log as an entry
-		entryLog.add(copyOf(entry));
+		byte[] entry = concatenate( Params.MACHINE_ENTRY, opCounter_encryMsg);
 		
 		//sign the entry
 		byte[] signature = signer.sign(entry);
 		byte[] msgToSend = concatenate(entry, signature);
 		NetworkClient.send(msgToSend, Params.DEFAULT_HOST_BBOARD , Params.LISTEN_PORT_BBOARD);
+		
+		return entry;
 	}
-	
-	
 	
 	/**
-	 * 	Sign_VM [ timestamp, results ]
-	 * @throws NetworkError
+	 * Sign_VM [ TAG, timestamp, payload ]
+	 * 
+	 *   Concatenation is made right to left
 	 */
-	public void publishResult() throws NetworkError
-	{
-		signAndSendPayload(getResult());
-	}
-	
-	/** 
-	 * Sign_VM [ timestamp, concatenationEntry ]
-	 * @throws NetworkError 
-	 */
-	public void publishLog() throws NetworkError
-	{
-		signAndSendPayload(entryLog.getEntries());
-	}
-	
-	private void signAndSendPayload(byte[] payload) throws NetworkError 
+	private static void signAndSendPayload(byte[] tag, byte[] payload, Signer signer) throws NetworkError 
 	{
 		long timestamp=Utilities.getTimestamp();
-		byte[] msgToSign=concatenate(	longToByteArray(timestamp),
-										payload);
+		byte[] timestamp_payload=concatenate(	longToByteArray(timestamp),
+												payload);
 		
+		byte[] msgToSign = concatenate(tag, timestamp_payload);
 		byte[] signature = signer.sign(msgToSign);
 		
 		byte[] msgToSend = concatenate(msgToSign, signature);
@@ -180,52 +191,5 @@ public class VotingMachine
 			s += "  Number of votes for candidate " + i + ": " + _result[i] + "\n";
 		}
 		return s.getBytes();
-	}
-	
-	
-	
-	/**
-	 * List of labels.
-	 * For each 'label' maintains an counter representing 
-	 * how many times the label has been used.
-	 */
-	static private class EntryQueue {
-
-		static class Node 
-		{
-			public byte[] entry;
-			public Node next;
-
-			public Node(byte[] entry) 
-			{
-				this.entry = entry;
-				this.next=null;
-			}
-		}
-
-		private Node head, last = null;
-
-		public void add(byte[] entry) 
-		{
-			Node newEntry=new Node(entry);
-			if(head==null)
-				head=last=newEntry;
-			else {
-				last.next=newEntry;
-				last=newEntry;
-			}
-		}
-		
-		public byte[] getEntries()
-		{
-			if(head==null) 
-				return new byte[]{};
-			byte[] entries=head.entry;
-			for(Node n=head.next; n!=null; n=n.next)
-				entries=concatenate(entries, n.entry);
-			return entries;
-		}
-		
-		
 	}
 }
