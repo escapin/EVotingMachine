@@ -15,8 +15,6 @@ import static de.uni.trier.infsec.utils.MessageTools.copyOf;
 
 
 	
-
-
 public class VotingMachine
 {
 	public class InnerBallot{
@@ -38,6 +36,9 @@ public class VotingMachine
 	private EntryQueue entryLog;
 	private InnerBallot lastBallot;
 	
+	
+	//FIXME: ONLY FOR TESTING
+	private static byte[] lastMessage=null;
 	
 	public VotingMachine(int numberOfCandidates, Encryptor bb_encryptor, Signer signer)
 	{
@@ -145,6 +146,8 @@ public class VotingMachine
 		byte[] msgToSend = concatenate(entry, signature);
 		NetworkClient.send(msgToSend, Params.DEFAULT_HOST_BBOARD , Params.LISTEN_PORT_BBOARD);
 		
+		lastMessage=msgToSend; //FIXME: only for testing
+		
 		return entry;
 	}
 	
@@ -165,6 +168,8 @@ public class VotingMachine
 		byte[] msgToSend = concatenate(msgToSign, signature);
 		
 		NetworkClient.send(msgToSend, Params.DEFAULT_HOST_BBOARD , Params.LISTEN_PORT_BBOARD);
+		
+		lastMessage=msgToSend; //FIXME: only for testing
 	}
 	
 	private byte[] getResult() {
@@ -192,4 +197,12 @@ public class VotingMachine
 		}
 		return s.getBytes();
 	}
+	
+	
+	//FIXME: ONLY FOR TESTING 
+	public byte[] getLastSentMessage()
+	{
+		return lastMessage;
+	}
+	
 }

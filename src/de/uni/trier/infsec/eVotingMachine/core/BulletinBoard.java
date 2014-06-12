@@ -13,6 +13,10 @@ public class BulletinBoard
 	Decryptor decryptor;
 	Verifier verifier;
 	EntryQueue entryLog;
+	
+	//FIXME: ONLY FOR TESTING
+	private static byte[] lastMessage;
+	
 	public BulletinBoard(Decryptor decryptor, Verifier verifier) throws NetworkError
 	{
 		this.decryptor=decryptor;
@@ -27,12 +31,20 @@ public class BulletinBoard
 	 */
 	public void onPost() throws NetworkError
 	{
-		byte[] request=NetworkServer.nextRequest(Params.LISTEN_PORT_BBOARD);
+		byte[] request=null;
+		do{ 
+			request=NetworkServer.nextRequest(Params.LISTEN_PORT_BBOARD);
+		} while(request==null);
+		
 		byte[] message = first(request);
 		byte[] signature = second(request);
 		
+		//System.out.println("ciao");
 		if(verifier.verify(signature, message))
+		{
 			entryLog.add(request);
+			lastMessage=request; //FIXME: only for testing
+		}
 		
 	}
 	
@@ -44,4 +56,11 @@ public class BulletinBoard
 	{
 		return entryLog.getEntries();
 	}
+	
+	//FIXME: ONLY FOR TESTING
+	public byte[] getLastReceivedMessage()
+	{
+		return lastMessage;
+	}
+	
 }
