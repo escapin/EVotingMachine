@@ -54,9 +54,9 @@ public class Utilities {
 		return true;
 	}
 	
-	public static long getTimestamp()
-	{
-		return System.currentTimeMillis();
-	}
+//	public static long getTimestamp()
+//	{
+//		return System.currentTimeMillis();
+//	}
 
 }

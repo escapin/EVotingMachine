@@ -44,13 +44,27 @@ public class TestVotingMachine extends TestCase
 	@Test
 	public void testVoting() throws Exception 
 	{
+		NetworkServer.listenForRequests(Params.LISTEN_PORT_BBOARD);
+		
 		vm.collectBallot(0);
-		bb.onPost();
+		byte[] request=null;
+		do{
+			request=NetworkServer.nextRequest(Params.LISTEN_PORT_BBOARD);
+		}
+		while(request==null);
+		bb.onPost(request);
+		
 		assertTrue(Utilities.arrayEqual(vm.getLastSentMessage(),bb.getLastReceivedMessage()));
 		
 		vm.collectBallot(1);
 		assertFalse(Utilities.arrayEqual(vm.getLastSentMessage(),bb.getLastReceivedMessage()));
-		bb.onPost();
+		request=null;
+		do{
+			request=NetworkServer.nextRequest(Params.LISTEN_PORT_BBOARD);
+		}
+		while(request==null);
+		bb.onPost(request);
+		
 		assertTrue(Utilities.arrayEqual(vm.getLastSentMessage(),bb.getLastReceivedMessage()));
 		
 		try{
@@ -58,20 +72,41 @@ public class TestVotingMachine extends TestCase
 			fail("Revoking -- exception expected");
 		} catch(InvalidVote e){}
 		
+		
 		vm.collectBallot(1);
-		bb.onPost();
+		request=null;
+		do{
+			request=NetworkServer.nextRequest(Params.LISTEN_PORT_BBOARD);
+		}
+		while(request==null);
+		bb.onPost(request);
 		assertTrue(Utilities.arrayEqual(vm.getLastSentMessage(),bb.getLastReceivedMessage()));
 
 		vm.cancelLastBallot();
-		bb.onPost();
+		request=null;
+		do{
+			request=NetworkServer.nextRequest(Params.LISTEN_PORT_BBOARD);
+		}
+		while(request==null);
+		bb.onPost(request);
 		assertTrue(Utilities.arrayEqual(vm.getLastSentMessage(),bb.getLastReceivedMessage()));
 		
 		vm.publishResult();
-		bb.onPost();
+		request=null;
+		do{
+			request=NetworkServer.nextRequest(Params.LISTEN_PORT_BBOARD);
+		}
+		while(request==null);
+		bb.onPost(request);
 		assertTrue(Utilities.arrayEqual(vm.getLastSentMessage(),bb.getLastReceivedMessage()));
 		
 		vm.publishLog();
-		bb.onPost();
+		request=null;
+		do{
+			request=NetworkServer.nextRequest(Params.LISTEN_PORT_BBOARD);
+		}
+		while(request==null);
+		bb.onPost(request);
 		assertTrue(Utilities.arrayEqual(vm.getLastSentMessage(),bb.getLastReceivedMessage()));
 	}
 	
@@ -111,7 +146,7 @@ public class TestVotingMachine extends TestCase
 	private static BulletinBoard createBulletinBoard(Decryptor decryptor) throws Exception
 	{
 		Verifier vm_verifier=RegisterSig.getVerifier(Params.VOTING_MACHINE_ID, Params.SIG_DOMAIN);
-		BulletinBoard bulletin_board=new BulletinBoard(decryptor, vm_verifier);
+		BulletinBoard bulletin_board=new BulletinBoard(vm_verifier);
 		
 		return bulletin_board;
 	}

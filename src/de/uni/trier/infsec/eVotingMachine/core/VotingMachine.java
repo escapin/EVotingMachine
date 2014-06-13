@@ -4,7 +4,7 @@ import de.uni.trier.infsec.functionalities.pkienc.Encryptor;
 import de.uni.trier.infsec.functionalities.pkisig.Signer;
 import de.uni.trier.infsec.lib.network.NetworkClient;
 import de.uni.trier.infsec.lib.network.NetworkError;
-import de.uni.trier.infsec.utils.Utilities;
+import de.uni.trier.infsec.lib.time.Timestamp;
 
 import static de.uni.trier.infsec.utils.MessageTools.intToByteArray;
 import static de.uni.trier.infsec.utils.MessageTools.longToByteArray;
@@ -66,8 +66,7 @@ public class VotingMachine
 		votesForCandidates[votersChoice]++;
 
 		// create a new inner ballot
-		lastBallot = new InnerBallot(votersChoice, ++voteCounter, Utilities.getTimestamp());
-		// TODO: getTimestamp should be defined in lib (not in utils) -- it will be subsumed by the environment
+		lastBallot = new InnerBallot(votersChoice, ++voteCounter, Timestamp.get());
 
 		// log, and send a new entry
 		logAndSendNewEntry(Params.VOTE);
@@ -79,10 +78,9 @@ public class VotingMachine
 	{
 		if(lastBallot==null)
 			throw new InvalidCancelation();
-		lastBallot = null;
 		votesForCandidates[lastBallot.votersChoice]--;
-		
 		logAndSendNewEntry(Params.CANCEL);
+		lastBallot = null;
 	}
 
 	public void publishResult() throws NetworkError
@@ -140,7 +138,7 @@ public class VotingMachine
 	 */
 	private static void signAndPost(byte[] tag, byte[] message, Signer signer) throws NetworkError 
 	{		
-		long timestamp = Utilities.getTimestamp();
+		long timestamp = Timestamp.get();
 		byte[] tag_timestamp = concatenate(tag, longToByteArray(timestamp));
 		byte[] payload = concatenate(tag_timestamp, message);
 		byte[] signature = signer.sign(payload);
