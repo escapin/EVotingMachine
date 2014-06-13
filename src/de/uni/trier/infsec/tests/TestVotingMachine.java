@@ -16,7 +16,7 @@ import org.junit.After;
 import de.uni.trier.infsec.eVotingMachine.core.BulletinBoard;
 import de.uni.trier.infsec.eVotingMachine.core.Params;
 import de.uni.trier.infsec.eVotingMachine.core.VotingMachine;
-import de.uni.trier.infsec.eVotingMachine.core.VotingMachine.MalformedVote;
+import de.uni.trier.infsec.eVotingMachine.core.VotingMachine.InvalidVote;
 import de.uni.trier.infsec.functionalities.pki.PKI;
 import de.uni.trier.infsec.functionalities.pki.PKIServerCore;
 import de.uni.trier.infsec.functionalities.pkienc.Decryptor;
@@ -56,7 +56,7 @@ public class TestVotingMachine extends TestCase
 		try{
 			vm.collectBallot(2);
 			fail("Revoking -- exception expected");
-		} catch(MalformedVote e){}
+		} catch(InvalidVote e){}
 		
 		vm.collectBallot(1);
 		bb.onPost();
