@@ -39,7 +39,6 @@ public class BulletinBoard
 		byte[] message = first(request);
 		byte[] signature = second(request);
 		
-		//System.out.println("ciao");
 		if(verifier.verify(signature, message))
 		{
 			entryLog.add(request);
