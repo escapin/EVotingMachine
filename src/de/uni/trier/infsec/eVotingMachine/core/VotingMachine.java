@@ -42,8 +42,6 @@ public class VotingMachine
 	private InnerBallot lastBallot;
 
 
-	//FIXME: ONLY FOR TESTING
-	private static byte[] lastMessage=null;
 
 	public VotingMachine(int numberOfCandidates, Encryptor bb_encryptor, Signer signer)
 	{
@@ -145,7 +143,6 @@ public class VotingMachine
 		byte[] signedPayload = concatenate(payload, signature);
 		NetworkClient.send(signedPayload, Params.DEFAULT_HOST_BBOARD, Params.LISTEN_PORT_BBOARD);
 
-		lastMessage=signedPayload; //FIXME: only for testing
 	}
 
 	private byte[] getResult() {
@@ -161,24 +158,12 @@ public class VotingMachine
 		return formatResult(_result);
 	}
 
-	//FIXME: to be done
-	//    private int consExt(int i) {
-	//    	return Setup.correctResult[i];
-	//    }
-
 	private static byte[] formatResult(int[] _result) {
 		String s = "Result of the election:\n";
 		for( int i=0; i<_result.length; ++i ) {
 			s += "  Number of votes for candidate " + i + ": " + _result[i] + "\n";
 		}
 		return s.getBytes();
-	}
-
-
-	//FIXME: ONLY FOR TESTING 
-	public byte[] getLastSentMessage()
-	{
-		return lastMessage;
 	}
 
 }

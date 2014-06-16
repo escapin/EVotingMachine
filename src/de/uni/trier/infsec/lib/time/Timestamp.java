@@ -5,7 +5,7 @@ import de.uni.trier.infsec.environment.Environment;
 public class Timestamp {
 	
 	public static long get() {
-		return Environment.untrustedInput(); // TODO: use untrustedInputLong();
+		return Environment.untrustedInputLong();
 	}
 	
 }

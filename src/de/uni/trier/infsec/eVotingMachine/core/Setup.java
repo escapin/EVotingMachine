@@ -77,7 +77,7 @@ public final class Setup
 		if (!equalResult(r0,r1))
 			throw new Throwable();	// abort if the vectors do not yield the same result
 
-		// store correct result (CONSERVATICE EXTENSTION)
+		// store correct result (CONSERVATIVE EXTENSTION)
 		correctResult = r1;
 
 
@@ -90,7 +90,7 @@ public final class Setup
 			switch( action ) {
 
 			// This is the essential step.
-			// Importantly, the vote collection is done directly in the method collectBallot (withouth
+			// Importantly, the vote collection is done directly in the method collectBallot (without
 			// first sending the choice to any server).
 			case 0: // next voter votes
 				if (voterNr<numberOfVoters) {

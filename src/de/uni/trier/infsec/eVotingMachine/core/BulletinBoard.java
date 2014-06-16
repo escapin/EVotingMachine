@@ -2,7 +2,6 @@ package de.uni.trier.infsec.eVotingMachine.core;
 
 import de.uni.trier.infsec.functionalities.pkisig.Verifier;
 import de.uni.trier.infsec.lib.network.NetworkError;
-import de.uni.trier.infsec.lib.network.NetworkServer;
 
 import static de.uni.trier.infsec.utils.MessageTools.first;
 import static de.uni.trier.infsec.utils.MessageTools.second;
@@ -12,8 +11,6 @@ public class BulletinBoard
 	Verifier verifier;
 	EntryQueue entryLog;
 	
-	//FIXME: ONLY FOR TESTING
-	private static byte[] lastMessage;
 	
 	public BulletinBoard(Verifier verifier) throws NetworkError
 	{
@@ -33,7 +30,6 @@ public class BulletinBoard
 		if(verifier.verify(signature, message))
 		{
 			entryLog.add(request);
-			lastMessage=request; //FIXME: only for testing
 		}	
 	}
 	
@@ -45,11 +41,5 @@ public class BulletinBoard
 	{
 		return entryLog.getEntries();
 	}
-	
-	//FIXME: ONLY FOR TESTING
-	public byte[] getLastReceivedMessage()
-	{
-		return lastMessage;
-	}
-	
+		
 }
