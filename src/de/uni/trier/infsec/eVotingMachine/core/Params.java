@@ -2,8 +2,9 @@ package de.uni.trier.infsec.eVotingMachine.core;
 
 public class Params {
 	
-	public static final int VOTING_MACHINE_ID=-1;
-	public static final int BULLETIN_BOARD_ID=-1;
+	public static final int AUDITORS_ID = 1;
+	public static final int VOTING_MACHINE_ID = 2;
+	public static final int BULLETIN_BOARD_ID = 3;
 	
 	public static final byte[] ENC_DOMAIN = {0x00};
 	public static final byte[] SIG_DOMAIN = {0x01};

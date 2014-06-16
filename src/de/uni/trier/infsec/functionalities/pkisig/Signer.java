@@ -1,50 +1,70 @@
 package de.uni.trier.infsec.functionalities.pkisig;
 
-import static de.uni.trier.infsec.utils.MessageTools.concatenate;
 import static de.uni.trier.infsec.utils.MessageTools.copyOf;
-import static de.uni.trier.infsec.utils.MessageTools.first;
-import static de.uni.trier.infsec.utils.MessageTools.second;
 import de.uni.trier.infsec.lib.crypto.CryptoLib;
 import de.uni.trier.infsec.lib.crypto.KeyPair;
+import de.uni.trier.infsec.utils.MessageTools;
 
 /**
  * An object encapsulating a signing/verification key pair and allowing a user to
- * create signatures.
+ * create a signature. In this implementation, when a message is signed, a real signature
+ * is created (by an algorithm provided in lib.crypto) an the pair message/signature
+ * is stores in the log.
  */
-public class Signer {
-	byte[] verifKey;
-	byte[] signKey;
+final public class Signer {
+	private byte[] verifKey;
+	private byte[] signKey;
+	private Log log;
 
 	public Signer() {
 		KeyPair keypair = CryptoLib.generateSignatureKeyPair();
 		this.signKey = copyOf(keypair.privateKey);
 		this.verifKey = copyOf(keypair.publicKey);
-	}
-
-	Signer(byte[] verifKey, byte[] signKey ) {
-		this.verifKey = verifKey;
-		this.signKey = signKey;
+		this.log = new Log();
 	}
 
 	public byte[] sign(byte[] message) {
 		byte[] signature = CryptoLib.sign(copyOf(message), copyOf(signKey));
-		return copyOf(signature);
+		// we make sure that the signing has not failed
+		if (signature == null) return null;
+		// and that the signature is correct
+		if( !CryptoLib.verify(copyOf(message), copyOf(signature), copyOf(verifKey)) )
+			return null;
+		// now we log the message (only!) as signed and return the signature
+		log.add(copyOf(message));
+		return copyOf(copyOf(signature));
 	}
 
 	public Verifier getVerifier() {
-		return new Verifier(verifKey);
+		return new UncorruptedVerifier(verifKey, log);
 	}
+	
+	///// IMPLEMENTATION /////
+	
+	static class Log {
 
+		private static class MessageList {
+			byte[] message;
+			MessageList next;
+			public MessageList(byte[] message, MessageList next) {
+				this.message = message;
+				this.next = next;
+			}
+		}
 
-	// Not in the ideal functionality: 
+		private MessageList first = null;
 
-	public byte[] toBytes() {
-		return concatenate(signKey, verifKey);
+		public void add(byte[] message) {
+			first = new MessageList(message, first);
+		}
+
+		boolean contains(byte[] message) {
+			for( MessageList node = first;  node != null;  node = node.next ) {
+				if( MessageTools.equal(node.message, message) )
+					return true;
+			}
+			return false;
+		}
 	}
-
-	public static Signer fromBytes(byte[] bytes) {
-		byte[] sign_key = first(bytes);
-		byte[] verif_key = second(bytes);
-		return new Signer(verif_key, sign_key);
-	}
+	
 }

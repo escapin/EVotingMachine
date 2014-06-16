@@ -155,7 +155,7 @@ public class VotingMachine
 			int x = votesForCandidates[i];
 			// CONSERVATIVE EXTENSION:
 			// PROVE THAT THE FOLLOWING ASSINGMENT IS REDUNDANT
-			// x = consExt(i);
+			x = Setup.correctResult[i];
 			_result[i] = x;
 		}
 		return formatResult(_result);
