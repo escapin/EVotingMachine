@@ -38,7 +38,6 @@ public class VotingMachine
 	private int numberOfCandidates;
 	private int[] votesForCandidates;
 	private int operationCounter, voteCounter;
-	private EntryQueue entryLog;
 	private InnerBallot lastBallot;
 
 
@@ -49,7 +48,6 @@ public class VotingMachine
 		this.bb_encryptor=bb_encryptor;
 		this.signer=signer;
 		votesForCandidates = new int[numberOfCandidates];
-		entryLog = new EntryQueue();
 		operationCounter=0;
 		voteCounter=0;
 		lastBallot=null;
@@ -71,35 +69,18 @@ public class VotingMachine
 		
 		return operationCounter;
 	}
-
-	public void cancelLastBallot() throws NetworkError, InvalidCancelation
-	{
-		if(lastBallot==null)
-			throw new InvalidCancelation();
-		votesForCandidates[lastBallot.votersChoice]--;
-		logAndSendNewEntry(Params.CANCEL);
-		lastBallot = null;
-	}
-
+	
 	public void publishResult() throws NetworkError
 	{
 		signAndPost(Params.RESULTS, getResult(), signer);
 	}
 
-	public void publishLog() throws NetworkError
-	{
-		signAndPost(Params.LOG, entryLog.getEntries(), signer);
-	}
 
-	
 	///// PRIVATE //////
 
 	private void logAndSendNewEntry(byte[] tag) {
 		// create a new (encrypted) log entry:
-		byte[] entry = createEncryptedEntry(++operationCounter, tag, lastBallot, bb_encryptor, signer);	
-		// add it to the log:
-		entryLog.add(copyOf(entry));
-		// and send this entry:
+		byte[] entry = createEncryptedEntry(++operationCounter, tag, lastBallot, bb_encryptor, signer);
 		try {
 			signAndPost(Params.MACHINE_ENTRY, entry, signer);
 		} catch (Exception ex) {}
