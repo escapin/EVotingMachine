@@ -1,15 +1,13 @@
 package de.uni.trier.infsec.eVotingMachine.core;
 
-import de.uni.trier.infsec.functionalities.pkienc.Encryptor;
 import de.uni.trier.infsec.functionalities.pkisig.Signer;
 import de.uni.trier.infsec.lib.network.NetworkClient;
 import de.uni.trier.infsec.lib.network.NetworkError;
 import de.uni.trier.infsec.lib.time.Timestamp;
 
-import static de.uni.trier.infsec.utils.MessageTools.intToByteArray;
 import static de.uni.trier.infsec.utils.MessageTools.longToByteArray;
 import static de.uni.trier.infsec.utils.MessageTools.concatenate;
-import static de.uni.trier.infsec.utils.MessageTools.copyOf;
+
 
 public class VotingMachine
 {
@@ -32,25 +30,19 @@ public class VotingMachine
 
 	
 	// CRYPTOGRAPHIC FUNCTIONALITIES
-	private final Encryptor bb_encryptor;
 	private final Signer signer;
 
 	private int numberOfCandidates;
 	private int[] votesForCandidates;
-	private int operationCounter, voteCounter;
-	private InnerBallot lastBallot;
+	private int operationCounter;
 
 
-
-	public VotingMachine(int numberOfCandidates, Encryptor bb_encryptor, Signer signer)
+	public VotingMachine(int numberOfCandidates, Signer signer)
 	{
 		this.numberOfCandidates=numberOfCandidates;
-		this.bb_encryptor=bb_encryptor;
 		this.signer=signer;
 		votesForCandidates = new int[numberOfCandidates];
 		operationCounter=0;
-		voteCounter=0;
-		lastBallot=null;
 	}
 
 	public int collectBallot(int votersChoice) throws InvalidVote
@@ -61,13 +53,7 @@ public class VotingMachine
 		// increase the vote for the corresponding candidate
 		votesForCandidates[votersChoice]++;
 
-		// create a new inner ballot
-		lastBallot = new InnerBallot(votersChoice, ++voteCounter, Timestamp.get());
-
-		// log, and send a new entry
-		logAndSendNewEntry(Params.VOTE);
-		
-		return operationCounter;
+		return operationCounter++;
 	}
 	
 	public void publishResult() throws NetworkError
@@ -77,39 +63,6 @@ public class VotingMachine
 
 
 	///// PRIVATE //////
-
-	private void logAndSendNewEntry(byte[] tag) {
-		// create a new (encrypted) log entry:
-		byte[] entry = createEncryptedEntry(++operationCounter, tag, lastBallot, bb_encryptor, signer);
-		try {
-			signAndPost(Params.MACHINE_ENTRY, entry, signer);
-		} catch (Exception ex) {}
-			// this may cause an exception (NetworkError), but even if we do not get any exception, there is no guarantee 
-			// that the entry was indeed delivered to the bulletin board, so we ignore problems
-		
-	}
-
-	
-	/**
-	 * Create and return the new entry:
-	 * 
-	 *   ( operationCounter, ENC_BB{ TAG, timestamp, voterChoice, voteCounter} )
-	 */
-	private byte[] createEncryptedEntry(int operationCounter, byte[] tag, InnerBallot inner_ballot, Encryptor encryptor, Signer signer)
-	{
-		byte[] vote_voteCounter = concatenate(	
-				intToByteArray(inner_ballot.votersChoice),
-				intToByteArray(inner_ballot.voteCounter));
-		byte[] ballot = concatenate(
-				longToByteArray(inner_ballot.timestamp),
-				vote_voteCounter);
-		byte[] tag_ballot= concatenate(tag, ballot);
-		byte[] encrMsg = encryptor.encrypt(tag_ballot);
-		byte[] entry = concatenate( intToByteArray(operationCounter), encrMsg);
-		return entry;
-	}
-
-	
 	/**
 	 * Sign_VM [ TAG, timestamp, message ]
 	 * 
