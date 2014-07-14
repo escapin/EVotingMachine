@@ -1,5 +1,7 @@
 package de.uni.trier.infsec.eVotingMachine.core;
 
+import de.uni.trier.infsec.eVotingMachine.core.VotingMachine.InvalidCancelation;
+import de.uni.trier.infsec.eVotingMachine.core.VotingMachine.InvalidVote;
 import de.uni.trier.infsec.environment.Environment;
 import de.uni.trier.infsec.functionalities.pkienc.RegisterEnc;
 import de.uni.trier.infsec.functionalities.pkienc.Encryptor;
@@ -7,14 +9,10 @@ import de.uni.trier.infsec.functionalities.pkienc.Decryptor;
 import de.uni.trier.infsec.functionalities.pkisig.RegisterSig;
 import de.uni.trier.infsec.functionalities.pkisig.Signer;
 import de.uni.trier.infsec.functionalities.pkisig.Verifier;
+import de.uni.trier.infsec.lib.network.NetworkError;
 
 public final class Setup 
 {
-	private static VotingMachine VM;
-	private static BulletinBoard BB;
-
-	// one secret bit
-	private static boolean secret;
 
 	// the correct result
 	static int[] correctResult; // CONSERVATIVE EXTENSION
@@ -61,11 +59,18 @@ public final class Setup
 		RegisterSig.registerVerifier(vm_verifier, Params.VOTING_MACHINE_ID, Params.SIG_DOMAIN);
 
 		// Create the voting machine and the bulletin board:
-		VM = new VotingMachine(numberOfCandidates, audit_encryptor, vm_signer);
-		BB = new BulletinBoard(vm_verifier);
+		VotingMachine vm = new VotingMachine(numberOfCandidates, audit_encryptor, vm_signer);
+		BulletinBoard bb = new BulletinBoard(vm_verifier);
 
+		boolean secret = a.length >0;
+		main2(vm, bb, numberOfCandidates, numberOfVoters, secret);
 
-		// CHOICE VECTORS OF CHOICES AND THE CORRECT RESULT  
+	}
+
+    private static void main2(VotingMachine vm, BulletinBoard bb,  int numberOfCandidates, int numberOfVoters, boolean secret)
+                    throws Throwable, InvalidVote, NetworkError,
+                    InvalidCancelation {
+        // CHOICE VECTORS OF CHOICES AND THE CORRECT RESULT  
 
 		// let the environment determine two vectors of choices
 		int[] choices0 = createChoices(numberOfVoters, numberOfCandidates);
@@ -84,9 +89,12 @@ public final class Setup
 		// THE MAIN LOOP
 		
 		final int N = Environment.untrustedInput(); // the environment decides how long the system runs
+		final int[] actions = Environment.untrustedInputArray(N);
+		final int[] audit_choices = Environment.untrustedInputArray(N);
+		byte[][] requests = Environment.untrustedOutputMessages(N);
 		int voterNr = 0;
-		for( int i=0; i<N; ++i ) {
-			int action = Environment.untrustedInput();
+        for( int i=0; i<N; ++i ) {
+			int action = actions[i];
 			switch( action ) {
 
 			// This is the essential step.
@@ -95,40 +103,39 @@ public final class Setup
 			case 0: // next voter votes
 				if (voterNr<numberOfVoters) {
 					int choice = secret ? choices0[voterNr] : choices1[voterNr];
-					VM.collectBallot(choice);
+					vm.collectBallot(choice);
 					++voterNr;
 				}
 				break;
 
 			case 1: // make the voting machine publish the current (encrypted) log
-				VM.publishLog();
+				vm.publishLog();
 				break;
 
 		    // It would be good to keep this step
 			case 2: // audit (this step altogether should not change the result)
-				int audit_choice = Environment.untrustedInput();
-				int sqnumber = VM.collectBallot(audit_choice);
+				int audit_choice = audit_choices[i];
+				int sqnumber = vm.collectBallot(audit_choice);
 				Environment.untrustedOutput(sqnumber);
-				VM.publishLog();
-				VM.cancelLastBallot();
+				vm.publishLog();
+				vm.cancelLastBallot();
 				break;
 
 			// The following steps are not so essential. If problematic, we can remove (move them after the loop) them.
 
 			case 3: // deliver a message to the bulletin board
-				byte[] request = Environment.untrustedInputMessage();
-				BB.onPost(request);
+				byte[] request = requests[i];
+				bb.onPost(request);
 				break;
 
-			case 4: // make the bulleting board send its content over the network
-				BB.onRequestContent();
+			case 4: // make the bulletin board send its content over the network
+				bb.onRequestContent();
 				break;
 			}
 		}
 
 		// make the voting machine publish the result (only if all the voters has voted):
 		if (voterNr == numberOfVoters)
-			VM.publishResult();
-
-	}
+			vm.publishResult();
+    }
 }

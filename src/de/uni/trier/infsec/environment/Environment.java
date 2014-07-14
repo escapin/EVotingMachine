@@ -13,6 +13,7 @@ class Node
 
 public class Environment {
 
+    // TODO: only primitive types are changed
 	private static boolean result; // the LOW variable
 	
 	private static Node list = null;

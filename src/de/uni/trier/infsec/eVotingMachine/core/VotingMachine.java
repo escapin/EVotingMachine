@@ -93,6 +93,8 @@ public class VotingMachine
 
 	
 	///// PRIVATE //////
+	
+	// TODO : make separate class
 
 	private void logAndSendNewEntry(byte[] tag) {
 		// create a new (encrypted) log entry:
