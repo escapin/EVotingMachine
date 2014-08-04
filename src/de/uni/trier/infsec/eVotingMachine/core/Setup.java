@@ -62,16 +62,13 @@ public final class Setup
 		VotingMachine vm = new VotingMachine(numberOfCandidates, audit_encryptor, vm_signer);
 		BulletinBoard bb = new BulletinBoard(vm_verifier);
 
-		boolean secret = a.length >0;
+		boolean secret = a.length > 0;
 		main2(vm, bb, numberOfCandidates, numberOfVoters, secret);
 
 	}
 
-    private static void main2(VotingMachine vm, BulletinBoard bb,  int numberOfCandidates, int numberOfVoters, boolean secret)
-                    throws Throwable, InvalidVote, NetworkError,
-                    InvalidCancelation {
-        // CHOICE VECTORS OF CHOICES AND THE CORRECT RESULT  
-
+    private static void main2(VotingMachine vm, BulletinBoard bb, int numberOfCandidates, int numberOfVoters, boolean secret)
+                    throws Throwable, InvalidVote, NetworkError, InvalidCancelation {
 		// let the environment determine two vectors of choices
 		int[] choices0 = createChoices(numberOfVoters, numberOfCandidates);
 		int[] choices1 = createChoices(numberOfVoters, numberOfCandidates);
@@ -85,7 +82,6 @@ public final class Setup
 		// store correct result (CONSERVATIVE EXTENSTION)
 		correctResult = r1;
 
-
 		// THE MAIN LOOP
 		
 		final int N = Environment.untrustedInput(); // the environment decides how long the system runs
@@ -94,12 +90,8 @@ public final class Setup
 		byte[][] requests = Environment.untrustedInputMessages(N);
 		int voterNr = 0;
         for( int i=0; i<N; ++i ) {
-			int action = actions[i];
-			switch( action ) {
+			switch( actions[i] ) {
 
-			// This is the essential step.
-			// Importantly, the vote collection is done directly in the method collectBallot (without
-			// first sending the choice to any server).
 			case 0: // next voter votes
 				if (voterNr<numberOfVoters) {
 					int choice = secret ? choices0[voterNr] : choices1[voterNr];
@@ -112,7 +104,6 @@ public final class Setup
 				vm.publishLog();
 				break;
 
-		    // It would be good to keep this step
 			case 2: // audit (this step altogether should not change the result)
 				int audit_choice = audit_choices[i];
 				int sqnumber = vm.collectBallot(audit_choice);
@@ -120,8 +111,6 @@ public final class Setup
 				vm.publishLog();
 				vm.cancelLastBallot();
 				break;
-
-			// The following steps are not so essential. If problematic, we can remove (move them after the loop) them.
 
 			case 3: // deliver a message to the bulletin board
 				byte[] request = requests[i];

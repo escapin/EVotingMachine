@@ -1,67 +1,35 @@
 package de.uni.trier.infsec.environment;
 
-class Node 
-{
-	long value;
-	Node next;
-	
-	Node(long value, Node next){
-		this.value = value; 
-		this.next = next;
-	}
-}
-
 public class Environment {
 
-    // TODO: only primitive types are changed
 	private static boolean result; // the LOW variable
-	
-	private static Node list = null;
-	private static boolean listInitialized = false;
-		
-	private static Node initialValue()
-	{
-		// Unknown specification of the following form:
-		// return new Node(U1, new Node(U2, ...));
-		// where U1, U2, ...Un are constant integers.
-		return new Node(1, new Node(7,null));  // just an example
-	}
 
-    public synchronized static long untrustedInputLong()
+	private static int [] inputValues = {1,7,3}; // just an example
+	private static int inputCounter = 0;
+	
+    public static int untrustedInput()
     {
-    	if (!listInitialized) {
-    		list = initialValue();
-    	    listInitialized = true;        
-    	}
-    	if (list==null) 
-    		return 0;
-    	long tmp = list.value;
-    	list = list.next;
-    	return tmp;
+    	return inputValues[inputCounter++];
 	}
     
-    public static int untrustedInput() {
-    	return (int)untrustedInputLong();
-    }
 		
     public synchronized static void untrustedOutput(long x)
     {
-		if (untrustedInputLong()==0) {
-			result = (x==untrustedInputLong());
-			// System.out.println(result);
+		if (untrustedInput()==0) {
+			result = (x==untrustedInput());
 			throw new Error();  // abort
 		}
 	}
     
     public static byte[] untrustedInputMessage()
     {
-		long llen = untrustedInputLong();
+		long llen = untrustedInput();
 		int len = (int) llen;
 		if (llen<0 || len!=llen) // check whether casting to int has changed its value
 			return null;
 		byte[] returnval = new byte[len];
 		for (int i = 0; i < len; i++) {
-			returnval[i] = (byte) Environment.untrustedInputLong();
+			returnval[i] = (byte) Environment.untrustedInput();
 		}
 		return returnval;    
     }
