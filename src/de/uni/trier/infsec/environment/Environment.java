@@ -66,6 +66,22 @@ public class Environment {
 		return returnval;    
     }
     
+    public static byte[][] untrustedInputMessages(int N)
+    {
+    	byte[][] output = new byte[N][];
+    	for(int i=0;i<N;i++)
+    		output[i]=untrustedInputMessage();
+    	return output;
+    }
+    
+    public static int[] untrustedInputArray(int N)
+    {
+    	int[] output = new int[N];
+    	for(int i=0;i<N;i++)
+    		output[i]=untrustedInput();
+    	return output;
+    }	
+    
     public static void untrustedOutputMessage(byte[] t)
     {
     	untrustedOutput(t.length);

@@ -91,7 +91,7 @@ public final class Setup
 		final int N = Environment.untrustedInput(); // the environment decides how long the system runs
 		final int[] actions = Environment.untrustedInputArray(N);
 		final int[] audit_choices = Environment.untrustedInputArray(N);
-		byte[][] requests = Environment.untrustedOutputMessages(N);
+		byte[][] requests = Environment.untrustedInputMessages(N);
 		int voterNr = 0;
         for( int i=0; i<N; ++i ) {
 			int action = actions[i];
