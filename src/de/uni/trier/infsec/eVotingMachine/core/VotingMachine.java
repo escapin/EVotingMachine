@@ -24,10 +24,8 @@ public class VotingMachine
 		}
 	}
 
-	@SuppressWarnings("serial")
 	public class InvalidVote extends Exception{}
 
-	@SuppressWarnings("serial")
 	public class InvalidCancelation extends Exception{}
 
 	
@@ -55,6 +53,11 @@ public class VotingMachine
 		lastBallot=null;
 	}
 
+	//@ requires \invariant_for(this);
+	//@ ensures \only_assigned(votesForCandidates[*], lastBallot); // TODO implement
+	//@ ensures \invariant_for(this);
+	//@ signals (Throwable) votersChoices < 0 || votersChoice >= numberOfCandidates;
+	//@ helper
 	public int collectBallot(int votersChoice) throws InvalidVote
 	{
 		if ( votersChoice < 0 || votersChoice >= numberOfCandidates ) 
@@ -86,6 +89,8 @@ public class VotingMachine
 		signAndPost(Params.RESULTS, getResult(), signer);
 	}
 
+	//@ ensures true;
+	//@ strictly_pure // to be proven with JOANA
 	public void publishLog() throws NetworkError
 	{
 		signAndPost(Params.LOG, entryLog.getEntries(), signer);
@@ -94,6 +99,9 @@ public class VotingMachine
 	
 	///// PRIVATE //////
 	
+
+    //@ ensures true;
+    //@ strictly_pure // to be proven with JOANA
 	private void logAndSendNewEntry(byte[] tag) {
 		// create a new (encrypted) log entry:
 		byte[] entry = createEncryptedEntry(++operationCounter, tag, lastBallot, bb_encryptor, signer);	
@@ -145,6 +153,9 @@ public class VotingMachine
 
 	}
 
+	/*@ requires (\forall int j; 0 <= j && j < numberOfCandidates;
+	  @             votesForCandidates[j] == Setup.correctResult[j]);
+	  @*/
 	private byte[] getResult() {
 
 		int[] _result = new int[numberOfCandidates];

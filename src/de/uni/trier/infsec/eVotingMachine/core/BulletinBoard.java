@@ -22,6 +22,8 @@ public class BulletinBoard
 	 * Reads a message, checks if it comes from the voting machine, and, 
 	 * if this is the case, adds it to the maintained list of messages.
 	 */
+	//@ ensures true;
+	//@ strictly_pure
 	public void onPost(byte[] request) throws NetworkError
 	{
 		byte[] message = first(request);
@@ -37,6 +39,8 @@ public class BulletinBoard
 	 * Output its content, that is the concatenation of 
 	 * all the message in the maintained list of messages.
 	 */
+    //@ ensures true;
+    //@ strictly_pure
 	public byte[] onRequestContent() throws NetworkError
 	{
 		return entryLog.getEntries();

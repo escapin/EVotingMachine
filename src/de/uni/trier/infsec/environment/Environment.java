@@ -12,7 +12,19 @@ public class Environment {
     	return inputValues[inputCounter++];
 	}
     
-		
+    //@ ensures 0 <= \result && \result < n;
+    //@ diverges true;
+    //@ assignable inputCounter;
+    public static int untrustedInput(int n) {
+        int res;
+        do {
+            res = untrustedInput();
+        } while (res < 0 || res >= n);
+        return res;
+    }
+    
+
+    //@ assignable inputCounter;
     public synchronized static void untrustedOutput(long x)
     {
 		if (untrustedInput()==0) {
