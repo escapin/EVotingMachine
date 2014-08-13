@@ -53,10 +53,10 @@ public class VotingMachine
 		lastBallot=null;
 	}
 
+	// ensures \only_assigned(votesForCandidates[*], lastBallot); // TODO implement
 	//@ requires \invariant_for(this);
-	//@ ensures \only_assigned(votesForCandidates[*], lastBallot); // TODO implement
 	//@ ensures \invariant_for(this);
-	//@ signals (Throwable) votersChoices < 0 || votersChoice >= numberOfCandidates;
+	//@ signals (Throwable) votersChoice < 0 || votersChoice >= numberOfCandidates;
 	//@ helper
 	public int collectBallot(int votersChoice) throws InvalidVote
 	{
