@@ -2,30 +2,55 @@ package de.uni.trier.infsec.environment;
 
 public class Environment {
 
-	private static boolean result; // the LOW variable
+	private /*@ spec_public @*/ static boolean result; // the LOW variable
 
-	private static int [] inputValues = {1,7,3}; // just an example
-	private static int inputCounter = 0;
+	private /*@ spec_public @*/ static int [] inputValues = {1,7,3}; // just an example
+	private /*@ spec_public @*/ static int inputCounter = 0;
 	
-    public static int untrustedInput()
+	/*@ public behaviour
+	  @ requires inputValues != null && 0 <= inputCounter;
+	  @ assignable inputCounter;
+	  @ diverges inputValues.length <= inputCounter;
+	  @ signals_only ArrayIndexOutOfBoundsException;
+	  @ ensures inputValues != null && 0 <= inputCounter;
+	  @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
+	  @*/
+    public static /*@ helper */ int untrustedInput()
     {
     	return inputValues[inputCounter++];
 	}
     
-    //@ ensures 0 <= \result && \result < n;
-    //@ diverges true;
-    //@ assignable inputCounter;
-    public static int untrustedInput(int n) {
-        int res;
-        do {
-            res = untrustedInput();
-        } while (res < 0 || res >= n);
+    /*@ public behaviour
+      @ requires inputValues != null && 0 <= inputCounter;
+      @ diverges true;
+      @ signals_only ArrayIndexOutOfBoundsException;
+      @ assignable inputCounter;
+      @ ensures inputValues != null && 0 <= inputCounter && 0 <= \result && \result < n;
+      @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
+      @*/
+    public static /*@ helper */ int untrustedInput(int n) {
+        int res = -1;
+        /*@ loop_invariant 0 <= inputCounter;
+          @ assignable inputCounter;
+          @ decreases (res < 0 || res >= n) ? 1 : 0;
+          @*/
+        while (res < 0 || res >= n) {
+        	res = untrustedInput();
+        }
         return res;
     }
     
 
-    //@ assignable inputCounter;
-    public synchronized static void untrustedOutput(long x)
+    /*@ public behaviour
+      @ requires inputValues != null && 0 <= inputCounter;
+      @ diverges true;
+      @ signals_only ArrayIndexOutOfBoundsException, Error;
+      @ assignable inputCounter, result;
+      @ ensures inputValues != null && 0 <= inputCounter;
+      @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
+      @ signals (Error e) inputValues != null && 0 <= inputCounter;
+      @*/
+    public synchronized static /*@ helper */ void untrustedOutput(long x)
     {
 		if (untrustedInput()==0) {
 			result = (x==untrustedInput());
@@ -33,46 +58,108 @@ public class Environment {
 		}
 	}
     
-    public static byte[] untrustedInputMessage()
+    /*@ public behaviour
+      @ requires inputValues != null && 0 <= inputCounter;
+      @ diverges true;
+      @ signals_only ArrayIndexOutOfBoundsException;
+      @ assignable inputCounter;
+      @ ensures inputValues != null && 0 <= inputCounter;
+      @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
+      @*/
+    public static /*@ helper nullable */ byte[] untrustedInputMessage()
     {
 		long llen = untrustedInput();
 		int len = (int) llen;
 		if (llen<0 || len!=llen) // check whether casting to int has changed its value
 			return null;
 		byte[] returnval = new byte[len];
+		/*@ loop_invariant 0 <= inputCounter && 0 <= len;
+          @ assignable inputCounter, returnval[*];
+          @ decreases len - i;
+          @*/
 		for (int i = 0; i < len; i++) {
 			returnval[i] = (byte) Environment.untrustedInput();
 		}
 		return returnval;    
     }
     
-    public static byte[][] untrustedInputMessages(int N)
+    /*@ public behaviour
+      @ requires inputValues != null && 0 <= inputCounter;
+      @ diverges true;
+      @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException;
+      @ assignable inputCounter;
+      @ ensures inputValues != null && 0 <= inputCounter;
+      @ signals (Exception e) inputValues != null && 0 <= inputCounter;
+      @*/
+    public static /*@ helper nullable */ byte[][] untrustedInputMessages(int N)
     {
     	byte[][] output = new byte[N][];
+    	/*@ loop_invariant 0 <= inputCounter && 0 <= N;
+          @ assignable inputCounter, output[*];
+          @ decreases N - i;
+          @*/
     	for(int i=0;i<N;i++)
     		output[i]=untrustedInputMessage();
     	return output;
     }
     
-    public static int[] untrustedInputArray(int N)
+    /*@ public behaviour
+      @ requires inputValues != null && 0 <= inputCounter;
+      @ diverges true;
+      @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException;
+      @ assignable inputCounter;
+      @ ensures inputValues != null && 0 <= inputCounter;
+      @ signals (Exception e) inputValues != null && 0 <= inputCounter;
+      @*/
+    public static /*@ helper */ int[] untrustedInputArray(int N)
     {
     	int[] output = new int[N];
+    	/*@ loop_invariant 0 <= N && 0 <= inputCounter;
+          @ assignable inputCounter, output[*];
+          @ decreases N - i;
+          @*/
     	for(int i=0;i<N;i++)
     		output[i]=untrustedInput();
     	return output;
     }	
     
-    public static void untrustedOutputMessage(byte[] t)
+    /*@ public behaviour
+      @ requires inputValues != null && 0 <= inputCounter;
+      @ diverges true;
+      @ signals_only ArrayIndexOutOfBoundsException, Error;
+      @ assignable inputCounter, result;
+      @ ensures inputValues != null && 0 <= inputCounter;
+      @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
+      @ signals (Error e) inputValues != null && 0 <= inputCounter;
+      @*/
+    public static /*@ helper */ void untrustedOutputMessage(byte[] t)
     {
     	untrustedOutput(t.length);
+    	/*@ loop_invariant 0 <= inputCounter;
+          @ assignable inputCounter, result;
+          @ decreases t.length - i;
+          @*/
 		for (int i = 0; i < t.length; i++) {
 			untrustedOutput(t[i]);
 		}
     }
     
-    public static void untrustedOutputString(String s)
+    /*@ public behaviour
+      @ requires inputValues != null && 0 <= inputCounter;
+      @ diverges true;
+      @ signals_only ArrayIndexOutOfBoundsException, Error;
+      @ assignable inputCounter, result;
+      @ ensures inputValues != null && 0 <= inputCounter;
+      @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
+      @ signals (Error e) inputValues != null && 0 <= inputCounter;
+      @*/
+    public static /*@ helper */ void untrustedOutputString(String s)
     {
     	untrustedOutput(s.length());
+    	/*@ loop_invariant 0 <= inputCounter && 0 <= i;
+          @ assignable inputCounter, result;
+          @ decreases s.length() - i;
+          @*/
     	for (int i = 0; i < s.length(); i++) {
     		untrustedOutput((long)s.charAt(i));
     	}
