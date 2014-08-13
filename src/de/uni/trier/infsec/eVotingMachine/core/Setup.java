@@ -17,8 +17,11 @@ public final class Setup
 	// the correct result
 	static int[] correctResult; // CONSERVATIVE EXTENSION
 
-	/*@ ensures (\forall int j; 0 <= j && j < numberOfVoters;
-	  @             0 <= \result[j] && \result[j] < numberOfCandidates);
+	//@ private static ghost boolean flag;
+
+	/*@ private behaviour
+	  @ ensures (\forall int j; 0 <= j && j < numberOfVoters;
+	  @ 			0 <= \result[j] && \result[j] < numberOfCandidates);
 	  @ ensures \result.length == numberOfVoters;
 	  @ diverges true;
 	  @ signals_only Throwable;
@@ -38,10 +41,11 @@ public final class Setup
 		return res;
 	}
 
-	//@ requires r1.length == r2.length;
-	//@ ensures \result == (\forall int i; 0 <= i && i < r1.length; r1[i] == r2[i]);
-	//@ strictly_pure
-	private static boolean equalResult(int[] r1, int[] r2) {
+	/*@ private behaviour
+	  @ requires r1.length == r2.length;
+	  @ ensures \result == (\forall int i; 0 <= i && i < r1.length; r1[i] == r2[i]);
+	  @*/
+	private static /*@ strictly_pure */ boolean equalResult(int[] r1, int[] r2) {
 		for (int j= 0; j<r1.length; j++)
 			if (r1[j]!=r2[j]) return false;
 		return true;
@@ -76,7 +80,7 @@ public final class Setup
 
 	}
 
-	/*@ behavior
+	/*@ behaviour
 	  @ signals_only Throwable;
 	  @ diverges true;
 	  @*/
@@ -100,14 +104,13 @@ public final class Setup
 		mainLoop(vm, bb, numberOfCandidates, numberOfVoters, secret, choices0, choices1);
 	}
 
-	//@ static ghost boolean flag;
-
-
-	//@ requires equalResult(computeResult(choices0, numberOfCandidates),
-	//@						 computeResult(choices1, numberOfCandidates));
-	//@ ensures flag;
-	static void mainLoop (VotingMachine vm, BulletinBoard bb, int numberOfCandidates,
-						  int numberOfVoters, boolean secret, int[] choices0, int[] choices1)
+	/*@ private behaviour
+	  @ requires equalResult(computeResult(choices0, numberOfCandidates),
+	  @						 computeResult(choices1, numberOfCandidates));
+	  @ ensures flag;
+	  @*/
+	private static void mainLoop (VotingMachine vm, BulletinBoard bb, int numberOfCandidates,
+								  int numberOfVoters, boolean secret, int[] choices0, int[] choices1)
 			throws Throwable, InvalidVote, NetworkError, InvalidCancelation {
 		final int N = Environment.untrustedInput(); // the environment decides how long the system runs
 		final int[] actions = Environment.untrustedInputArray(N);
@@ -117,11 +120,14 @@ public final class Setup
 				audit_choices, requests);
 	}
 
+	/*@ private behaviour
+	  @ ensures flag;
+	  @*/
 	private static void main4(VotingMachine vm, BulletinBoard bb,
-			int numberOfVoters, boolean secret, int[] choices0,
-			int[] choices1, final int N, final int[] actions,
-			final int[] audit_choices, byte[][] requests)
-					throws InvalidVote, NetworkError, InvalidCancelation {
+							  int numberOfVoters, boolean secret, int[] choices0,
+							  int[] choices1, final int N, final int[] actions,
+							  final int[] audit_choices, byte[][] requests)
+			throws InvalidVote, NetworkError, InvalidCancelation {
 		int voterNr = 0;
 		for( int i=0; i<N; ++i ) {
 			// TODO: change to if

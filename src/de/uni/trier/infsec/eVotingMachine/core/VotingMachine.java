@@ -54,11 +54,12 @@ public class VotingMachine
 	}
 
 	// ensures \only_assigned(votesForCandidates[*], lastBallot); // TODO implement
-	//@ requires \invariant_for(this);
-	//@ ensures \invariant_for(this);
-	//@ signals (Throwable) votersChoice < 0 || votersChoice >= numberOfCandidates;
-	//@ helper
-	public int collectBallot(int votersChoice) throws InvalidVote
+	/*@ public behaviour
+	  @ requires \invariant_for(this);
+	  @ ensures \invariant_for(this);
+	  @ signals (Throwable) votersChoice < 0 || votersChoice >= numberOfCandidates;
+	  @*/
+	public /*@ helper */ int collectBallot(int votersChoice) throws InvalidVote
 	{
 		if ( votersChoice < 0 || votersChoice >= numberOfCandidates ) 
 			throw new InvalidVote();
@@ -89,20 +90,21 @@ public class VotingMachine
 		signAndPost(Params.RESULTS, getResult(), signer);
 	}
 
-	//@ ensures true;
-	//@ strictly_pure // to be proven with JOANA
-	public void publishLog() throws NetworkError
+	/*@ public behaviour
+	  @ ensures true;
+	  @*/
+	public /*@ strictly_pure // to be proven with JOANA */ void publishLog() throws NetworkError
 	{
 		signAndPost(Params.LOG, entryLog.getEntries(), signer);
 	}
 
-	
-	///// PRIVATE //////
-	
 
-    //@ ensures true;
-    //@ strictly_pure // to be proven with JOANA
-	private void logAndSendNewEntry(byte[] tag) {
+	///// PRIVATE //////
+
+	/*@ private behaviour
+	  @ ensures true;
+	  @*/
+	private /*@ strictly_pure // to be proven with JOANA */ void logAndSendNewEntry(byte[] tag) {
 		// create a new (encrypted) log entry:
 		byte[] entry = createEncryptedEntry(++operationCounter, tag, lastBallot, bb_encryptor, signer);	
 		// add it to the log:
@@ -116,7 +118,6 @@ public class VotingMachine
 		
 	}
 
-	
 	/**
 	 * Create and return the new entry:
 	 * 
@@ -136,7 +137,6 @@ public class VotingMachine
 		return entry;
 	}
 
-	
 	/**
 	 * Sign_VM [ TAG, timestamp, message ]
 	 * 
@@ -153,8 +153,9 @@ public class VotingMachine
 
 	}
 
-	/*@ requires (\forall int j; 0 <= j && j < numberOfCandidates;
-	  @             votesForCandidates[j] == Setup.correctResult[j]);
+	/*@ private behaviour
+	  @ requires (\forall int j; 0 <= j && j < numberOfCandidates;
+	  @ 			votesForCandidates[j] == Setup.correctResult[j]);
 	  @*/
 	private byte[] getResult() {
 
@@ -176,5 +177,4 @@ public class VotingMachine
 		}
 		return s.getBytes();
 	}
-
 }

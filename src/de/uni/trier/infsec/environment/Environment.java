@@ -28,7 +28,8 @@ public class Environment {
 	  @ ensures inputValues != null && 0 <= inputCounter && 0 <= \result && \result < n;
 	  @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
 	  @*/
-	public static /*@ helper */ int untrustedInput(int n) {
+	public static /*@ helper */ int untrustedInput(int n)
+	{
 		int res = -1;
 		/*@ loop_invariant 0 <= inputCounter;
 		  @ assignable inputCounter;
@@ -39,7 +40,6 @@ public class Environment {
 		}
 		return res;
 	}
-
 
 	/*@ public behaviour
 	  @ requires inputValues != null && 0 <= inputCounter;
