@@ -161,7 +161,7 @@ public class Environment {
 		  @ decreases s.length() - i;
 		  @*/
 		for (int i = 0; i < s.length(); i++) {
-			untrustedOutput((long)s.charAt(i));
+			untrustedOutput(s.charAt(i));
 		}
 	}
 }
