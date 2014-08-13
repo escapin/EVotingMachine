@@ -55,7 +55,7 @@ public final class Setup
 		int numberOfCandidates = Environment.untrustedInput();
 		int numberOfVoters = Environment.untrustedInput();
 		if (numberOfVoters<=0 || numberOfCandidates<=0)
-			throw new Throwable();	// abort 
+			throw new Throwable();	// abort
 
 		// Create and register decryptor/encryptor of auditors:
 		Decryptor audit_decryptor = new Decryptor();
@@ -80,8 +80,9 @@ public final class Setup
 	  @ signals_only Throwable;
 	  @ diverges true;
 	  @*/
-    private static void main2(VotingMachine vm, BulletinBoard bb, int numberOfCandidates, int numberOfVoters, boolean secret)
-                    throws Throwable, InvalidVote, NetworkError, InvalidCancelation {
+	private static void main2(VotingMachine vm, BulletinBoard bb, int numberOfCandidates,
+							  int numberOfVoters, boolean secret)
+			throws Throwable, InvalidVote, NetworkError, InvalidCancelation {
 		// let the environment determine two vectors of choices
 		int[] choices0 = createChoices(numberOfVoters, numberOfCandidates);
 		int[] choices1 = createChoices(numberOfVoters, numberOfCandidates);
@@ -96,69 +97,71 @@ public final class Setup
 		correctResult = r1;
 
 		// THE MAIN LOOP
-	    mainLoop(vm, bb, numberOfCandidates, numberOfVoters, secret, choices0, choices1);
-    }
-    
-    //@ static ghost boolean flag;
-    
+		mainLoop(vm, bb, numberOfCandidates, numberOfVoters, secret, choices0, choices1);
+	}
 
-    //@ requires equalResult(computeResult(choices0, numberOfCandidates), computeResult(choices1, numberOfCandidates));
-    //@ ensures flag;
-    static void mainLoop (VotingMachine vm, BulletinBoard bb, int numberOfCandidates, int numberOfVoters, boolean secret, int[] choices0, int[] choices1)
-                    throws Throwable, InvalidVote, NetworkError, InvalidCancelation {
-        final int N = Environment.untrustedInput(); // the environment decides how long the system runs
-        final int[] actions = Environment.untrustedInputArray(N);
-        final int[] audit_choices = Environment.untrustedInputArray(N);
-        byte[][] requests = Environment.untrustedInputMessages(N);
-        main4(vm, bb, numberOfVoters, secret, choices0, choices1, N, actions,
-                        audit_choices, requests);
-    }
+	//@ static ghost boolean flag;
 
-    private static void main4(VotingMachine vm, BulletinBoard bb,
-                    int numberOfVoters, boolean secret, int[] choices0,
-                    int[] choices1, final int N, final int[] actions,
-                    final int[] audit_choices, byte[][] requests)
-                    throws InvalidVote, NetworkError, InvalidCancelation {
-        int voterNr = 0;
-        for( int i=0; i<N; ++i ) {
-            // TODO: change to if
-            switch( actions[i] ) {
 
-            case 0: // next voter votes
-                if (voterNr<numberOfVoters) {
-                    int choice = secret ? choices0[voterNr] : choices1[voterNr];
-                    vm.collectBallot(choice);
-                    ++voterNr;
-                }
-                break;
+	//@ requires equalResult(computeResult(choices0, numberOfCandidates),
+	//@						 computeResult(choices1, numberOfCandidates));
+	//@ ensures flag;
+	static void mainLoop (VotingMachine vm, BulletinBoard bb, int numberOfCandidates,
+						  int numberOfVoters, boolean secret, int[] choices0, int[] choices1)
+			throws Throwable, InvalidVote, NetworkError, InvalidCancelation {
+		final int N = Environment.untrustedInput(); // the environment decides how long the system runs
+		final int[] actions = Environment.untrustedInputArray(N);
+		final int[] audit_choices = Environment.untrustedInputArray(N);
+		byte[][] requests = Environment.untrustedInputMessages(N);
+		main4(vm, bb, numberOfVoters, secret, choices0, choices1, N, actions,
+				audit_choices, requests);
+	}
 
-            case 1: // make the voting machine publish the current (encrypted) log
-                vm.publishLog();
-                break;
+	private static void main4(VotingMachine vm, BulletinBoard bb,
+			int numberOfVoters, boolean secret, int[] choices0,
+			int[] choices1, final int N, final int[] actions,
+			final int[] audit_choices, byte[][] requests)
+					throws InvalidVote, NetworkError, InvalidCancelation {
+		int voterNr = 0;
+		for( int i=0; i<N; ++i ) {
+			// TODO: change to if
+			switch( actions[i] ) {
 
-            case 2: // audit (this step altogether should not change the result)
-                int audit_choice = audit_choices[i];
-                int sqnumber = vm.collectBallot(audit_choice);
-                Environment.untrustedOutput(sqnumber);
-                vm.publishLog();
-                vm.cancelLastBallot();
-                break;
+			case 0: // next voter votes
+				if (voterNr<numberOfVoters) {
+					int choice = secret ? choices0[voterNr] : choices1[voterNr];
+					vm.collectBallot(choice);
+					++voterNr;
+				}
+				break;
 
-            case 3: // deliver a message to the bulletin board
-                byte[] request = requests[i];
-                bb.onPost(request);
-                break;
+			case 1: // make the voting machine publish the current (encrypted) log
+				vm.publishLog();
+				break;
 
-            case 4: // make the bulletin board send its content over the network
-                bb.onRequestContent();
-                break;
-            }
-        }
+			case 2: // audit (this step altogether should not change the result)
+				int audit_choice = audit_choices[i];
+				int sqnumber = vm.collectBallot(audit_choice);
+				Environment.untrustedOutput(sqnumber);
+				vm.publishLog();
+				vm.cancelLastBallot();
+				break;
 
-        // make the voting machine publish the result (only if all the voters has voted):
-        if (voterNr == numberOfVoters)
-            vm.publishResult();
-        //@ set flag = true;
-        {}
-    }
+			case 3: // deliver a message to the bulletin board
+				byte[] request = requests[i];
+				bb.onPost(request);
+				break;
+
+			case 4: // make the bulletin board send its content over the network
+				bb.onRequestContent();
+				break;
+			}
+		}
+
+		// make the voting machine publish the result (only if all the voters has voted):
+		if (voterNr == numberOfVoters)
+			vm.publishResult();
+		//@ set flag = true;
+		{}
+	}
 }
