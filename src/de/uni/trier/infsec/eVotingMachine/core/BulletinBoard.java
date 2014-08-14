@@ -24,7 +24,7 @@ public class BulletinBoard
 	 *@
 	  @ ensures true;
 	  @*/
-	public /*@ strictly_pure*/ void onPost(byte[] request) throws NetworkError
+	public /*@ strictly_pure @*/ void onPost(byte[] request) throws NetworkError
 	{
 		byte[] message = first(request);
 		byte[] signature = second(request);
@@ -41,7 +41,7 @@ public class BulletinBoard
 	 *@
 	  @ ensures true;
 	  @*/
-	public /*@ strictly_pure*/ byte[] onRequestContent() throws NetworkError
+	public /*@ strictly_pure @*/ byte[] onRequestContent() throws NetworkError
 	{
 		return entryLog.getEntries();
 	}

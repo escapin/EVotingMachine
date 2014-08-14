@@ -33,12 +33,14 @@ public class VotingMachine
 	private final Encryptor bb_encryptor;
 	private final Signer signer;
 
-	private int numberOfCandidates;
-	private int[] votesForCandidates;
-	private int operationCounter, voteCounter;
+	private /*@ spec_public @*/ int numberOfCandidates;
+	private /*@ spec_public @*/ int[] votesForCandidates;
+	private int operationCounter;
+	private /*@ spec_public @*/ int voteCounter;
 	private EntryQueue entryLog;
-	private InnerBallot lastBallot;
+	private /*@ spec_public @*/ InnerBallot lastBallot;
 
+	//@ public instance invariant votesForCandidates.length == numberOfCandidates;
 
 
 	public VotingMachine(int numberOfCandidates, Encryptor bb_encryptor, Signer signer)
@@ -56,10 +58,15 @@ public class VotingMachine
 	// ensures \only_assigned(votesForCandidates[*], lastBallot); // TODO implement
 	/*@ public behaviour
 	  @ requires \invariant_for(this);
-	  @ ensures \invariant_for(this);
-	  @ signals (Throwable) votersChoice < 0 || votersChoice >= numberOfCandidates;
+	  @ diverges votersChoice < 0 || votersChoice >= numberOfCandidates;
+	  @ assignable votesForCandidates[*], lastBallot, voteCounter;
+	  @ signals_only InvalidVote;
+	  @ ensures \invariant_for(this) && lastBallot != null
+	  @ 	&& 0 <= votersChoice && votersChoice < numberOfCandidates
+	  @ 	&& votesForCandidates[votersChoice] == \old(votesForCandidates[votersChoice]) + 1;
+	  @ signals (InvalidVote e) votersChoice < 0 || votersChoice >= numberOfCandidates;
 	  @*/
-	public /*@ helper */ int collectBallot(int votersChoice) throws InvalidVote
+	public /*@ helper @*/ int collectBallot(int votersChoice) throws InvalidVote
 	{
 		if ( votersChoice < 0 || votersChoice >= numberOfCandidates ) 
 			throw new InvalidVote();
@@ -76,7 +83,14 @@ public class VotingMachine
 		return operationCounter;
 	}
 
-	public void cancelLastBallot() throws NetworkError, InvalidCancelation
+	/*@ public behaviour
+	  @ assignable votesForCandidates[*], lastBallot;
+	  @ ensures \invariant_for(this) && lastBallot == null
+	  @ 	&& votesForCandidates[lastBallot.votersChoice]
+	  @ 		== \old(votesForCandidates[lastBallot.votersChoice]) - 1;
+	  @ signals (InvalidCancelation e) \old(lastBallot) == null && lastBallot == null;
+	  @*/
+	public void cancelLastBallot() throws InvalidCancelation
 	{
 		if(lastBallot==null)
 			throw new InvalidCancelation();
@@ -85,6 +99,9 @@ public class VotingMachine
 		lastBallot = null;
 	}
 
+	/*@ public behaviour
+	  @ ensures true;
+	  @*/
 	public void publishResult() throws NetworkError
 	{
 		signAndPost(Params.RESULTS, getResult(), signer);
@@ -93,7 +110,7 @@ public class VotingMachine
 	/*@ public behaviour
 	  @ ensures true;
 	  @*/
-	public /*@ strictly_pure // to be proven with JOANA */ void publishLog() throws NetworkError
+	public /*@ strictly_pure @// to be proven with JOANA */ void publishLog() throws NetworkError
 	{
 		signAndPost(Params.LOG, entryLog.getEntries(), signer);
 	}
@@ -101,10 +118,10 @@ public class VotingMachine
 
 	///// PRIVATE //////
 
-	/*@ private behaviour
+	/*@ private normal_behaviour
 	  @ ensures true;
 	  @*/
-	private /*@ strictly_pure // to be proven with JOANA */ void logAndSendNewEntry(byte[] tag) {
+	private /*@ strictly_pure @// to be proven with JOANA */ void logAndSendNewEntry(byte[] tag) {
 		// create a new (encrypted) log entry:
 		byte[] entry = createEncryptedEntry(++operationCounter, tag, lastBallot, bb_encryptor, signer);	
 		// add it to the log:
@@ -141,8 +158,13 @@ public class VotingMachine
 	 * Sign_VM [ TAG, timestamp, message ]
 	 * 
 	 *   Concatenation is made right to left
-	 */
-	private static void signAndPost(byte[] tag, byte[] message, Signer signer) throws NetworkError 
+	 *@ private behaviour
+	  @ signals_only NetworkError;
+	  @ ensures true;
+	  @ signals (NetworkError e) true;
+	  @*/
+	private static /*@ strictly_pure helper @*/ void signAndPost(byte[] tag, byte[] message, Signer signer)
+			throws NetworkError
 	{		
 		long timestamp = Timestamp.get();
 		byte[] tag_timestamp = concatenate(tag, longToByteArray(timestamp));
@@ -154,23 +176,44 @@ public class VotingMachine
 	}
 
 	/*@ private behaviour
-	  @ requires (\forall int j; 0 <= j && j < numberOfCandidates;
-	  @ 			votesForCandidates[j] == Setup.correctResult[j]);
+	  @ requires Setup.correctResult != null
+	  @ 		&& numberOfCandidates <= Setup.correctResult.length
+	  @ 		&& numberOfCandidates <= votesForCandidates.length
+	  @ 		&& (\forall int j; 0 <= j && j < numberOfCandidates;
+	  @ 				votesForCandidates[j] == Setup.correctResult[j]);
+	  @ diverges numberOfCandidates < 0;
+	  @ signals_only NegativeArraySizeException;
+	  @ signals (NegativeArraySizeException e) numberOfCandidates < 0;
 	  @*/
-	private byte[] getResult() {
+	private /*@ strictly_pure @*/ byte[] getResult() {
 
 		int[] _result = new int[numberOfCandidates];
+		/*@ loop_invariant 0 <= i && i < votesForCandidates.length
+		  @ 			&& i < Setup.correctResult.length
+		  @ 			&& i < _result.length
+		  @ 			&& i < numberOfCandidates;
+		  @ assignable \strictly_nothing;
+		  @ decreases numberOfCandidates -i;
+		  @*/
 		for (int i=0; i<numberOfCandidates; ++i) {
 			int x = votesForCandidates[i];
 			// CONSERVATIVE EXTENSION:
 			// PROVE THAT THE FOLLOWING ASSINGMENT IS REDUNDANT
-			x = Setup.correctResult[i];
+			/*@ public normal_behaviour
+			  @ requires 0 <= i && i < Setup.correctResult.length;
+			  @ assignable x;
+			  @ ensures x == \old(x);
+			  @*/
+			{ x = Setup.correctResult[i]; }
 			_result[i] = x;
 		}
 		return formatResult(_result);
 	}
 
-	private static byte[] formatResult(int[] _result) {
+	/*@ private normal_behaviour
+	  @ requires true;
+	  @*/
+	private static /*@ strictly_pure @*/ byte[] formatResult(int[] _result) {
 		String s = "Result of the election:\n";
 		for( int i=0; i<_result.length; ++i ) {
 			s += "  Number of votes for candidate " + i + ": " + _result[i] + "\n";

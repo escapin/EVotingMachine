@@ -15,7 +15,7 @@ public class Environment {
 	  @ ensures inputValues != null && 0 <= inputCounter;
 	  @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
 	  @*/
-	public static /*@ helper */ int untrustedInput()
+	public static /*@ helper @*/ int untrustedInput()
 	{
 		return inputValues[inputCounter++];
 	}
@@ -28,7 +28,7 @@ public class Environment {
 	  @ ensures inputValues != null && 0 <= inputCounter && 0 <= \result && \result < n;
 	  @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
 	  @*/
-	public static /*@ helper */ int untrustedInput(int n)
+	public static /*@ helper @*/ int untrustedInput(int n)
 	{
 		int res = -1;
 		/*@ loop_invariant 0 <= inputCounter;
@@ -50,7 +50,7 @@ public class Environment {
 	  @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
 	  @ signals (Error e) inputValues != null && 0 <= inputCounter;
 	  @*/
-	public synchronized static /*@ helper */ void untrustedOutput(long x)
+	public synchronized static /*@ helper @*/ void untrustedOutput(long x)
 	{
 		if (untrustedInput()==0) {
 			result = (x==untrustedInput());
@@ -66,7 +66,7 @@ public class Environment {
 	  @ ensures inputValues != null && 0 <= inputCounter;
 	  @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
 	  @*/
-	public static /*@ helper nullable */ byte[] untrustedInputMessage()
+	public static /*@ helper nullable @*/ byte[] untrustedInputMessage()
 	{
 		long llen = untrustedInput();
 		int len = (int) llen;
@@ -91,7 +91,7 @@ public class Environment {
 	  @ ensures inputValues != null && 0 <= inputCounter;
 	  @ signals (Exception e) inputValues != null && 0 <= inputCounter;
 	  @*/
-	public static /*@ helper nullable */ byte[][] untrustedInputMessages(int N)
+	public static /*@ helper nullable @*/ byte[][] untrustedInputMessages(int N)
 	{
 		byte[][] output = new byte[N][];
 		/*@ loop_invariant 0 <= inputCounter && 0 <= N;
@@ -111,7 +111,7 @@ public class Environment {
 	  @ ensures inputValues != null && 0 <= inputCounter;
 	  @ signals (Exception e) inputValues != null && 0 <= inputCounter;
 	  @*/
-	public static /*@ helper */ int[] untrustedInputArray(int N)
+	public static /*@ helper @*/ int[] untrustedInputArray(int N)
 	{
 		int[] output = new int[N];
 		/*@ loop_invariant 0 <= N && 0 <= inputCounter;
@@ -132,7 +132,7 @@ public class Environment {
 	  @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
 	  @ signals (Error e) inputValues != null && 0 <= inputCounter;
 	  @*/
-	public static /*@ helper */ void untrustedOutputMessage(byte[] t)
+	public static /*@ helper @*/ void untrustedOutputMessage(byte[] t)
 	{
 		untrustedOutput(t.length);
 		/*@ loop_invariant 0 <= inputCounter;
@@ -153,7 +153,7 @@ public class Environment {
 	  @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
 	  @ signals (Error e) inputValues != null && 0 <= inputCounter;
 	  @*/
-	public static /*@ helper */ void untrustedOutputString(String s)
+	public static /*@ helper @*/ void untrustedOutputString(String s)
 	{
 		untrustedOutput(s.length());
 		/*@ loop_invariant 0 <= inputCounter && 0 <= i;

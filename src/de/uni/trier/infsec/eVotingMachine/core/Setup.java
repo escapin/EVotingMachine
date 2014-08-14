@@ -20,32 +20,59 @@ public final class Setup
 	//@ private static ghost boolean flag;
 
 	/*@ private behaviour
+	  @ diverges true;
+	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException;
+	  @ assignable Environment.inputCounter;
+	  @ ensures 0 <= numberOfVoters && \result.length == numberOfVoters;
 	  @ ensures (\forall int j; 0 <= j && j < numberOfVoters;
 	  @ 			0 <= \result[j] && \result[j] < numberOfCandidates);
-	  @ ensures \result.length == numberOfVoters;
-	  @ diverges true;
-	  @ signals_only Throwable;
+	  @ signals (Exception e) true;
 	  @*/
-	private static int[] createChoices(int numberOfVoters, int numberOfCandidates) {
+	private static /*@ helper @*/ int[] createChoices(int numberOfVoters,
+													  int numberOfCandidates) {
 		final int[] choices = new int[numberOfVoters];
+		/*@ loop_invariant 0 <= i && choices.length == numberOfVoters
+		  @ 			&& (\forall int j; 0 <= j && j < i;
+		  @ 					0 <= choices[j] && choices[j] < numberOfCandidates);
+		  @ assignable Environment.inputCounter;
+		  @ decreases numberOfVoters - i;
+		  @*/
 		for (int i=0; i<numberOfVoters; ++i) {
 			choices[i] = Environment.untrustedInput(numberOfCandidates);
 		}
 		return choices;
 	}
 
-	private static int[] computeResult (int[] choices, int numberOfCandidates) {
+	/*@ private normal_behaviour
+	  @ requires 0 < numberOfCandidates
+	  @ 		&& (\forall int j; 0 <= j && j < choices.length;
+	  @ 			0 <= choices[j] && choices[j] < numberOfCandidates);
+	  @ ensures \result.length == numberOfCandidates;
+	  @*/
+	private static /*@ strictly_pure helper @*/ int[] computeResult (int[] choices,
+																	 int numberOfCandidates) {
 		int[] res = new int[numberOfCandidates];
+		/*@ loop_invariant 0 <= i && res.length == numberOfCandidates
+		  @ 			&& (\forall int j; 0 <= j && j < i;
+		  @ 				0 <= choices[j] && choices[j] < numberOfCandidates);
+		  @ assignable res[*];
+		  @ decreases choices.length - i;
+		  @*/
 		for (int i=0; i<choices.length; i++) 
 			++res[choices[i]];
 		return res;
 	}
 
-	/*@ private behaviour
+	/*@ private normal_behaviour
 	  @ requires r1.length == r2.length;
 	  @ ensures \result == (\forall int i; 0 <= i && i < r1.length; r1[i] == r2[i]);
 	  @*/
-	private static /*@ strictly_pure */ boolean equalResult(int[] r1, int[] r2) {
+	private static /*@ strictly_pure helper @*/ boolean equalResult(int[] r1, int[] r2) {
+		/*@ loop_invariant 0 <= j && r1.length == r2.length
+		  @ 			&&  (\forall int i; 0 <= i && i < j; r1[i] == r2[i]);
+		  @ assignable \strictly_nothing;
+		  @ decreases r1.length - j;
+		  @*/
 		for (int j= 0; j<r1.length; j++)
 			if (r1[j]!=r2[j]) return false;
 		return true;
@@ -81,11 +108,13 @@ public final class Setup
 	}
 
 	/*@ behaviour
-	  @ signals_only Throwable;
+	  @ requires 0 < numberOfCandidates;
 	  @ diverges true;
+	  @ assignable correctResult;
 	  @*/
-	private static void main2(VotingMachine vm, BulletinBoard bb, int numberOfCandidates,
-							  int numberOfVoters, boolean secret)
+	private static /*@ helper @*/ void main2(VotingMachine vm, BulletinBoard bb,
+											 int numberOfCandidates,
+											 int numberOfVoters, boolean secret)
 			throws Throwable, InvalidVote, NetworkError, InvalidCancelation {
 		// let the environment determine two vectors of choices
 		int[] choices0 = createChoices(numberOfVoters, numberOfCandidates);
@@ -105,12 +134,21 @@ public final class Setup
 	}
 
 	/*@ private behaviour
-	  @ requires equalResult(computeResult(choices0, numberOfCandidates),
-	  @						 computeResult(choices1, numberOfCandidates));
+	  @ requires 0 < numberOfCandidates
+	  @ 		&& choices0.length == numberOfVoters
+	  @ 		&& choices0.length == choices1.length
+	  @ 		&& (\forall int j; 0 <= j && j < numberOfVoters;
+	  @ 			0 <= choices0[j] && choices0[j] < numberOfCandidates)
+	  @ 		&& (\forall int j; 0 <= j && j < numberOfVoters;
+	  @ 			0 <= choices1[j] && choices1[j] < numberOfCandidates)
+	  @ 		&& equalResult(computeResult(choices0, numberOfCandidates),
+	  @						   computeResult(choices1, numberOfCandidates));
+	  @ diverges true;
 	  @ ensures flag;
 	  @*/
-	private static void mainLoop (VotingMachine vm, BulletinBoard bb, int numberOfCandidates,
-								  int numberOfVoters, boolean secret, int[] choices0, int[] choices1)
+	private static /*@ helper @*/ void mainLoop(VotingMachine vm, BulletinBoard bb,
+												int numberOfCandidates, int numberOfVoters,
+												boolean secret, int[] choices0, int[] choices1)
 			throws Throwable, InvalidVote, NetworkError, InvalidCancelation {
 		final int N = Environment.untrustedInput(); // the environment decides how long the system runs
 		final int[] actions = Environment.untrustedInputArray(N);
@@ -121,14 +159,27 @@ public final class Setup
 	}
 
 	/*@ private behaviour
+	  @ requires choices0.length == numberOfVoters
+	  @ 		&& choices0.length == choices1.length;
+	  @ diverges true;
 	  @ ensures flag;
 	  @*/
-	private static void main4(VotingMachine vm, BulletinBoard bb,
-							  int numberOfVoters, boolean secret, int[] choices0,
-							  int[] choices1, final int N, final int[] actions,
-							  final int[] audit_choices, byte[][] requests)
+	private static /*@ helper @*/ void main4(VotingMachine vm, BulletinBoard bb,
+											 int numberOfVoters, boolean secret, int[] choices0,
+											 int[] choices1, final int N, final int[] actions,
+											 final int[] audit_choices, byte[][] requests)
 			throws InvalidVote, NetworkError, InvalidCancelation {
 		int voterNr = 0;
+		/*@ loop_invariant 0 <= i
+		  @ 			&& 0 <= voterNr && voterNr < i
+		  @ 			&& voterNr <= numberOfVoters
+		  @ 			&& (\forall int j; 0 <= j && j < voterNr;
+		  @ 				vm.votesForCandidates[j]
+		  @ 				== (\num_of int k; 0 <= k && k < j; choices0[k] == choices0[j]));
+		  @ assignable Environment.inputCounter, Environment.result,
+		  @ 			vm.voteCounter, vm.votesForCandidates[*];
+		  @ decreases N - i;
+		  @*/
 		for( int i=0; i<N; ++i ) {
 			// TODO: change to if
 			switch( actions[i] ) {
@@ -147,10 +198,20 @@ public final class Setup
 
 			case 2: // audit (this step altogether should not change the result)
 				int audit_choice = audit_choices[i];
-				int sqnumber = vm.collectBallot(audit_choice);
-				Environment.untrustedOutput(sqnumber);
-				vm.publishLog();
-				vm.cancelLastBallot();
+				/*@ private behaviour
+				  @ diverges true;
+				  @ assignable Environment.inputCounter, Environment.result, vm.lastBallot;
+				  @ signals_only InvalidVote, ArrayIndexOutOfBoundsException, Error,
+				  @ 			 NetworkError, InvalidCancelation;
+				  @ ensures vm.lastBallot == null;
+				  @ signals (Throwable e) true;
+				  @*/
+				{
+					int sqnumber = vm.collectBallot(audit_choice);
+					Environment.untrustedOutput(sqnumber);
+					vm.publishLog();
+					vm.cancelLastBallot();
+				}
 				break;
 
 			case 3: // deliver a message to the bulletin board
