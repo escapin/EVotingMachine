@@ -110,7 +110,8 @@ public final class Setup
 	/*@ behaviour
 	  @ requires 0 < numberOfCandidates;
 	  @ diverges true;
-	  @ assignable correctResult;
+	  @ assignable correctResult, Environment.inputCounter, Environment.result,
+	  @ 			vm.voteCounter, vm.votesForCandidates[*];
 	  @*/
 	private static /*@ helper @*/ void main2(VotingMachine vm, BulletinBoard bb,
 											 int numberOfCandidates,
@@ -144,6 +145,8 @@ public final class Setup
 	  @ 		&& equalResult(computeResult(choices0, numberOfCandidates),
 	  @						   computeResult(choices1, numberOfCandidates));
 	  @ diverges true;
+	  @ assignable Environment.inputCounter, Environment.result,
+	  @ 			vm.voteCounter, vm.votesForCandidates[*];
 	  @ ensures flag;
 	  @*/
 	private static /*@ helper @*/ void mainLoop(VotingMachine vm, BulletinBoard bb,
@@ -162,6 +165,8 @@ public final class Setup
 	  @ requires choices0.length == numberOfVoters
 	  @ 		&& choices0.length == choices1.length;
 	  @ diverges true;
+	  @ assignable Environment.inputCounter, Environment.result,
+	  @ 			vm.voteCounter, vm.votesForCandidates[*];
 	  @ ensures flag;
 	  @*/
 	private static /*@ helper @*/ void main4(VotingMachine vm, BulletinBoard bb,

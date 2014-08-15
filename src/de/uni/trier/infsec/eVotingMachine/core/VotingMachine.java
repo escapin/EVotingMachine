@@ -102,7 +102,7 @@ public class VotingMachine
 	/*@ public behaviour
 	  @ ensures true;
 	  @*/
-	public void publishResult() throws NetworkError
+	public /*@ strictly_pure @*/ void publishResult() throws NetworkError
 	{
 		signAndPost(Params.RESULTS, getResult(), signer);
 	}
