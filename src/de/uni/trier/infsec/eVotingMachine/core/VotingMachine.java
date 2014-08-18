@@ -130,9 +130,9 @@ public class VotingMachine
 		try {
 			signAndPost(Params.MACHINE_ENTRY, entry, signer);
 		} catch (Exception ex) {}
-			// this may cause an exception (NetworkError), but even if we do not get any exception, there is no guarantee 
-			// that the entry was indeed delivered to the bulletin board, so we ignore problems
-		
+		// this may cause an exception (NetworkError), but even if we do not get any exception,
+		// there is no guarantee that the entry was indeed delivered to the bulletin board,
+		// so we ignore problems
 	}
 
 	/**
@@ -140,7 +140,8 @@ public class VotingMachine
 	 * 
 	 *   ( operationCounter, ENC_BB{ TAG, timestamp, voterChoice, voteCounter} )
 	 */
-	private byte[] createEncryptedEntry(int operationCounter, byte[] tag, InnerBallot inner_ballot, Encryptor encryptor, Signer signer)
+	private byte[] createEncryptedEntry(int operationCounter, byte[] tag, InnerBallot inner_ballot,
+	                                    Encryptor encryptor, Signer signer)
 	{
 		byte[] vote_voteCounter = concatenate(	
 				intToByteArray(inner_ballot.votersChoice),

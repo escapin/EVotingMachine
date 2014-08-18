@@ -29,7 +29,7 @@ public final class Setup
 	  @ signals (Exception e) true;
 	  @*/
 	private static /*@ helper @*/ int[] createChoices(int numberOfVoters,
-													  int numberOfCandidates) {
+	                                                  int numberOfCandidates) {
 		final int[] choices = new int[numberOfVoters];
 		/*@ loop_invariant 0 <= i && choices.length == numberOfVoters
 		  @ 			&& (\forall int j; 0 <= j && j < i;
@@ -114,8 +114,8 @@ public final class Setup
 	  @ 			vm.voteCounter, vm.votesForCandidates[*];
 	  @*/
 	private static /*@ helper @*/ void main2(VotingMachine vm, BulletinBoard bb,
-											 int numberOfCandidates,
-											 int numberOfVoters, boolean secret)
+	                                         int numberOfCandidates,
+	                                         int numberOfVoters, boolean secret)
 			throws Throwable, InvalidVote, NetworkError, InvalidCancelation {
 		// let the environment determine two vectors of choices
 		int[] choices0 = createChoices(numberOfVoters, numberOfCandidates);
@@ -150,8 +150,8 @@ public final class Setup
 	  @ ensures flag;
 	  @*/
 	private static /*@ helper @*/ void mainLoop(VotingMachine vm, BulletinBoard bb,
-												int numberOfCandidates, int numberOfVoters,
-												boolean secret, int[] choices0, int[] choices1)
+	                                            int numberOfCandidates, int numberOfVoters,
+	                                            boolean secret, int[] choices0, int[] choices1)
 			throws Throwable, InvalidVote, NetworkError, InvalidCancelation {
 		final int N = Environment.untrustedInput(); // the environment decides how long the system runs
 		final int[] actions = Environment.untrustedInputArray(N);
@@ -170,9 +170,9 @@ public final class Setup
 	  @ ensures flag;
 	  @*/
 	private static /*@ helper @*/ void main4(VotingMachine vm, BulletinBoard bb,
-											 int numberOfVoters, boolean secret, int[] choices0,
-											 int[] choices1, final int N, final int[] actions,
-											 final int[] audit_choices, byte[][] requests)
+	                                         int numberOfVoters, boolean secret, int[] choices0,
+	                                         int[] choices1, final int N, final int[] actions,
+	                                         final int[] audit_choices, byte[][] requests)
 			throws InvalidVote, NetworkError, InvalidCancelation {
 		int voterNr = 0;
 		/*@ loop_invariant 0 <= i
