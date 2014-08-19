@@ -20,6 +20,8 @@ public final class Setup
 	//@ private static ghost boolean flag;
 
 	/*@ private behaviour
+	  @ requires 0 < numberOfCandidates
+	  @            && Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException;
 	  @ assignable Environment.inputCounter;
@@ -31,10 +33,15 @@ public final class Setup
 	private static /*@ helper @*/ int[] createChoices(int numberOfVoters,
 	                                                  int numberOfCandidates) {
 		final int[] choices = new int[numberOfVoters];
-		/*@ loop_invariant 0 <= i && choices.length == numberOfVoters
-		  @ 			&& (\forall int j; 0 <= j && j < i;
-		  @ 					0 <= choices[j] && choices[j] < numberOfCandidates);
-		  @ assignable Environment.inputCounter;
+		/*@ loop_invariant 0 <= i && i <= numberOfVoters && choices != null
+		  @                     && choices.length == numberOfVoters
+		  @                     && Environment.inputValues != null
+		  @                     && 0 <= numberOfVoters
+		  @                     && 0 < numberOfCandidates
+		  @                     && 0 <= Environment.inputCounter
+                  @                     && (\forall int j; 0 <= j && j < i;
+                  @                                     0 <= choices[j] && choices[j] < numberOfCandidates);
+		  @ assignable Environment.inputCounter, choices[*];
 		  @ decreases numberOfVoters - i;
 		  @*/
 		for (int i=0; i<numberOfVoters; ++i) {
@@ -49,8 +56,8 @@ public final class Setup
 	  @ 			0 <= choices[j] && choices[j] < numberOfCandidates);
 	  @ ensures \result.length == numberOfCandidates;
 	  @*/
-	private static /*@ strictly_pure helper @*/ int[] computeResult (int[] choices,
-																	 int numberOfCandidates) {
+	private static /*@ pure helper @*/ int[] computeResult (int[] choices,
+	                                                        int numberOfCandidates) {
 		int[] res = new int[numberOfCandidates];
 		/*@ loop_invariant 0 <= i && res.length == numberOfCandidates
 		  @ 			&& (\forall int j; 0 <= j && j < i;
@@ -108,7 +115,10 @@ public final class Setup
 	}
 
 	/*@ behaviour
-	  @ requires 0 < numberOfCandidates;
+	  @ requires 0 < numberOfCandidates
+          @             && Environment.inputValues != null && 0 <= Environment.inputCounter
+          @             && Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
+          @             && Params.DEFAULT_HOST_BBOARD != null;
 	  @ diverges true;
 	  @ assignable correctResult, Environment.inputCounter, Environment.result,
 	  @ 			vm.voteCounter, vm.votesForCandidates[*];
@@ -136,6 +146,7 @@ public final class Setup
 
 	/*@ private behaviour
 	  @ requires 0 < numberOfCandidates
+	  @             && Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 		&& choices0.length == numberOfVoters
 	  @ 		&& choices0.length == choices1.length
 	  @ 		&& (\forall int j; 0 <= j && j < numberOfVoters;
@@ -143,7 +154,9 @@ public final class Setup
 	  @ 		&& (\forall int j; 0 <= j && j < numberOfVoters;
 	  @ 			0 <= choices1[j] && choices1[j] < numberOfCandidates)
 	  @ 		&& equalResult(computeResult(choices0, numberOfCandidates),
-	  @						   computeResult(choices1, numberOfCandidates));
+	  @						   computeResult(choices1, numberOfCandidates))
+	  @            && Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
+          @            && Params.DEFAULT_HOST_BBOARD != null;
 	  @ diverges true;
 	  @ assignable Environment.inputCounter, Environment.result,
 	  @ 			vm.voteCounter, vm.votesForCandidates[*];
@@ -162,8 +175,11 @@ public final class Setup
 	}
 
 	/*@ private behaviour
-	  @ requires choices0.length == numberOfVoters
-	  @ 		&& choices0.length == choices1.length;
+	  @ requires Environment.inputValues != null && 0 <= Environment.inputCounter
+	  @            && choices0.length == numberOfVoters
+	  @            && choices0.length == choices1.length
+	  @            && Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
+          @            && Params.DEFAULT_HOST_BBOARD != null;
 	  @ diverges true;
 	  @ assignable Environment.inputCounter, Environment.result,
 	  @ 			vm.voteCounter, vm.votesForCandidates[*];

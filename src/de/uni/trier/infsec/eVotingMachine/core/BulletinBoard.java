@@ -21,7 +21,7 @@ public class BulletinBoard
 	/*
 	 * Reads a message, checks if it comes from the voting machine, and, 
 	 * if this is the case, adds it to the maintained list of messages.
-	 *@
+	 *@ public behaviour
 	  @ ensures true;
 	  @*/
 	public /*@ strictly_pure @*/ void onPost(byte[] request) throws NetworkError
@@ -38,7 +38,7 @@ public class BulletinBoard
 	/*
 	 * Output its content, that is the concatenation of
 	 * all the message in the maintained list of messages.
-	 *@
+	 *@ public behaviour
 	  @ ensures true;
 	  @*/
 	public /*@ strictly_pure @*/ byte[] onRequestContent() throws NetworkError

@@ -23,7 +23,10 @@ final public class Signer {
 		this.log = new Log();
 	}
 
-	public byte[] sign(byte[] message) {
+	/*@ public normal_behaviour
+	  @ ensures true;
+	  @*/
+	public /*@ strictly_pure helper @*/ byte[] sign(byte[] message) {
 		byte[] signature = CryptoLib.sign(copyOf(message), copyOf(signKey));
 		// we make sure that the signing has not failed
 		if (signature == null) return null;

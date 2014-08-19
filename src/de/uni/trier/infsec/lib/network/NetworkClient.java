@@ -4,7 +4,7 @@ import de.uni.trier.infsec.environment.Environment;
 
 public class NetworkClient {
 
-	public static void send(byte[] message, String server, int port) throws NetworkError {
+	public static /*@ helper @*/ void send(byte[] message, String server, int port) throws NetworkError {
 		// input
 		Environment.untrustedOutput(0x2301);
 		Environment.untrustedOutputMessage(message);

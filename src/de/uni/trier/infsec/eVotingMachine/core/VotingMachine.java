@@ -5,6 +5,7 @@ import de.uni.trier.infsec.functionalities.pkisig.Signer;
 import de.uni.trier.infsec.lib.network.NetworkClient;
 import de.uni.trier.infsec.lib.network.NetworkError;
 import de.uni.trier.infsec.lib.time.Timestamp;
+import de.uni.trier.infsec.environment.Environment;
 
 import static de.uni.trier.infsec.utils.MessageTools.intToByteArray;
 import static de.uni.trier.infsec.utils.MessageTools.longToByteArray;
@@ -38,7 +39,7 @@ public class VotingMachine
 	private int operationCounter;
 	private /*@ spec_public @*/ int voteCounter;
 	private EntryQueue entryLog;
-	private /*@ spec_public @*/ InnerBallot lastBallot;
+	private /*@ spec_public nullable @*/ InnerBallot lastBallot;
 
 	//@ public instance invariant votesForCandidates.length == numberOfCandidates;
 
@@ -57,14 +58,25 @@ public class VotingMachine
 
 	// ensures \only_assigned(votesForCandidates[*], lastBallot); // TODO implement
 	/*@ public behaviour
-	  @ requires \invariant_for(this);
-	  @ diverges votersChoice < 0 || votersChoice >= numberOfCandidates;
-	  @ assignable votesForCandidates[*], lastBallot, voteCounter;
-	  @ signals_only InvalidVote;
+	  @ requires \invariant_for(this) && Params.VOTE != null && Params.MACHINE_ENTRY != null
+	  @            && Params.DEFAULT_HOST_BBOARD != null
+	  @            && Environment.inputValues != null
+	  @            && 0 <= Environment.inputCounter;
+	  @ diverges true;
+	  @ assignable Environment.inputCounter,
+	  @            votesForCandidates[*], lastBallot, voteCounter;
+	  @ signals_only InvalidVote, ArrayIndexOutOfBoundsException;
 	  @ ensures \invariant_for(this) && lastBallot != null
-	  @ 	&& 0 <= votersChoice && votersChoice < numberOfCandidates
-	  @ 	&& votesForCandidates[votersChoice] == \old(votesForCandidates[votersChoice]) + 1;
-	  @ signals (InvalidVote e) votersChoice < 0 || votersChoice >= numberOfCandidates;
+	  @            && Environment.inputValues != null
+	  @            && 0 <= Environment.inputCounter
+	  @            && votersChoice == lastBallot.votersChoice
+	  @            && 0 <= votersChoice && votersChoice < numberOfCandidates
+	  @            && votesForCandidates[votersChoice] == \old(votesForCandidates[votersChoice]) + 1;
+	  @ signals (InvalidVote e) (votersChoice < 0 || votersChoice >= numberOfCandidates)
+	  @            && Environment.inputValues != null
+	  @            && 0 <= Environment.inputCounter;
+	  @ signals (ArrayIndexOutOfBoundsException e) Environment.inputValues != null
+	  @            && 0 <= Environment.inputCounter;
 	  @*/
 	public /*@ helper @*/ int collectBallot(int votersChoice) throws InvalidVote
 	{
@@ -84,9 +96,11 @@ public class VotingMachine
 	}
 
 	/*@ public behaviour
+	  @ requires Params.CANCEL != null && Params.MACHINE_ENTRY != null
+	  @            && Params.DEFAULT_HOST_BBOARD != null;
 	  @ assignable votesForCandidates[*], lastBallot;
 	  @ ensures \invariant_for(this) && lastBallot == null
-	  @ 	&& votesForCandidates[lastBallot.votersChoice]
+	  @ 	&& votesForCandidates[\old(lastBallot.votersChoice)]
 	  @ 		== \old(votesForCandidates[lastBallot.votersChoice]) - 1;
 	  @ signals (InvalidCancelation e) \old(lastBallot) == null && lastBallot == null;
 	  @*/
@@ -100,14 +114,21 @@ public class VotingMachine
 	}
 
 	/*@ public behaviour
+	  @ requires Params.RESULTS != null && Params.DEFAULT_HOST_BBOARD != null
+	  @            && Setup.correctResult != null
+          @            && numberOfCandidates <= Setup.correctResult.length
+          @            && numberOfCandidates <= votesForCandidates.length
+          @            && (\forall int j; 0 <= j && j < numberOfCandidates;
+          @                     votesForCandidates[j] == Setup.correctResult[j]);
 	  @ ensures true;
 	  @*/
-	public /*@ strictly_pure @*/ void publishResult() throws NetworkError
+	public /*@ pure @*/ void publishResult() throws NetworkError
 	{
 		signAndPost(Params.RESULTS, getResult(), signer);
 	}
 
 	/*@ public behaviour
+	  @ requires Params.LOG != null && Params.DEFAULT_HOST_BBOARD != null;
 	  @ ensures true;
 	  @*/
 	public /*@ strictly_pure @// to be proven with JOANA */ void publishLog() throws NetworkError
@@ -119,6 +140,7 @@ public class VotingMachine
 	///// PRIVATE //////
 
 	/*@ private normal_behaviour
+	  @ requires Params.MACHINE_ENTRY != null && Params.DEFAULT_HOST_BBOARD != null;
 	  @ ensures true;
 	  @*/
 	private /*@ strictly_pure @// to be proven with JOANA */ void logAndSendNewEntry(byte[] tag) {
@@ -159,14 +181,21 @@ public class VotingMachine
 	 * Sign_VM [ TAG, timestamp, message ]
 	 * 
 	 *   Concatenation is made right to left
-	 *@ private behaviour
-	  @ signals_only NetworkError;
-	  @ ensures true;
-	  @ signals (NetworkError e) true;
+	 */
+	/*@ private behaviour
+	  @ requires Params.DEFAULT_HOST_BBOARD != null
+	  @            && Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ assignable Environment.inputCounter;
+	  @ diverges true;
+	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException;
+	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ signals (ArrayIndexOutOfBoundsException e) Environment.inputValues != null
+          @                                             && 0 <= Environment.inputCounter;
 	  @*/
-	private static /*@ strictly_pure helper @*/ void signAndPost(byte[] tag, byte[] message, Signer signer)
+	private static /*@ helper @*/ void signAndPost(byte[] tag, byte[] message, Signer signer)
 			throws NetworkError
-	{		
+	{
 		long timestamp = Timestamp.get();
 		byte[] tag_timestamp = concatenate(tag, longToByteArray(timestamp));
 		byte[] payload = concatenate(tag_timestamp, message);
@@ -186,14 +215,17 @@ public class VotingMachine
 	  @ signals_only NegativeArraySizeException;
 	  @ signals (NegativeArraySizeException e) numberOfCandidates < 0;
 	  @*/
-	private /*@ strictly_pure @*/ byte[] getResult() {
+	private /*@ pure @*/ byte[] getResult() {
 
 		int[] _result = new int[numberOfCandidates];
-		/*@ loop_invariant 0 <= i && i < votesForCandidates.length
-		  @ 			&& i < Setup.correctResult.length
-		  @ 			&& i < _result.length
-		  @ 			&& i < numberOfCandidates;
-		  @ assignable \strictly_nothing;
+		/*@ loop_invariant 0 <= i && i <= votesForCandidates.length
+		  @                   && 0 <= numberOfCandidates
+		  @                   && _result != null
+		  @                   && _result.length == numberOfCandidates
+		  @                   && i <= Setup.correctResult.length
+		  @                   && i <= _result.length
+		  @                   && i <= numberOfCandidates;
+		  @ assignable _result[*];
 		  @ decreases numberOfCandidates -i;
 		  @*/
 		for (int i=0; i<numberOfCandidates; ++i) {
