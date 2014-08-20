@@ -38,7 +38,7 @@ public class VotingMachine
 	private /*@ spec_public @*/ int[] votesForCandidates;
 	private int operationCounter;
 	private /*@ spec_public @*/ int voteCounter;
-	private EntryQueue entryLog;
+	private /*@ spec_public @*/ EntryQueue entryLog;
 	private /*@ spec_public nullable @*/ InnerBallot lastBallot;
 
 	//@ public instance invariant votesForCandidates.length == numberOfCandidates;
@@ -97,7 +97,9 @@ public class VotingMachine
 
 	/*@ public behaviour
 	  @ requires Params.CANCEL != null && Params.MACHINE_ENTRY != null
-	  @            && Params.DEFAULT_HOST_BBOARD != null;
+	  @            && Params.DEFAULT_HOST_BBOARD != null
+	  @            && Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ diverges true;
 	  @ assignable votesForCandidates[*], lastBallot;
 	  @ ensures \invariant_for(this) && lastBallot == null
 	  @ 	&& votesForCandidates[\old(lastBallot.votersChoice)]
@@ -116,22 +118,40 @@ public class VotingMachine
 	/*@ public behaviour
 	  @ requires Params.RESULTS != null && Params.DEFAULT_HOST_BBOARD != null
 	  @            && Setup.correctResult != null
+	  @            && Environment.inputValues != null && 0 <= Environment.inputCounter
           @            && numberOfCandidates <= Setup.correctResult.length
           @            && numberOfCandidates <= votesForCandidates.length
           @            && (\forall int j; 0 <= j && j < numberOfCandidates;
           @                     votesForCandidates[j] == Setup.correctResult[j]);
-	  @ ensures true;
+          @ assignable Environment.inputCounter;
+          @ diverges true;
+          @ signals_only NetworkError, ArrayIndexOutOfBoundsException;
+	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ signals (ArrayIndexOutOfBoundsException e)
+	  @            Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @*/
-	public /*@ pure @*/ void publishResult() throws NetworkError
+	public void publishResult() throws NetworkError
 	{
 		signAndPost(Params.RESULTS, getResult(), signer);
 	}
 
 	/*@ public behaviour
-	  @ requires Params.LOG != null && Params.DEFAULT_HOST_BBOARD != null;
-	  @ ensures true;
+	  @ requires Params.LOG != null && Params.DEFAULT_HOST_BBOARD != null
+	  @            && Environment.inputValues != null && 0 <= Environment.inputCounter
+	  @            && (\forall EntryQueue.Node n; n.entry != null);
+	  @ assignable Environment.inputCounter;
+	  @ diverges true;
+	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException;
+	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter
+	  @            && (\forall EntryQueue.Node n; n.entry != null);
+	  @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter
+	  @                            && (\forall EntryQueue.Node n; n.entry != null);
+          @ signals (ArrayIndexOutOfBoundsException e)
+          @            Environment.inputValues != null && 0 <= Environment.inputCounter
+          @             && (\forall EntryQueue.Node n; n.entry != null);
 	  @*/
-	public /*@ strictly_pure @// to be proven with JOANA */ void publishLog() throws NetworkError
+	public void publishLog() throws NetworkError
 	{
 		signAndPost(Params.LOG, entryLog.getEntries(), signer);
 	}
@@ -140,7 +160,8 @@ public class VotingMachine
 	///// PRIVATE //////
 
 	/*@ private normal_behaviour
-	  @ requires Params.MACHINE_ENTRY != null && Params.DEFAULT_HOST_BBOARD != null;
+	  @ requires Params.MACHINE_ENTRY != null && Params.DEFAULT_HOST_BBOARD != null
+	  @            && Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ ensures true;
 	  @*/
 	private /*@ strictly_pure @// to be proven with JOANA */ void logAndSendNewEntry(byte[] tag) {

@@ -118,7 +118,8 @@ public final class Setup
 	  @ requires 0 < numberOfCandidates
           @             && Environment.inputValues != null && 0 <= Environment.inputCounter
           @             && Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
-          @             && Params.DEFAULT_HOST_BBOARD != null;
+          @             && Params.DEFAULT_HOST_BBOARD != null
+          @             && (\forall EntryQueue.Node n; n.entry != null);
 	  @ diverges true;
 	  @ assignable correctResult, Environment.inputCounter, Environment.result,
 	  @ 			vm.voteCounter, vm.votesForCandidates[*];
@@ -156,7 +157,8 @@ public final class Setup
 	  @ 		&& equalResult(computeResult(choices0, numberOfCandidates),
 	  @						   computeResult(choices1, numberOfCandidates))
 	  @            && Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
-          @            && Params.DEFAULT_HOST_BBOARD != null;
+          @            && Params.DEFAULT_HOST_BBOARD != null
+          @            && (\forall EntryQueue.Node n; n.entry != null);
 	  @ diverges true;
 	  @ assignable Environment.inputCounter, Environment.result,
 	  @ 			vm.voteCounter, vm.votesForCandidates[*];
@@ -179,7 +181,8 @@ public final class Setup
 	  @            && choices0.length == numberOfVoters
 	  @            && choices0.length == choices1.length
 	  @            && Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
-          @            && Params.DEFAULT_HOST_BBOARD != null;
+          @            && Params.DEFAULT_HOST_BBOARD != null
+          @            && (\forall EntryQueue.Node n; n.entry != null);
 	  @ diverges true;
 	  @ assignable Environment.inputCounter, Environment.result,
 	  @ 			vm.voteCounter, vm.votesForCandidates[*];
@@ -194,6 +197,7 @@ public final class Setup
 		/*@ loop_invariant 0 <= i
 		  @ 			&& 0 <= voterNr && voterNr < i
 		  @ 			&& voterNr <= numberOfVoters
+		  @                     && (\forall EntryQueue.Node n; n.entry != null)
 		  @ 			&& (\forall int j; 0 <= j && j < voterNr;
 		  @ 				vm.votesForCandidates[j]
 		  @ 				== (\num_of int k; 0 <= k && k < j; choices0[k] == choices0[j]));
