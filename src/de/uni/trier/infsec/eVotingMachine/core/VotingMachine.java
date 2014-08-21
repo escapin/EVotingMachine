@@ -119,13 +119,13 @@ public class VotingMachine
 	  @ requires Params.RESULTS != null && Params.DEFAULT_HOST_BBOARD != null
 	  @            && Setup.correctResult != null
 	  @            && Environment.inputValues != null && 0 <= Environment.inputCounter
-          @            && numberOfCandidates <= Setup.correctResult.length
-          @            && numberOfCandidates <= votesForCandidates.length
-          @            && (\forall int j; 0 <= j && j < numberOfCandidates;
-          @                     votesForCandidates[j] == Setup.correctResult[j]);
-          @ assignable Environment.inputCounter;
-          @ diverges true;
-          @ signals_only NetworkError, ArrayIndexOutOfBoundsException;
+	  @            && numberOfCandidates <= Setup.correctResult.length
+	  @            && numberOfCandidates <= votesForCandidates.length
+	  @            && (\forall int j; 0 <= j && j < numberOfCandidates;
+	  @                     votesForCandidates[j] == Setup.correctResult[j]);
+	  @ assignable Environment.inputCounter;
+	  @ diverges true;
+	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException;
 	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (ArrayIndexOutOfBoundsException e)
@@ -139,17 +139,17 @@ public class VotingMachine
 	/*@ public behaviour
 	  @ requires Params.LOG != null && Params.DEFAULT_HOST_BBOARD != null
 	  @            && Environment.inputValues != null && 0 <= Environment.inputCounter
-	  @            && (\forall EntryQueue.Node n; n.entry != null);
+	  @            && (\forall EntryQueue.Node n; n != null; n.entry != null);
 	  @ assignable Environment.inputCounter;
 	  @ diverges true;
 	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException;
 	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter
-	  @            && (\forall EntryQueue.Node n; n.entry != null);
+	  @            && (\forall EntryQueue.Node n; n != null; n.entry != null);
 	  @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter
-	  @                            && (\forall EntryQueue.Node n; n.entry != null);
-          @ signals (ArrayIndexOutOfBoundsException e)
-          @            Environment.inputValues != null && 0 <= Environment.inputCounter
-          @             && (\forall EntryQueue.Node n; n.entry != null);
+	  @                            && (\forall EntryQueue.Node n; n != null; n.entry != null);
+	  @ signals (ArrayIndexOutOfBoundsException e)
+	  @            Environment.inputValues != null && 0 <= Environment.inputCounter
+	  @             && (\forall EntryQueue.Node n; n != null; n.entry != null);
 	  @*/
 	public void publishLog() throws NetworkError
 	{
@@ -212,7 +212,7 @@ public class VotingMachine
 	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (ArrayIndexOutOfBoundsException e) Environment.inputValues != null
-          @                                             && 0 <= Environment.inputCounter;
+	  @                                             && 0 <= Environment.inputCounter;
 	  @*/
 	private static /*@ helper @*/ void signAndPost(byte[] tag, byte[] message, Signer signer)
 			throws NetworkError

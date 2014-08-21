@@ -34,13 +34,13 @@ public final class Setup
 	                                                  int numberOfCandidates) {
 		final int[] choices = new int[numberOfVoters];
 		/*@ loop_invariant 0 <= i && i <= numberOfVoters && choices != null
-		  @                     && choices.length == numberOfVoters
-		  @                     && Environment.inputValues != null
-		  @                     && 0 <= numberOfVoters
-		  @                     && 0 < numberOfCandidates
-		  @                     && 0 <= Environment.inputCounter
-                  @                     && (\forall int j; 0 <= j && j < i;
-                  @                                     0 <= choices[j] && choices[j] < numberOfCandidates);
+		  @ 			&& choices.length == numberOfVoters
+		  @ 			&& Environment.inputValues != null
+		  @ 			&& 0 <= numberOfVoters
+		  @ 			&& 0 < numberOfCandidates
+		  @ 			&& 0 <= Environment.inputCounter
+		  @ 			&& (\forall int j; 0 <= j && j < i;
+		  @ 					0 <= choices[j] && choices[j] < numberOfCandidates);
 		  @ assignable Environment.inputCounter, choices[*];
 		  @ decreases numberOfVoters - i;
 		  @*/
@@ -119,7 +119,7 @@ public final class Setup
           @             && Environment.inputValues != null && 0 <= Environment.inputCounter
           @             && Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
           @             && Params.DEFAULT_HOST_BBOARD != null
-          @             && (\forall EntryQueue.Node n; n.entry != null);
+          @             && (\forall EntryQueue.Node n; n != null; n.entry != null);
 	  @ diverges true;
 	  @ assignable correctResult, Environment.inputCounter, Environment.result,
 	  @ 			vm.voteCounter, vm.votesForCandidates[*];
@@ -147,7 +147,7 @@ public final class Setup
 
 	/*@ private behaviour
 	  @ requires 0 < numberOfCandidates
-	  @             && Environment.inputValues != null && 0 <= Environment.inputCounter
+	  @ 		&& Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 		&& choices0.length == numberOfVoters
 	  @ 		&& choices0.length == choices1.length
 	  @ 		&& (\forall int j; 0 <= j && j < numberOfVoters;
@@ -156,9 +156,9 @@ public final class Setup
 	  @ 			0 <= choices1[j] && choices1[j] < numberOfCandidates)
 	  @ 		&& equalResult(computeResult(choices0, numberOfCandidates),
 	  @						   computeResult(choices1, numberOfCandidates))
-	  @            && Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
-          @            && Params.DEFAULT_HOST_BBOARD != null
-          @            && (\forall EntryQueue.Node n; n.entry != null);
+	  @ 		&& Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
+	  @ 		&& Params.DEFAULT_HOST_BBOARD != null
+	  @ 		&& (\forall EntryQueue.Node n; n != null; n.entry != null);
 	  @ diverges true;
 	  @ assignable Environment.inputCounter, Environment.result,
 	  @ 			vm.voteCounter, vm.votesForCandidates[*];
@@ -181,8 +181,8 @@ public final class Setup
 	  @            && choices0.length == numberOfVoters
 	  @            && choices0.length == choices1.length
 	  @            && Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
-          @            && Params.DEFAULT_HOST_BBOARD != null
-          @            && (\forall EntryQueue.Node n; n.entry != null);
+	  @            && Params.DEFAULT_HOST_BBOARD != null
+	  @            && (\forall EntryQueue.Node n; n != null; n.entry != null);
 	  @ diverges true;
 	  @ assignable Environment.inputCounter, Environment.result,
 	  @ 			vm.voteCounter, vm.votesForCandidates[*];
@@ -197,10 +197,10 @@ public final class Setup
 		/*@ loop_invariant 0 <= i
 		  @ 			&& 0 <= voterNr && voterNr < i
 		  @ 			&& voterNr <= numberOfVoters
-		  @                     && (\forall EntryQueue.Node n; n.entry != null)
+		  @ 			&& (\forall EntryQueue.Node n; n != null; n.entry != null)
 		  @ 			&& (\forall int j; 0 <= j && j < voterNr;
-		  @ 				vm.votesForCandidates[j]
-		  @ 				== (\num_of int k; 0 <= k && k < j; choices0[k] == choices0[j]));
+		  @ 				vm.votesForCandidates[j] ==
+		  @ 				(\num_of int k; 0 <= k && k < j; choices0[k] == choices0[j]));
 		  @ assignable Environment.inputCounter, Environment.result,
 		  @ 			vm.voteCounter, vm.votesForCandidates[*];
 		  @ decreases N - i;

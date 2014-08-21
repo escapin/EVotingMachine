@@ -39,8 +39,8 @@ public class BulletinBoard
 	 * Output its content, that is the concatenation of
 	 * all the message in the maintained list of messages.
 	 *@ public behaviour
-	  @ requires (\forall EntryQueue.Node n; n.entry != null);
-	  @ ensures (\forall EntryQueue.Node n; n.entry != null);
+	  @ requires (\forall EntryQueue.Node n; n != null; n.entry != null);
+	  @ ensures (\forall EntryQueue.Node n; n != null; n.entry != null);
 	  @*/
 	public /*@ strictly_pure @*/ byte[] onRequestContent() throws NetworkError
 	{
