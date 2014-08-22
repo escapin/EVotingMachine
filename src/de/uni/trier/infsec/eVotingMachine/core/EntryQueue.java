@@ -30,9 +30,9 @@ public class EntryQueue {
     }
 
     /*@ public normal_behaviour
-      @ requires (\forall Node n; n != null; n.entry != null);
+      @ requires (\forall Node n; n.entry != null);
       @ diverges true;
-      @ ensures (\forall Node n; n != null && !\fresh(n); n.entry != null);
+      @ ensures (\forall Node n; n.entry != null);
       @*/
     public /*@ pure helper @*/ byte[] getEntries()
     {
@@ -41,7 +41,7 @@ public class EntryQueue {
         byte[] entries=head.entry;
         /*@ loop_invariant head != null && entries != null
           @ 			&& (n != null ==> !\fresh(n))
-          @ 			&& (\forall Node n; n != null && !\fresh(n); n.entry != null);
+          @ 			&& (\forall Node n; n.entry != null);
           @ assignable entries;
           @*/
         for(Node n=head.next; n!=null; n=n.next)

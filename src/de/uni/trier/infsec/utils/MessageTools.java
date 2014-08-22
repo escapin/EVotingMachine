@@ -33,7 +33,7 @@ public class MessageTools {
      * first message at the beginning of the returned message).
      */
     /*@ public normal_behaviour
-      @ ensures true;
+      @ ensures (\forall Object o; o != \result; !\fresh(o) || ((byte[])o) != null );
       @*/
     public static /*@ pure helper @*/ byte[] concatenate(byte[] m1, byte[] m2) {
         // Concatenated Message --> byte[0-3] = Integer, Length of Message 1
@@ -48,7 +48,7 @@ public class MessageTools {
         /*@ loop_invariant 0 <= i && len != null && out != null && m1 != null && m2 != null
           @             && 0 <= j && j <= len.length && j <= out.length
           @             && len.length == 4 && out.length == m1.length + m2.length + 4
-          @             && j == i;
+          @             && j == i && (\forall Object o; o != out && o != len; !\fresh(o));
           @ assignable out[*], j;
           @ decreases len.length - i;
           @*/
@@ -56,7 +56,7 @@ public class MessageTools {
         /*@ loop_invariant 0 <= i && m1 != null && out != null && m1 != null && m2 != null
           @             && 4 <= j && j <= m1.length + 4 && j <= out.length
           @             && out.length == m1.length + m2.length + 4
-          @             && j == i + 4;
+          @             && j == i + 4 && (\forall Object o; o != out && o != len; !\fresh(o));
           @ assignable out[*], j;
           @ decreases m1.length - i;
           @*/
@@ -64,7 +64,7 @@ public class MessageTools {
         /*@ loop_invariant 0 <= i && m2 != null && out != null && m1 != null && m2 != null
           @             && m1.length + 4 <= j && j <= m2.length + m1.length + 4 && j <= out.length
           @             && out.length == m1.length + m2.length + 4
-          @             && j == i + m1.length + 4;
+          @             && j == i + m1.length + 4 && (\forall Object o; o != out && o != len; !\fresh(o));
           @ assignable out[*], j;
           @ decreases m2.length - i;
           @*/
@@ -124,7 +124,7 @@ public class MessageTools {
 
 
     /*@ public normal_behaviour
-      @ ensures \result.length == 4;
+      @ ensures (\forall Object o; o != \result; !\fresh(o)) && \result.length == 4;
       @*/
     public static final /*@ pure helper @*/ byte[] intToByteArray(int value) {
         return new byte[] {
@@ -136,11 +136,12 @@ public class MessageTools {
 
 
     /*@ public normal_behaviour
-      @ ensures \result.length == 8;
+      @ ensures \result.length == 8 && (\forall Object o; o != \result; !\fresh(o));
       @*/
     public static final /*@ pure helper @*/ byte[] longToByteArray(long value){
         byte[] b = new byte[8];
-        /*@ loop_invariant 0 <= i && b != null && b.length == 8;
+        /*@ loop_invariant 0 <= i && b != null && b.length == 8
+          @             && (\forall Object o; o != b; !\fresh(o));
           @ assignable b[*];
           @ decreases b.length - i;
           @*/

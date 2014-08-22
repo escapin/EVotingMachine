@@ -7,10 +7,7 @@ import de.uni.trier.infsec.lib.network.NetworkError;
 import de.uni.trier.infsec.lib.time.Timestamp;
 import de.uni.trier.infsec.environment.Environment;
 
-import static de.uni.trier.infsec.utils.MessageTools.intToByteArray;
-import static de.uni.trier.infsec.utils.MessageTools.longToByteArray;
-import static de.uni.trier.infsec.utils.MessageTools.concatenate;
-import static de.uni.trier.infsec.utils.MessageTools.copyOf;
+import de.uni.trier.infsec.utils.MessageTools;
 
 public class VotingMachine
 {
@@ -71,7 +68,8 @@ public class VotingMachine
 	  @            && 0 <= Environment.inputCounter
 	  @            && votersChoice == lastBallot.votersChoice
 	  @            && 0 <= votersChoice && votersChoice < numberOfCandidates
-	  @            && votesForCandidates[votersChoice] == \old(votesForCandidates[votersChoice]) + 1;
+	  @            && votesForCandidates[votersChoice] == \old(votesForCandidates[votersChoice]) + 1
+	  @            && (\forall Object o; o != lastBallot; !\fresh(o));
 	  @ signals (InvalidVote e) (votersChoice < 0 || votersChoice >= numberOfCandidates)
 	  @            && Environment.inputValues != null
 	  @            && 0 <= Environment.inputCounter;
@@ -103,7 +101,8 @@ public class VotingMachine
 	  @ assignable votesForCandidates[*], lastBallot;
 	  @ ensures \invariant_for(this) && lastBallot == null
 	  @ 	&& votesForCandidates[\old(lastBallot.votersChoice)]
-	  @ 		== \old(votesForCandidates[lastBallot.votersChoice]) - 1;
+	  @ 		== \old(votesForCandidates[lastBallot.votersChoice]) - 1
+	  @     && (\forall Object o; !\fresh(o));
 	  @ signals (InvalidCancelation e) \old(lastBallot) == null && lastBallot == null;
 	  @*/
 	public void cancelLastBallot() throws InvalidCancelation
@@ -123,10 +122,11 @@ public class VotingMachine
 	  @            && numberOfCandidates <= votesForCandidates.length
 	  @            && (\forall int j; 0 <= j && j < numberOfCandidates;
 	  @                     votesForCandidates[j] == Setup.correctResult[j]);
-	  @ assignable Environment.inputCounter;
+	  @ assignable Environment.inputCounter, Environment.result;
 	  @ diverges true;
-	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException;
+	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException, Error;
 	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (ArrayIndexOutOfBoundsException e)
 	  @            Environment.inputValues != null && 0 <= Environment.inputCounter;
@@ -139,17 +139,19 @@ public class VotingMachine
 	/*@ public behaviour
 	  @ requires Params.LOG != null && Params.DEFAULT_HOST_BBOARD != null
 	  @            && Environment.inputValues != null && 0 <= Environment.inputCounter
-	  @            && (\forall EntryQueue.Node n; n != null; n.entry != null);
-	  @ assignable Environment.inputCounter;
+	  @            && (\forall EntryQueue.Node n; n.entry != null);
+	  @ assignable Environment.inputCounter, Environment.result;
 	  @ diverges true;
-	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException;
+	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException, Error;
 	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter
-	  @            && (\forall EntryQueue.Node n; n != null; n.entry != null);
+	  @            && (\forall EntryQueue.Node n; !\fresh(n); n.entry != null);
+	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter
+	  @            && (\forall EntryQueue.Node n; !\fresh(n); n.entry != null);
 	  @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter
-	  @                            && (\forall EntryQueue.Node n; n != null; n.entry != null);
+	  @                            && (\forall EntryQueue.Node n; !\fresh(n); n.entry != null);
 	  @ signals (ArrayIndexOutOfBoundsException e)
 	  @            Environment.inputValues != null && 0 <= Environment.inputCounter
-	  @             && (\forall EntryQueue.Node n; n != null; n.entry != null);
+	  @            && (\forall EntryQueue.Node n; !\fresh(n); n.entry != null);
 	  @*/
 	public void publishLog() throws NetworkError
 	{
@@ -168,7 +170,7 @@ public class VotingMachine
 		// create a new (encrypted) log entry:
 		byte[] entry = createEncryptedEntry(++operationCounter, tag, lastBallot, bb_encryptor, signer);	
 		// add it to the log:
-		entryLog.add(copyOf(entry));
+		entryLog.add(MessageTools.copyOf(entry));
 		// and send this entry:
 		try {
 			signAndPost(Params.MACHINE_ENTRY, entry, signer);
@@ -180,21 +182,21 @@ public class VotingMachine
 
 	/**
 	 * Create and return the new entry:
-	 * 
+	 *
 	 *   ( operationCounter, ENC_BB{ TAG, timestamp, voterChoice, voteCounter} )
 	 */
 	private byte[] createEncryptedEntry(int operationCounter, byte[] tag, InnerBallot inner_ballot,
 	                                    Encryptor encryptor, Signer signer)
 	{
-		byte[] vote_voteCounter = concatenate(	
-				intToByteArray(inner_ballot.votersChoice),
-				intToByteArray(inner_ballot.voteCounter));
-		byte[] ballot = concatenate(
-				longToByteArray(inner_ballot.timestamp),
-				vote_voteCounter);
-		byte[] tag_ballot= concatenate(tag, ballot);
+		byte[] vote_voteCounter = MessageTools.concatenate(
+		                MessageTools.intToByteArray(inner_ballot.votersChoice),
+		                MessageTools.intToByteArray(inner_ballot.voteCounter));
+		byte[] ballot = MessageTools.concatenate(
+		                    MessageTools.longToByteArray(inner_ballot.timestamp),
+		                    vote_voteCounter);
+		byte[] tag_ballot= MessageTools.concatenate(tag, ballot);
 		byte[] encrMsg = encryptor.encrypt(tag_ballot);
-		byte[] entry = concatenate( intToByteArray(operationCounter), encrMsg);
+		byte[] entry = MessageTools.concatenate( MessageTools.intToByteArray(operationCounter), encrMsg);
 		return entry;
 	}
 
@@ -206,22 +208,23 @@ public class VotingMachine
 	/*@ private behaviour
 	  @ requires Params.DEFAULT_HOST_BBOARD != null
 	  @            && Environment.inputValues != null && 0 <= Environment.inputCounter;
-	  @ assignable Environment.inputCounter;
+	  @ assignable Environment.inputCounter, Environment.result;
 	  @ diverges true;
-	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException;
+	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException, Error;
 	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (ArrayIndexOutOfBoundsException e) Environment.inputValues != null
 	  @                                             && 0 <= Environment.inputCounter;
+	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @*/
 	private static /*@ helper @*/ void signAndPost(byte[] tag, byte[] message, Signer signer)
 			throws NetworkError
 	{
 		long timestamp = Timestamp.get();
-		byte[] tag_timestamp = concatenate(tag, longToByteArray(timestamp));
-		byte[] payload = concatenate(tag_timestamp, message);
+		byte[] tag_timestamp = MessageTools.concatenate(tag, MessageTools.longToByteArray(timestamp));
+		byte[] payload = MessageTools.concatenate(tag_timestamp, message);
 		byte[] signature = signer.sign(payload);
-		byte[] signedPayload = concatenate(payload, signature);
+		byte[] signedPayload = MessageTools.concatenate(payload, signature);
 		NetworkClient.send(signedPayload, Params.DEFAULT_HOST_BBOARD, Params.LISTEN_PORT_BBOARD);
 
 	}
@@ -267,7 +270,7 @@ public class VotingMachine
 	/*@ private normal_behaviour
 	  @ requires true;
 	  @*/
-	private static /*@ strictly_pure @*/ byte[] formatResult(int[] _result) {
+	private static /*@ strictly_pure @// not provable */ byte[] formatResult(int[] _result) {
 		String s = "Result of the election:\n";
 		for( int i=0; i<_result.length; ++i ) {
 			s += "  Number of votes for candidate " + i + ": " + _result[i] + "\n";

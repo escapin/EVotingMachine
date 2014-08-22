@@ -9,12 +9,13 @@ public class Timestamp {
           @ assignable Environment.inputCounter;
           @ diverges true;
           @ signals_only ArrayIndexOutOfBoundsException;
-          @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter;
+          @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter
+          @     && (\forall Object o; !\fresh(o));
           @ signals (ArrayIndexOutOfBoundsException e) Environment.inputValues != null
           @                                             && 0 <= Environment.inputCounter;
           @*/
 	public static /*@ helper @*/ long get() {
 		return 	Environment.untrustedInput();
 	}
-	
+
 }

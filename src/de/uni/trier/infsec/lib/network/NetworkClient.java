@@ -9,7 +9,7 @@ public class NetworkClient {
       @ assignable Environment.inputCounter, Environment.result;
       @ signals_only NetworkError, ArrayIndexOutOfBoundsException, Error;
       @ diverges true;
-      @ ensures true;
+      @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter;
       @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter;
       @ signals (ArrayIndexOutOfBoundsException e)
       @                 Environment.inputValues != null && 0 <= Environment.inputCounter;
@@ -37,7 +37,7 @@ public class NetworkClient {
       @                 Environment.inputValues != null && 0 <= Environment.inputCounter;
       @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
       @*/
-    public static /*@ helper @*/ byte[] sendRequest(byte[] message, String server, int port)
+    public static /*@ helper nullable @*/ byte[] sendRequest(byte[] message, String server, int port)
             throws NetworkError {
         // input
         Environment.untrustedOutput(0x2302);

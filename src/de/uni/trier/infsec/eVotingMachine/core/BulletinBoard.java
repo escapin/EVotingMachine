@@ -24,7 +24,8 @@ public class BulletinBoard
 	 *@ public behaviour
 	  @ ensures true;
 	  @*/
-	public /*@ strictly_pure @*/ void onPost(byte[] request) throws NetworkError
+	public /*@ strictly_pure @// to be proven with JOANA */ void onPost(byte[] request)
+	        throws NetworkError
 	{
 		byte[] message = first(request);
 		byte[] signature = second(request);
@@ -39,10 +40,11 @@ public class BulletinBoard
 	 * Output its content, that is the concatenation of
 	 * all the message in the maintained list of messages.
 	 *@ public behaviour
-	  @ requires (\forall EntryQueue.Node n; n != null; n.entry != null);
-	  @ ensures (\forall EntryQueue.Node n; n != null; n.entry != null);
+	  @ requires (\forall EntryQueue.Node n; n.entry != null);
+	  @ diverges true;
+	  @ ensures (\forall EntryQueue.Node n; n.entry != null);
 	  @*/
-	public /*@ strictly_pure @*/ byte[] onRequestContent() throws NetworkError
+	public /*@ pure @*/ byte[] onRequestContent() throws NetworkError
 	{
 		return entryLog.getEntries();
 	}

@@ -26,7 +26,7 @@ final public class Signer {
 	/*@ public normal_behaviour
 	  @ ensures true;
 	  @*/
-	public /*@ strictly_pure helper @*/ byte[] sign(byte[] message) {
+	public /*@ strictly_pure helper @// to be proven with JOANA */ byte[] sign(byte[] message) {
 		byte[] signature = CryptoLib.sign(copyOf(message), copyOf(signKey));
 		// we make sure that the signing has not failed
 		if (signature == null) return null;

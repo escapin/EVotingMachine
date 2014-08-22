@@ -14,7 +14,7 @@ public class Environment {
 	  @ assignable inputCounter;
 	  @ diverges inputValues.length <= inputCounter;
 	  @ signals_only ArrayIndexOutOfBoundsException;
-	  @ ensures inputValues != null && 0 <= inputCounter;
+	  @ ensures inputValues != null && 0 <= inputCounter && (\forall Object o; !\fresh(o));
 	  @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
 	  @*/
 	public static /*@ helper @*/ int untrustedInput()
@@ -48,7 +48,7 @@ public class Environment {
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, Error;
 	  @ assignable inputCounter, result;
-	  @ ensures inputValues != null && 0 <= inputCounter;
+	  @ ensures inputValues != null && 0 <= inputCounter && (\forall Object o; !\fresh(o));
 	  @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
 	  @ signals (Error e) inputValues != null && 0 <= inputCounter;
 	  @*/
@@ -90,13 +90,15 @@ public class Environment {
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException;
 	  @ assignable inputCounter;
-	  @ ensures inputValues != null && 0 <= inputCounter;
+	  @ ensures inputValues != null && 0 <= inputCounter
+	  @    && (\forall Object o; o != \result; !\fresh(o));
 	  @ signals (Exception e) inputValues != null && 0 <= inputCounter;
 	  @*/
 	public static /*@ helper nullable @*/ byte[][] untrustedInputMessages(int N)
 	{
 		byte[][] output = new byte[N][];
-		/*@ loop_invariant 0 <= inputCounter && 0 <= N;
+		/*@ loop_invariant 0 <= inputCounter && 0 <= N
+		  @           && (\forall Object o; o != output; !\fresh(o));
 		  @ assignable inputCounter, output[*];
 		  @ decreases N - i;
 		  @*/
@@ -110,13 +112,15 @@ public class Environment {
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException;
 	  @ assignable inputCounter;
-	  @ ensures inputValues != null && 0 <= inputCounter;
+	  @ ensures inputValues != null && 0 <= inputCounter
+	  @    && (\forall Object o; o != \result; !\fresh(o));
 	  @ signals (Exception e) inputValues != null && 0 <= inputCounter;
 	  @*/
 	public static /*@ helper @*/ int[] untrustedInputArray(int N)
 	{
 		int[] output = new int[N];
-		/*@ loop_invariant 0 <= N && 0 <= inputCounter;
+		/*@ loop_invariant 0 <= N && 0 <= inputCounter
+		  @   && (\forall Object o; o != output; !\fresh(o));
 		  @ assignable inputCounter, output[*];
 		  @ decreases N - i;
 		  @*/
