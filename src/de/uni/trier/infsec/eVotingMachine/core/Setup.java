@@ -193,7 +193,8 @@ public final class Setup
 		final int[] actions = Environment.untrustedInputArray(N);
 		final int[] audit_choices = Environment.untrustedInputArray(N);
 		byte[][] requests = Environment.untrustedInputMessages(N);
-		main4(vm, bb, numberOfVoters, secret, choices0, choices1, N, actions, audit_choices, requests);
+		innerMain(vm, bb, numberOfVoters, secret, choices0, choices1,
+		          N, actions, audit_choices, requests);
 	}
 
 	/*@ private behaviour
@@ -222,11 +223,11 @@ public final class Setup
 	  @ ensures flag;
 	  @ signals (Throwable e) true;
 	  @*/
-	private static /*@ helper @*/ void main4(VotingMachine vm, BulletinBoard bb,
-	                                         int numberOfVoters, boolean secret, int[] choices0,
-	                                         int[] choices1, final int N, final int[] actions,
-	                                         final int[] audit_choices, byte[][] requests)
-			throws InvalidVote, NetworkError, InvalidCancelation {
+	private static /*@ helper @*/ void innerMain(VotingMachine vm, BulletinBoard bb,
+	                                             int numberOfVoters, boolean secret, int[] choices0,
+	                                             int[] choices1, final int N, final int[] actions,
+	                                             final int[] audit_choices, byte[][] requests)
+	                throws InvalidVote, NetworkError, InvalidCancelation {
 		int voterNr = 0;
 		/*@ loop_invariant 0 <= i
 		  @ 			&& 0 <= voterNr && voterNr < i
