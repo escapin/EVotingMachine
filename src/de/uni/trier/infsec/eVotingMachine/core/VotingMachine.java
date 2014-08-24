@@ -56,25 +56,26 @@ public class VotingMachine
 	// ensures \only_assigned(votesForCandidates[*], lastBallot); // TODO implement
 	/*@ public behaviour
 	  @ requires \invariant_for(this) && Params.VOTE != null && Params.MACHINE_ENTRY != null
-	  @            && Params.DEFAULT_HOST_BBOARD != null
-	  @            && Environment.inputValues != null
-	  @            && 0 <= Environment.inputCounter;
+	  @ 		&& Params.DEFAULT_HOST_BBOARD != null
+	  @ 		&& Environment.inputValues != null
+	  @ 		&& 0 <= Environment.inputCounter;
 	  @ diverges true;
-	  @ assignable Environment.inputCounter,
-	  @            votesForCandidates[*], lastBallot, voteCounter;
+	  @ assignable Environment.inputCounter, votesForCandidates[*],
+	  @ 			lastBallot, voteCounter;
 	  @ signals_only InvalidVote, ArrayIndexOutOfBoundsException;
 	  @ ensures \invariant_for(this) && lastBallot != null
-	  @            && Environment.inputValues != null
-	  @            && 0 <= Environment.inputCounter
-	  @            && votersChoice == lastBallot.votersChoice
-	  @            && 0 <= votersChoice && votersChoice < numberOfCandidates
-	  @            && votesForCandidates[votersChoice] == \old(votesForCandidates[votersChoice]) + 1
-	  @            && (\forall Object o; o != lastBallot; !\fresh(o));
+	  @ 		&& Environment.inputValues != null
+	  @ 		&& 0 <= Environment.inputCounter
+	  @ 		&& 0 <= votersChoice && votersChoice < numberOfCandidates
+	  @ 		&& votersChoice == lastBallot.votersChoice
+	  @ 		&& 0 <= votersChoice && votersChoice < numberOfCandidates
+	  @ 		&& votesForCandidates[votersChoice] == \old(votesForCandidates[votersChoice]) + 1
+	  @ 		&& (\forall Object o; o != lastBallot; !\fresh(o));
 	  @ signals (InvalidVote e) (votersChoice < 0 || votersChoice >= numberOfCandidates)
-	  @            && Environment.inputValues != null
-	  @            && 0 <= Environment.inputCounter;
+	  @ 		&& Environment.inputValues != null
+	  @ 		&& 0 <= Environment.inputCounter;
 	  @ signals (ArrayIndexOutOfBoundsException e) Environment.inputValues != null
-	  @            && 0 <= Environment.inputCounter;
+	  @ 		&& 0 <= Environment.inputCounter;
 	  @*/
 	public /*@ helper @*/ int collectBallot(int votersChoice) throws InvalidVote
 	{
@@ -95,11 +96,14 @@ public class VotingMachine
 
 	/*@ public behaviour
 	  @ requires Params.CANCEL != null && Params.MACHINE_ENTRY != null
-	  @            && Params.DEFAULT_HOST_BBOARD != null
-	  @            && Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ 	&& Params.DEFAULT_HOST_BBOARD != null && votesForCandidates != null
+	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
+	  @ 	&& votesForCandidates.length == numberOfCandidates
+	  @ 	&& (lastBallot != null ==>
+	  @ 		(0 <= lastBallot.votersChoice && lastBallot.votersChoice < numberOfCandidates));
 	  @ diverges true;
 	  @ assignable votesForCandidates[*], lastBallot;
-	  @ ensures \invariant_for(this) && lastBallot == null
+	  @ ensures \invariant_for(this) && \old(lastBallot) != null && lastBallot == null
 	  @ 	&& votesForCandidates[\old(lastBallot.votersChoice)]
 	  @ 		== \old(votesForCandidates[lastBallot.votersChoice]) - 1
 	  @     && (\forall Object o; !\fresh(o));
@@ -144,14 +148,14 @@ public class VotingMachine
 	  @ diverges true;
 	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException, Error;
 	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter
-	  @            && (\forall EntryQueue.Node n; !\fresh(n); n.entry != null);
+	  @            && (\forall EntryQueue.Node n; n.entry != null);
 	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter
-	  @            && (\forall EntryQueue.Node n; !\fresh(n); n.entry != null);
+	  @            && (\forall EntryQueue.Node n; n.entry != null);
 	  @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter
-	  @                            && (\forall EntryQueue.Node n; !\fresh(n); n.entry != null);
+	  @                            && (\forall EntryQueue.Node n; n.entry != null);
 	  @ signals (ArrayIndexOutOfBoundsException e)
 	  @            Environment.inputValues != null && 0 <= Environment.inputCounter
-	  @            && (\forall EntryQueue.Node n; !\fresh(n); n.entry != null);
+	  @            && (\forall EntryQueue.Node n; n.entry != null);
 	  @*/
 	public void publishLog() throws NetworkError
 	{
