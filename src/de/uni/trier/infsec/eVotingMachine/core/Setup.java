@@ -128,8 +128,8 @@ public final class Setup
 	  @ requires 0 < numberOfCandidates
 	  @             && Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @             && Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
-	  @             && Params.DEFAULT_HOST_BBOARD != null
-	  @ 			&& vm.votesForCandidates != null;
+	  @             && Params.DEFAULT_HOST_BBOARD != null && Params.RESULTS != null
+	  @ 			&& vm.votesForCandidates != null && \invariant_for(vm);
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, Throwable,
 	  @                    NetworkError, Error, InvalidCancelation, InvalidVote, NullPointerException;
@@ -175,8 +175,8 @@ public final class Setup
 	  @                    correctResult[j] ==
 	  @                            (\num_of int k; 0 <= k && k < numberOfVoters; choices1[k] == j))
 	  @ 		&& Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
-	  @ 		&& Params.DEFAULT_HOST_BBOARD != null
-	  @ 		&& vm.votesForCandidates != null;
+	  @ 		&& Params.DEFAULT_HOST_BBOARD != null && Params.RESULTS != null
+	  @ 		&& vm.votesForCandidates != null && \invariant_for(vm);
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, NetworkError,
 	  @                    Error, InvalidCancelation, InvalidVote, NullPointerException;
@@ -213,7 +213,7 @@ public final class Setup
 	  @ 				correctResult[j] ==
 	  @ 					(\num_of int k; 0 <= k && k < numberOfVoters; choices1[k] == j))
 	  @ 		&& Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
-	  @ 		&& Params.DEFAULT_HOST_BBOARD != null
+	  @ 		&& Params.DEFAULT_HOST_BBOARD != null && Params.RESULTS != null && \invariant_for(vm)
 	  @ 		&& vm.votesForCandidates != null && requests != null;
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, NetworkError,
@@ -230,11 +230,15 @@ public final class Setup
 	                throws InvalidVote, NetworkError, InvalidCancelation {
 		int voterNr = 0;
 		/*@ loop_invariant 0 <= i
-		  @ 			&& 0 <= voterNr && voterNr < i
-		  @ 			&& voterNr <= numberOfVoters
+		  @ 			&& 0 <= voterNr && voterNr <= i && voterNr <= numberOfVoters
+		  @                     && correctResult != null && vm != null && \invariant_for(vm)
+		  @                     && correctResult.length <= vm.votesForCandidates.length
+		  @                     && Environment.inputValues != null && 0 <= Environment.inputCounter
 		  @ 			&& (\forall int j; 0 <= j && j < voterNr;
 		  @ 				vm.votesForCandidates[j] ==
-		  @ 					(\num_of int k; 0 <= k && k < j; choices0[k] == choices0[j]));
+		  @ 					(\num_of int k; 0 <= k && k < j; choices0[k] == choices0[j]))
+		  @                     && (\forall int j; 0 <= j && j < correctResult.length;
+		  @                           vm.votesForCandidates[j] == correctResult[j]);
 		  @ assignable Environment.inputCounter, Environment.result,
 		  @ 			vm.voteCounter, vm.votesForCandidates[*];
 		  @ decreases N - i;
@@ -258,11 +262,12 @@ public final class Setup
 			case 2: // audit (this step altogether should not change the result)
 				int audit_choice = audit_choices[i];
 				/*@ private behaviour
+				  @ requires vm != null && \invariant_for(vm);
 				  @ diverges true;
 				  @ assignable Environment.inputCounter, Environment.result, vm.lastBallot;
 				  @ signals_only InvalidVote, ArrayIndexOutOfBoundsException, Error,
 				  @ 			 NetworkError, InvalidCancelation;
-				  @ ensures vm.lastBallot == null;
+				  @ ensures vm.lastBallot == null && \invariant_for(vm);
 				  @ signals (Throwable e) true;
 				  @*/
 				{
@@ -287,6 +292,7 @@ public final class Setup
 		// make the voting machine publish the result (only if all the voters has voted):
 		if (voterNr == numberOfVoters)
 			vm.publishResult();
+
 		//@ set flag = true;
 		{}
 	}
