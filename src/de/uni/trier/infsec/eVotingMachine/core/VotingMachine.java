@@ -110,6 +110,7 @@ public class VotingMachine
 	  @ 	&& (lastBallot != null ==>
 	  @ 		(0 <= lastBallot.votersChoice && lastBallot.votersChoice < numberOfCandidates));
 	  @ diverges true;
+	  @ signals_only InvalidCancelation;
 	  @ assignable votesForCandidates[*], lastBallot;
 	  @ ensures votesForCandidates.length == numberOfCandidates
 	  @ 	&& \old(lastBallot) != null && lastBallot == null
@@ -139,9 +140,9 @@ public class VotingMachine
 	  @ 	&& votesForCandidates.length == numberOfCandidates
 	  @ 	&& (\forall int j; 0 <= j && j < numberOfCandidates;
 	  @ 			votesForCandidates[j] == Setup.correctResult[j]);
-	  @ assignable Environment.inputCounter, Environment.result;
 	  @ diverges true;
 	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException, Error;
+	  @ assignable Environment.inputCounter, Environment.result;
 	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 	&& votesForCandidates.length == numberOfCandidates;
 	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
@@ -178,13 +179,16 @@ public class VotingMachine
 
 	///// PRIVATE //////
 
-	/*@ private normal_behaviour
+	/*@ private behaviour
 	  @ requires Params.MACHINE_ENTRY != null && Params.DEFAULT_HOST_BBOARD != null
 	  @ 	&& bb_encryptor != null && signer != null && entryLog != null
 	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 	&& votesForCandidates != null
 	  @ 	&& votesForCandidates.length == numberOfCandidates;
+	  @ diverges true;
+	  @ signals_only Error;
 	  @ ensures true;
+	  @ signals (Error e) true;
 	  @*/
 	private /*@ strictly_pure helper @// to be proven with JOANA */ void logAndSendNewEntry(byte[] tag) {
 		// create a new (encrypted) log entry:

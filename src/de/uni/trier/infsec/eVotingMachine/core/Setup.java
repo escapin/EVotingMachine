@@ -29,7 +29,7 @@ public final class Setup
 	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 	&& (\forall int j; 0 <= j && j < numberOfVoters;
 	  @ 			0 <= \result[j] && \result[j] < numberOfCandidates)
-	  @ 	&& (\forall Object o; o != \result; !\fresh(o));
+	  @ 	&& \fresh(\result) && (\forall Object o; o != \result; !\fresh(o));
 	  @ signals (Exception e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @*/
 	private static /*@ helper @*/ int[] createChoices(int numberOfVoters,
@@ -42,7 +42,7 @@ public final class Setup
 		  @ 		&& 0 <= Environment.inputCounter
 		  @ 		&& (\forall int j; 0 <= j && j < i;
 		  @ 				0 <= choices[j] && choices[j] < numberOfCandidates)
-		  @ 		&& (\forall Object o; o != choices; !\fresh(o));
+		  @ 		&& \fresh(choices) && (\forall Object o; o != choices; !\fresh(o));
 		  @ assignable Environment.inputCounter, choices[*];
 		  @ decreases numberOfVoters - i;
 		  @*/
@@ -57,6 +57,7 @@ public final class Setup
 	  @ 	&& (\forall int j; 0 <= j && j < choices.length;
 	  @ 			0 <= choices[j] && choices[j] < numberOfCandidates);
 	  @ ensures \result.length == numberOfCandidates
+	  @ 	&& \fresh(\result) && choices != \result
 	  @ 	&& (\forall int j; 0 <= j && j < numberOfCandidates;
 	  @ 			\result[j] == (\num_of int k; 0 <= k && k < choices.length; choices[k] == j))
 	  @ 	&& (\forall Object o; o != \result; !\fresh(o));
@@ -70,6 +71,7 @@ public final class Setup
 		  @ 			&& (\forall int j; 0 <= j && j < numberOfCandidates;
 		  @ 					res[j] ==
 		  @ 						(\num_of int k; 0 <= k && k < i; choices[k] == j))
+		  @ 			&& \fresh(res)
 		  @ 			&& (\forall Object o; o != res; !\fresh(o));
 		  @ assignable res[*];
 		  @ decreases choices.length - i;
@@ -137,7 +139,7 @@ public final class Setup
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, Throwable,
 	  @ 			NetworkError, Error, InvalidCancelation, InvalidVote, NullPointerException;
-	  @ assignable correctResult, Environment.inputCounter, Environment.result,
+	  @ assignable correctResult, Environment.inputCounter, Environment.result, vm.lastBallot,
 	  @ 			vm.voteCounter, vm.votesForCandidates[*], flag;
 	  @ ensures flag;
 	  @ signals (Throwable e) true;
@@ -192,7 +194,7 @@ public final class Setup
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, NetworkError,
 	  @                    Error, InvalidCancelation, InvalidVote, NullPointerException;
-	  @ assignable Environment.inputCounter, Environment.result,
+	  @ assignable Environment.inputCounter, Environment.result, vm.lastBallot,
 	  @ 			vm.voteCounter, vm.votesForCandidates[*], flag;
 	  @ ensures flag;
 	  @ signals (Throwable e) true;
@@ -303,7 +305,11 @@ public final class Setup
 				  @ 	&& (\forall int j; 0 <= j && j < vm.numberOfCandidates;
 				  @ 			vm.votesForCandidates[j] == \old(vm.votesForCandidates[j]))
 				  @ 	&& vm.voteCounter == \old(vm.voteCounter);
-				  @ signals (Throwable e) true;
+				  @ signals (InvalidVote e) true;
+				  @ signals (ArrayIndexOutOfBoundsException e) true;
+				  @ signals (Error e) true;
+				  @ signals (NetworkError e) true;
+				  @ signals (InvalidCancelation e) true;
 				  @*/
 				{
 					int sqnumber = vm.collectBallot(audit_choice);

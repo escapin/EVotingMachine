@@ -94,10 +94,11 @@ public class Environment {
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException;
 	  @ assignable inputCounter;
-	  @ ensures inputValues != null && 0 <= inputCounter && \result != null && \result.length == N
-	  @    && (\forall Object o;
-	  @            o != \result && (\forall int j; 0 <= j && j < N; o != \result[j]);
-	  @            !\fresh(o));
+	  @ ensures inputValues != null && 0 <= inputCounter && \result != null
+	  @ 	&& \result.length == N  && \fresh(\result)
+	  @ 	&& (\forall Object o;
+	  @ 			o != \result && (\forall int j; 0 <= j && j < N; o != \result[j]);
+	  @ 			!\fresh(o));
 	  @ signals (Exception e) inputValues != null && 0 <= inputCounter;
 	  @*/
 	public static /*@ helper nullable @*/ byte[][] untrustedInputMessages(int N)
@@ -105,7 +106,7 @@ public class Environment {
 		byte[][] output = new byte[N][];
 		/*@ loop_invariant 0 <= inputCounter && 0 <= N
 		  @           && 0 <= i && i <= N
-		  @           && inputValues != null && output != null
+		  @           && inputValues != null && output != null && \fresh(output)
 		  @           && (\forall Object o;
 		  @                   o != output && (\forall int j; 0 <= j && j < i; o != output[j]);
 		  @                   !\fresh(o));
@@ -123,7 +124,7 @@ public class Environment {
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException;
 	  @ assignable inputCounter;
 	  @ ensures inputValues != null && 0 <= inputCounter && \result.length == N
-	  @    && (\forall Object o; o != \result; !\fresh(o));
+	  @ 	 && \fresh(\result) && (\forall Object o; o != \result; !\fresh(o));
 	  @ signals (Exception e) inputValues != null && 0 <= inputCounter;
 	  @*/
 	public static /*@ helper @*/ int[] untrustedInputArray(int N)
@@ -131,7 +132,7 @@ public class Environment {
 		int[] output = new int[N];
 		/*@ loop_invariant 0 <= N && 0 <= inputCounter && output != null
 		  @ 			&& (\forall Object o; o != output; !\fresh(o))
-		  @ 			&& output.length == N;
+		  @ 			&& output.length == N && \fresh(output);
 		  @ assignable inputCounter, output[*];
 		  @ decreases N - i;
 		  @*/
