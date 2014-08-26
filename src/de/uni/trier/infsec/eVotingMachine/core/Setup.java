@@ -265,7 +265,8 @@ public final class Setup
 		  @ 			&& Environment.inputValues != null && 0 <= Environment.inputCounter
 		  @ 			&& (\forall int j; 0 <= j && j < vm.numberOfCandidates;
 		  @ 				vm.votesForCandidates[j] ==
-		  @ 					(\num_of int k; 0 <= k && k < voterNr; choices0[k] == j));
+		  @ 					(\num_of int k; 0 <= k && k < voterNr;
+		  @ 						j == (secret ? choices0[k] : choices1[k])));
 		  @ assignable Environment.inputCounter, Environment.result, vm.lastBallot,
 		  @ 			vm.voteCounter, vm.votesForCandidates[*];
 		  @ decreases N - i;
