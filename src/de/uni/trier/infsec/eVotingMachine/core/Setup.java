@@ -127,17 +127,18 @@ public final class Setup
 	  @ requires 0 < numberOfCandidates
 	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 	&& Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
-	  @ 	&& Params.DEFAULT_HOST_BBOARD != null && Params.RESULTS != null
+	  @ 	&& Params.DEFAULT_HOST_BBOARD != null && Params.RESULTS != null && Params.LOG != null
 	  @ 	&& vm.votesForCandidates != null && vm.numberOfCandidates == numberOfCandidates
 	  @ 	&& vm.votesForCandidates.length == numberOfCandidates
 	  @ 	&& vm.bb_encryptor != null && vm.signer != null && vm.entryLog != null
+	  @ 	&& bb.verifier != null && bb.entryLog != null
 	  @ 	&& (\forall int j; 0 <= j && j < vm.numberOfCandidates;
 	  @				vm.votesForCandidates[j] == 0);
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, Throwable,
 	  @ 			NetworkError, Error, InvalidCancelation, InvalidVote, NullPointerException;
 	  @ assignable correctResult, Environment.inputCounter, Environment.result,
-	  @ 			vm.voteCounter, vm.votesForCandidates[*];
+	  @ 			vm.voteCounter, vm.votesForCandidates[*], flag;
 	  @ ensures flag;
 	  @ signals (Throwable e) true;
 	  @*/
@@ -164,12 +165,15 @@ public final class Setup
 
 	/*@ private behaviour
 	  @ requires correctResult != null && 0 < correctResult.length
-	  @ 	&& vm.votesForCandidates != null
+	  @ 	&& vm.votesForCandidates != null && correctResult != vm.votesForCandidates
+	  @ 	&& correctResult != choices0 && correctResult != choices1
+	  @ 	&& vm.votesForCandidates != choices0 && vm.votesForCandidates != choices1
 	  @ 	&& vm.bb_encryptor != null && vm.signer != null && vm.entryLog != null
+	  @ 	&& bb.verifier != null && bb.entryLog != null
 	  @ 	&& vm.votesForCandidates.length == vm.numberOfCandidates
 	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 	&& Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
-	  @ 	&& Params.DEFAULT_HOST_BBOARD != null && Params.RESULTS != null
+	  @ 	&& Params.DEFAULT_HOST_BBOARD != null && Params.RESULTS != null && Params.LOG != null
 	  @ 	&& vm.votesForCandidates.length == correctResult.length
 	  @ 	&& choices0.length == numberOfVoters
 	  @ 	&& choices0.length == choices1.length
@@ -189,7 +193,7 @@ public final class Setup
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, NetworkError,
 	  @                    Error, InvalidCancelation, InvalidVote, NullPointerException;
 	  @ assignable Environment.inputCounter, Environment.result,
-	  @ 			vm.voteCounter, vm.votesForCandidates[*];
+	  @ 			vm.voteCounter, vm.votesForCandidates[*], flag;
 	  @ ensures flag;
 	  @ signals (Throwable e) true;
 	  @*/
@@ -209,11 +213,19 @@ public final class Setup
 	  @ requires correctResult != null && 0 < correctResult.length
 	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 	&& Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
-	  @ 	&& Params.DEFAULT_HOST_BBOARD != null && Params.RESULTS != null
+	  @ 	&& Params.DEFAULT_HOST_BBOARD != null && Params.RESULTS != null && Params.LOG != null
 	  @ 	&& vm.votesForCandidates != null && requests != null
 	  @ 	&& vm.bb_encryptor != null && vm.signer != null && vm.entryLog != null
-	  @ 	&& choices0.length == numberOfVoters
-	  @ 	&& choices0.length == choices1.length
+	  @ 	&& bb.verifier != null && bb.entryLog != null
+	  @ 	&& correctResult != vm.votesForCandidates
+	  @ 	&& correctResult != choices0 && correctResult != choices1
+	  @ 	&& vm.votesForCandidates != choices0 && vm.votesForCandidates != choices1
+	  @ 	&& actions != choices0 && actions != choices1 && actions != correctResult
+	  @ 	&& actions != vm.votesForCandidates && audit_choices != choices0
+	  @ 	&& audit_choices != choices1 && audit_choices != correctResult
+	  @ 	&& audit_choices != vm.votesForCandidates
+	  @ 	&& choices0.length == numberOfVoters && choices0.length == choices1.length
+	  @ 	&& actions.length == N && audit_choices.length == N && requests.length == N
 	  @ 	&& vm.votesForCandidates.length == vm.numberOfCandidates
 	  @ 	&& vm.votesForCandidates.length == correctResult.length
 	  @ 	&& (\forall int j; 0 <= j && j < vm.numberOfCandidates;
@@ -231,8 +243,8 @@ public final class Setup
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, NetworkError,
 	  @ 				Error, InvalidCancelation, InvalidVote, NullPointerException;
-	  @ assignable Environment.inputCounter, Environment.result,
-	  @ 			vm.voteCounter, vm.votesForCandidates[*];
+	  @ assignable Environment.inputCounter, Environment.result, vm.lastBallot,
+	  @ 			vm.voteCounter, vm.votesForCandidates[*], flag;
 	  @ ensures flag;
 	  @ signals (Throwable e) true;
 	  @*/
@@ -242,7 +254,7 @@ public final class Setup
 	                                             final int[] audit_choices, /*@ nullable @*/ byte[][] requests)
 	                throws InvalidVote, NetworkError, InvalidCancelation {
 		int voterNr = 0;
-		/*@ loop_invariant 0 <= i
+		/*@ loop_invariant 0 <= i && i <= N
 		  @ 			&& 0 <= voterNr && voterNr <= i && voterNr <= numberOfVoters
 		  @ 			&& correctResult != null && vm != null && vm.votesForCandidates != null
 		  @ 			&& vm.bb_encryptor != null && vm.signer != null && vm.entryLog != null
@@ -251,8 +263,8 @@ public final class Setup
 		  @ 			&& Environment.inputValues != null && 0 <= Environment.inputCounter
 		  @ 			&& (\forall int j; 0 <= j && j < vm.numberOfCandidates;
 		  @ 				vm.votesForCandidates[j] ==
-		  @ 					(\num_of int k; 0 <= k && k < voterNr; choices0[k] == choices0[j]));
-		  @ assignable Environment.inputCounter, Environment.result,
+		  @ 					(\num_of int k; 0 <= k && k < voterNr; choices0[k] == j));
+		  @ assignable Environment.inputCounter, Environment.result, vm.lastBallot,
 		  @ 			vm.voteCounter, vm.votesForCandidates[*];
 		  @ decreases N - i;
 		  @*/
@@ -278,13 +290,19 @@ public final class Setup
 				  @ requires vm != null && vm.votesForCandidates != null
 				  @ 	&& vm.bb_encryptor != null && vm.signer != null && vm.entryLog != null
 				  @ 	&& audit_choice != null
-				  @		&& correctResult.length == vm.votesForCandidates.length;
+				  @		&& correctResult.length == vm.votesForCandidates.length
+				  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter;
 				  @ diverges true;
-				  @ assignable Environment.inputCounter, Environment.result, vm.lastBallot;
+				  @ assignable Environment.inputCounter, Environment.result, vm.lastBallot,
+				  @ 		vm.voteCounter, vm.votesForCandidates[*];
 				  @ signals_only InvalidVote, ArrayIndexOutOfBoundsException, Error,
 				  @ 			 NetworkError, InvalidCancelation;
 				  @ ensures vm.lastBallot == null && vm.votesForCandidates != null
-				  @		&& correctResult.length == vm.votesForCandidates.length;
+				  @		&& correctResult.length == vm.votesForCandidates.length
+				  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
+				  @ 	&& (\forall int j; 0 <= j && j < vm.numberOfCandidates;
+				  @ 			vm.votesForCandidates[j] == \old(vm.votesForCandidates[j]))
+				  @ 	&& vm.voteCounter == \old(vm.voteCounter);
 				  @ signals (Throwable e) true;
 				  @*/
 				{

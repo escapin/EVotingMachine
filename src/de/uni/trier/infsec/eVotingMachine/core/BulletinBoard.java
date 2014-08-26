@@ -8,8 +8,8 @@ import static de.uni.trier.infsec.utils.MessageTools.second;
 
 public class BulletinBoard
 {
-	Verifier verifier;
-	EntryQueue entryLog;
+	/*@ spec_public @*/ Verifier verifier;
+	/*@ spec_public @*/ EntryQueue entryLog;
 
 
 	public BulletinBoard(Verifier verifier) throws NetworkError
@@ -23,10 +23,14 @@ public class BulletinBoard
 	 * if this is the case, adds it to the maintained list of messages.
 	 */
 	/*@ public behaviour
+	  @ requires entryLog != null && verifier != null;
+	  @ signals_only NetworkError;
+	  @ diverges true;
 	  @ ensures true;
+	  @ signals (NetworkError e) true;
 	  @*/
-	public /*@ strictly_pure @// to be proven with JOANA */ void onPost(byte[] request)
-	        throws NetworkError
+	public /*@ strictly_pure helper @// to be proven with JOANA */ void
+		onPost(/*@ nullable @*/byte[] request) throws NetworkError
 	{
 		byte[] message = first(request);
 		byte[] signature = second(request);
@@ -42,11 +46,13 @@ public class BulletinBoard
 	 * all the message in the maintained list of messages.
 	 */
 	/*@ public behaviour
-	  @ requires true;
+	  @ requires entryLog != null && verifier != null;
+	  @ signals_only NetworkError;
 	  @ diverges true;
 	  @ ensures true;
+	  @ signals (NetworkError e) true;
 	  @*/
-	public /*@ pure @*/ byte[] onRequestContent() throws NetworkError
+	public /*@ pure helper @*/ byte[] onRequestContent() throws NetworkError
 	{
 		return entryLog.getEntries();
 	}

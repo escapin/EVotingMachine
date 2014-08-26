@@ -70,11 +70,14 @@ public class VotingMachine
 	  @ ensures votesForCandidates.length == numberOfCandidates
 	  @ 	&& lastBallot != null
 	  @ 	&& Environment.inputValues != null
+	  @ 	&& voteCounter == \old(voteCounter) + 1
 	  @ 	&& 0 <= Environment.inputCounter
 	  @ 	&& 0 <= votersChoice && votersChoice < numberOfCandidates
 	  @ 	&& votersChoice == lastBallot.votersChoice
 	  @ 	&& 0 <= votersChoice && votersChoice < numberOfCandidates
-	  @ 	&& votesForCandidates[votersChoice] == \old(votesForCandidates[votersChoice]) + 1
+	  @ 	&& (votesForCandidates[votersChoice] == \old(votesForCandidates[votersChoice]) + 1)
+	  @ 	&& (\forall int i; 0 <= i && i < numberOfCandidates && i != votersChoice;
+	  @ 			votesForCandidates[i] == \old(votesForCandidates[i]))
 	  @ 	&& (\forall Object o; o != lastBallot; !\fresh(o));
 	  @ signals (InvalidVote e) (votersChoice < 0 || votersChoice >= numberOfCandidates)
 	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter;
@@ -164,7 +167,7 @@ public class VotingMachine
 	  @ signals (ArrayIndexOutOfBoundsException e)
 	  @            Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @*/
-	public void publishLog() throws NetworkError
+	public /*@ helper @*/ void publishLog() throws NetworkError
 	{
 		signAndPost(Params.LOG, entryLog.getEntries(), signer);
 	}

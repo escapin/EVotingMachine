@@ -122,15 +122,16 @@ public class Environment {
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException;
 	  @ assignable inputCounter;
-	  @ ensures inputValues != null && 0 <= inputCounter
+	  @ ensures inputValues != null && 0 <= inputCounter && \result.length == N
 	  @    && (\forall Object o; o != \result; !\fresh(o));
 	  @ signals (Exception e) inputValues != null && 0 <= inputCounter;
 	  @*/
 	public static /*@ helper @*/ int[] untrustedInputArray(int N)
 	{
 		int[] output = new int[N];
-		/*@ loop_invariant 0 <= N && 0 <= inputCounter
-		  @   && (\forall Object o; o != output; !\fresh(o));
+		/*@ loop_invariant 0 <= N && 0 <= inputCounter && output != null
+		  @ 			&& (\forall Object o; o != output; !\fresh(o))
+		  @ 			&& output.length == N;
 		  @ assignable inputCounter, output[*];
 		  @ decreases N - i;
 		  @*/
