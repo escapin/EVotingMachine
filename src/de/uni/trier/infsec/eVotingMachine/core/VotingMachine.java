@@ -115,6 +115,9 @@ public class VotingMachine
 	  @ 	&& \old(lastBallot) != null && lastBallot == null
 	  @ 	&& votesForCandidates[\old(lastBallot.votersChoice)]
 	  @ 		== \old(votesForCandidates[lastBallot.votersChoice]) - 1
+	  @ 	&& (\forall int i; 0 <= i && i < numberOfCandidates
+	  @ 						&& i != \old(lastBallot.votersChoice);
+	  @ 			votesForCandidates[i] == \old(votesForCandidates[i]))
 	  @     && (\forall Object o; !\fresh(o));
 	  @ signals (InvalidCancelation e) \old(lastBallot) == null && lastBallot == null;
 	  @*/
