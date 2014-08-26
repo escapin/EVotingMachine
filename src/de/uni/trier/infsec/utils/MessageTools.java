@@ -33,7 +33,10 @@ public class MessageTools {
      * first message at the beginning of the returned message).
      */
     /*@ public normal_behaviour
-      @ ensures (\forall Object o; o != \result; !\fresh(o) || ((byte[])o) != null );
+      @ ensures \typeof(\result) == \type(byte[])
+      @         && \result.length == m1.length + m2.length + 4
+      @         && \fresh(\result)
+      @         && (\forall Object o; \typeof(o) != \type(byte[]); !\fresh(o));
       @*/
     public static /*@ pure helper @*/ byte[] concatenate(byte[] m1, byte[] m2) {
         // Concatenated Message --> byte[0-3] = Integer, Length of Message 1
@@ -46,6 +49,7 @@ public class MessageTools {
         int j = 0;
         int i = 0;
         /*@ loop_invariant 0 <= i && len != null && out != null && m1 != null && m2 != null
+          @             && \typeof(out) == \type(byte[]) && \typeof(len) == \type(byte[])
           @             && 0 <= j && j <= len.length && j <= out.length
           @             && len.length == 4 && out.length == m1.length + m2.length + 4
           @             && j == i && (\forall Object o; o != out && o != len; !\fresh(o));
@@ -54,6 +58,7 @@ public class MessageTools {
           @*/
         for( i=0; i<len.length; ++i ) out[j++] = len[i];
         /*@ loop_invariant 0 <= i && m1 != null && out != null && m1 != null && m2 != null
+          @             && \typeof(out) == \type(byte[]) && \typeof(len) == \type(byte[])
           @             && 4 <= j && j <= m1.length + 4 && j <= out.length
           @             && out.length == m1.length + m2.length + 4
           @             && j == i + 4 && (\forall Object o; o != out && o != len; !\fresh(o));
@@ -62,6 +67,7 @@ public class MessageTools {
           @*/
         for( i=0; i<m1.length;  ++i ) out[j++] = m1[i];
         /*@ loop_invariant 0 <= i && m2 != null && out != null && m1 != null && m2 != null
+          @             && \typeof(out) == \type(byte[]) && \typeof(len) == \type(byte[])
           @             && m1.length + 4 <= j && j <= m2.length + m1.length + 4 && j <= out.length
           @             && out.length == m1.length + m2.length + 4
           @             && j == i + m1.length + 4 && (\forall Object o; o != out && o != len; !\fresh(o));
@@ -124,7 +130,8 @@ public class MessageTools {
 
 
     /*@ public normal_behaviour
-      @ ensures (\forall Object o; o != \result; !\fresh(o)) && \result.length == 4;
+      @ ensures \result.length == 4 && \fresh(\result) && \typeof(\result) == \type(byte[])
+      @         && (\forall Object o; o != \result; !\fresh(o));
       @*/
     public static final /*@ pure helper @*/ byte[] intToByteArray(int value) {
         return new byte[] {

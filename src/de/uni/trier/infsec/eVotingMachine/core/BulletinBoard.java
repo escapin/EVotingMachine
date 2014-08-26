@@ -21,7 +21,8 @@ public class BulletinBoard
 	/*
 	 * Reads a message, checks if it comes from the voting machine, and, 
 	 * if this is the case, adds it to the maintained list of messages.
-	 *@ public behaviour
+	 */
+	/*@ public behaviour
 	  @ ensures true;
 	  @*/
 	public /*@ strictly_pure @// to be proven with JOANA */ void onPost(byte[] request)
@@ -39,10 +40,11 @@ public class BulletinBoard
 	/*
 	 * Output its content, that is the concatenation of
 	 * all the message in the maintained list of messages.
-	 *@ public behaviour
-	  @ requires (\forall EntryQueue.Node n; n.entry != null);
+	 */
+	/*@ public behaviour
+	  @ requires true;
 	  @ diverges true;
-	  @ ensures (\forall EntryQueue.Node n; n.entry != null);
+	  @ ensures true;
 	  @*/
 	public /*@ pure @*/ byte[] onRequestContent() throws NetworkError
 	{

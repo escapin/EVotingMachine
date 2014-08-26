@@ -18,6 +18,9 @@ public class EntryQueue {
 
     private /*@ spec_public nullable @*/ Node head, last = null;
 
+    //@ axiom (\forall Node n; n.entry != null);
+    //FIXME: Justified by what?
+
     public void add(byte[] entry)
     {
         Node newEntry=new Node(entry);
@@ -30,18 +33,16 @@ public class EntryQueue {
     }
 
     /*@ public normal_behaviour
-      @ requires (\forall Node n; n.entry != null);
+      @ requires true;
       @ diverges true;
-      @ ensures (\forall Node n; n.entry != null);
+      @ ensures true;
       @*/
     public /*@ pure helper @*/ byte[] getEntries()
     {
         if(head==null)
             return new byte[]{};
         byte[] entries=head.entry;
-        /*@ loop_invariant head != null && entries != null
-          @ 			&& (n != null ==> !\fresh(n))
-          @ 			&& (\forall Node n; n.entry != null);
+        /*@ loop_invariant head != null && entries != null;
           @ assignable entries;
           @*/
         for(Node n=head.next; n!=null; n=n.next)

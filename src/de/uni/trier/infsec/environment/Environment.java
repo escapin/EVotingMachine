@@ -65,7 +65,8 @@ public class Environment {
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException;
 	  @ assignable inputCounter;
-	  @ ensures inputValues != null && 0 <= inputCounter;
+	  @ ensures inputValues != null && 0 <= inputCounter
+	  @    && (\forall Object o; o != \result; !\fresh(o));
 	  @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
 	  @*/
 	public static /*@ helper nullable @*/ byte[] untrustedInputMessage()
@@ -75,14 +76,16 @@ public class Environment {
 		if (llen<0 || len!=llen) // check whether casting to int has changed its value
 			return null;
 		byte[] returnval = new byte[len];
-		/*@ loop_invariant 0 <= inputCounter && 0 <= len;
+		/*@ loop_invariant 0 <= inputCounter && 0 <= len
+		  @           && inputValues != null
+		  @           && (\forall Object o; o != returnval; !\fresh(o));
 		  @ assignable inputCounter, returnval[*];
 		  @ decreases len - i;
 		  @*/
 		for (int i = 0; i < len; i++) {
 			returnval[i] = (byte) Environment.untrustedInput();
 		}
-		return returnval;    
+		return returnval;
 	}
 
 	/*@ public behaviour
@@ -91,14 +94,21 @@ public class Environment {
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException;
 	  @ assignable inputCounter;
 	  @ ensures inputValues != null && 0 <= inputCounter
-	  @    && (\forall Object o; o != \result; !\fresh(o));
+	  @    && (\result != null ==> \result.length == N)
+	  @    && (\forall Object o;
+	  @            o != \result && (\forall int j; 0 <= j && j < N; o != \result[j]);
+	  @            !\fresh(o));
 	  @ signals (Exception e) inputValues != null && 0 <= inputCounter;
 	  @*/
 	public static /*@ helper nullable @*/ byte[][] untrustedInputMessages(int N)
 	{
 		byte[][] output = new byte[N][];
 		/*@ loop_invariant 0 <= inputCounter && 0 <= N
-		  @           && (\forall Object o; o != output; !\fresh(o));
+		  @           && 0 <= i && i <= N
+		  @           && inputValues != null
+		  @           && (\forall Object o;
+		  @                   o != output && (\forall int j; 0 <= j && j < i; o != output[j]);
+		  @                   !\fresh(o));
 		  @ assignable inputCounter, output[*];
 		  @ decreases N - i;
 		  @*/

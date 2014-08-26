@@ -129,8 +129,7 @@ public final class Setup
 	  @             && Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @             && Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
 	  @             && Params.DEFAULT_HOST_BBOARD != null
-	  @ 			&& vm.votesForCandidates != null
-	  @             && (\forall EntryQueue.Node n; n.entry != null);
+	  @ 			&& vm.votesForCandidates != null;
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, Throwable,
 	  @                    NetworkError, Error, InvalidCancelation, InvalidVote;
@@ -177,8 +176,7 @@ public final class Setup
 	  @                            (\num_of int k; 0 <= k && k < numberOfVoters; choices1[k] == j))
 	  @ 		&& Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
 	  @ 		&& Params.DEFAULT_HOST_BBOARD != null
-	  @ 		&& vm.votesForCandidates != null
-	  @ 		&& (\forall EntryQueue.Node n; n.entry != null);
+	  @ 		&& vm.votesForCandidates != null;
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, NetworkError,
 	  @                    Error, InvalidCancelation, InvalidVote;
@@ -216,8 +214,7 @@ public final class Setup
 	  @ 					(\num_of int k; 0 <= k && k < numberOfVoters; choices1[k] == j))
 	  @ 		&& Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
 	  @ 		&& Params.DEFAULT_HOST_BBOARD != null
-	  @ 		&& vm.votesForCandidates != null
-	  @ 		&& (\forall EntryQueue.Node n; n.entry != null);
+	  @ 		&& vm.votesForCandidates != null;
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, NetworkError,
 	  @ 				Error, InvalidCancelation, InvalidVote;
@@ -237,8 +234,7 @@ public final class Setup
 		  @ 			&& voterNr <= numberOfVoters
 		  @ 			&& (\forall int j; 0 <= j && j < voterNr;
 		  @ 				vm.votesForCandidates[j] ==
-		  @ 					(\num_of int k; 0 <= k && k < j; choices0[k] == choices0[j]))
-		  @ 			&& (\forall EntryQueue.Node n; !\fresh(n); n.entry != null);
+		  @ 					(\num_of int k; 0 <= k && k < j; choices0[k] == choices0[j]));
 		  @ assignable Environment.inputCounter, Environment.result,
 		  @ 			vm.voteCounter, vm.votesForCandidates[*];
 		  @ decreases N - i;
