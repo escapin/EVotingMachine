@@ -21,29 +21,28 @@ public final class Setup
 
 	/*@ private behaviour
 	  @ requires 0 < numberOfCandidates
-	  @            && Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException;
 	  @ assignable Environment.inputCounter;
 	  @ ensures 0 <= numberOfVoters && \result.length == numberOfVoters
-	  @            && Environment.inputValues != null && 0 <= Environment.inputCounter
-	  @            && (\forall int j; 0 <= j && j < numberOfVoters;
+	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
+	  @ 	&& (\forall int j; 0 <= j && j < numberOfVoters;
 	  @ 			0 <= \result[j] && \result[j] < numberOfCandidates)
-	  @            && (\forall Object o; o != \result; !\fresh(o));
+	  @ 	&& (\forall Object o; o != \result; !\fresh(o));
 	  @ signals (Exception e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @*/
 	private static /*@ helper @*/ int[] createChoices(int numberOfVoters,
 	                                                  int numberOfCandidates) {
 		final int[] choices = new int[numberOfVoters];
 		/*@ loop_invariant 0 <= i && i <= numberOfVoters && choices != null
-		  @ 			&& choices.length == numberOfVoters
-		  @ 			&& Environment.inputValues != null
-		  @ 			&& 0 <= numberOfVoters
-		  @ 			&& 0 < numberOfCandidates
-		  @ 			&& 0 <= Environment.inputCounter
-		  @ 			&& (\forall int j; 0 <= j && j < i;
-		  @ 					0 <= choices[j] && choices[j] < numberOfCandidates)
-		  @                     && (\forall Object o; o != choices; !\fresh(o));
+		  @ 		&& choices.length == numberOfVoters
+		  @ 		&& Environment.inputValues != null
+		  @ 		&& 0 <= numberOfVoters && 0 < numberOfCandidates
+		  @ 		&& 0 <= Environment.inputCounter
+		  @ 		&& (\forall int j; 0 <= j && j < i;
+		  @ 				0 <= choices[j] && choices[j] < numberOfCandidates)
+		  @ 		&& (\forall Object o; o != choices; !\fresh(o));
 		  @ assignable Environment.inputCounter, choices[*];
 		  @ decreases numberOfVoters - i;
 		  @*/
@@ -55,12 +54,12 @@ public final class Setup
 
 	/*@ private normal_behaviour
 	  @ requires 0 < numberOfCandidates
-	  @ 		&& (\forall int j; 0 <= j && j < choices.length;
+	  @ 	&& (\forall int j; 0 <= j && j < choices.length;
 	  @ 			0 <= choices[j] && choices[j] < numberOfCandidates);
 	  @ ensures \result.length == numberOfCandidates
-	  @            && (\forall int j; 0 <= j && j < numberOfCandidates;
-	  @                    \result[j] == (\num_of int k; 0 <= k && k < choices.length; choices[k] == j))
-	  @            && (\forall Object o; o != \result; !\fresh(o));
+	  @ 	&& (\forall int j; 0 <= j && j < numberOfCandidates;
+	  @ 			\result[j] == (\num_of int k; 0 <= k && k < choices.length; choices[k] == j))
+	  @ 	&& (\forall Object o; o != \result; !\fresh(o));
 	  @*/
 	private static /*@ pure helper @*/ int[] computeResult (int[] choices,
 	                                                        int numberOfCandidates) {
@@ -68,10 +67,10 @@ public final class Setup
 		/*@ loop_invariant 0 <= i && i <= choices.length && res.length == numberOfCandidates
 		  @ 			&& (\forall int j; 0 <= j && j < i;
 		  @ 				0 <= choices[j] && choices[j] < numberOfCandidates)
-		  @                   && (\forall int j; 0 <= j && j < numberOfCandidates;
-		  @                             res[j] ==
-		  @                     (\num_of int k; 0 <= k && k < i; choices[k] == j))
-		  @                   && (\forall Object o; o != res; !\fresh(o));
+		  @ 			&& (\forall int j; 0 <= j && j < numberOfCandidates;
+		  @ 					res[j] ==
+		  @ 						(\num_of int k; 0 <= k && k < i; choices[k] == j))
+		  @ 			&& (\forall Object o; o != res; !\fresh(o));
 		  @ assignable res[*];
 		  @ decreases choices.length - i;
 		  @*/
@@ -124,15 +123,19 @@ public final class Setup
 
 	}
 
-	/*@ behaviour
+	/*@ private behaviour
 	  @ requires 0 < numberOfCandidates
-	  @             && Environment.inputValues != null && 0 <= Environment.inputCounter
-	  @             && Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
-	  @             && Params.DEFAULT_HOST_BBOARD != null && Params.RESULTS != null
-	  @ 			&& vm.votesForCandidates != null && \invariant_for(vm);
+	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
+	  @ 	&& Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
+	  @ 	&& Params.DEFAULT_HOST_BBOARD != null && Params.RESULTS != null
+	  @ 	&& vm.votesForCandidates != null && vm.numberOfCandidates == numberOfCandidates
+	  @ 	&& vm.votesForCandidates.length == numberOfCandidates
+	  @ 	&& vm.bb_encryptor != null && vm.signer != null && vm.entryLog != null
+	  @ 	&& (\forall int j; 0 <= j && j < vm.numberOfCandidates;
+	  @				vm.votesForCandidates[j] == 0);
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, Throwable,
-	  @                    NetworkError, Error, InvalidCancelation, InvalidVote, NullPointerException;
+	  @ 			NetworkError, Error, InvalidCancelation, InvalidVote, NullPointerException;
 	  @ assignable correctResult, Environment.inputCounter, Environment.result,
 	  @ 			vm.voteCounter, vm.votesForCandidates[*];
 	  @ ensures flag;
@@ -161,22 +164,27 @@ public final class Setup
 
 	/*@ private behaviour
 	  @ requires correctResult != null && 0 < correctResult.length
-	  @ 		&& Environment.inputValues != null && 0 <= Environment.inputCounter
-	  @ 		&& choices0.length == numberOfVoters
-	  @ 		&& choices0.length == choices1.length
-	  @ 		&& (\forall int j; 0 <= j && j < numberOfVoters;
-	  @ 			0 <= choices0[j] && choices0[j] < correctResult.length)
-	  @ 		&& (\forall int j; 0 <= j && j < numberOfVoters;
-	  @ 			0 <= choices1[j] && choices1[j] < correctResult.length)
-	  @             && (\forall int j; 0 <= j && j < correctResult.length;
-	  @                    correctResult[j] ==
-	  @                            (\num_of int k; 0 <= k && k < numberOfVoters; choices0[k] == j))
-	  @             && (\forall int j; 0 <= j && j < correctResult.length;
-	  @                    correctResult[j] ==
-	  @                            (\num_of int k; 0 <= k && k < numberOfVoters; choices1[k] == j))
-	  @ 		&& Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
-	  @ 		&& Params.DEFAULT_HOST_BBOARD != null && Params.RESULTS != null
-	  @ 		&& vm.votesForCandidates != null && \invariant_for(vm);
+	  @ 	&& vm.votesForCandidates != null
+	  @ 	&& vm.bb_encryptor != null && vm.signer != null && vm.entryLog != null
+	  @ 	&& vm.votesForCandidates.length == vm.numberOfCandidates
+	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
+	  @ 	&& Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
+	  @ 	&& Params.DEFAULT_HOST_BBOARD != null && Params.RESULTS != null
+	  @ 	&& vm.votesForCandidates.length == correctResult.length
+	  @ 	&& choices0.length == numberOfVoters
+	  @ 	&& choices0.length == choices1.length
+	  @ 	&& (\forall int j; 0 <= j && j < vm.numberOfCandidates;
+	  @				vm.votesForCandidates[j] == 0)
+	  @ 	&& (\forall int j; 0 <= j && j < numberOfVoters;
+	  @ 		0 <= choices0[j] && choices0[j] < correctResult.length)
+	  @ 	&& (\forall int j; 0 <= j && j < numberOfVoters;
+	  @ 		0 <= choices1[j] && choices1[j] < correctResult.length)
+	  @ 	&& (\forall int j; 0 <= j && j < correctResult.length;
+	  @ 			correctResult[j] ==
+	  @ 				(\num_of int k; 0 <= k && k < numberOfVoters; choices0[k] == j))
+	  @ 	&& (\forall int j; 0 <= j && j < correctResult.length;
+	  @ 			correctResult[j] ==
+	  @ 				(\num_of int k; 0 <= k && k < numberOfVoters; choices1[k] == j));
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, NetworkError,
 	  @                    Error, InvalidCancelation, InvalidVote, NullPointerException;
@@ -199,22 +207,27 @@ public final class Setup
 
 	/*@ private behaviour
 	  @ requires correctResult != null && 0 < correctResult.length
-	  @ 		&& Environment.inputValues != null && 0 <= Environment.inputCounter
-	  @ 		&& choices0.length == numberOfVoters
-	  @ 		&& choices0.length == choices1.length
-	  @ 		&& (\forall int j; 0 <= j && j < numberOfVoters;
-	  @ 				0 <= choices0[j] && choices0[j] < correctResult.length)
-	  @ 		&& (\forall int j; 0 <= j && j < numberOfVoters;
-	  @ 				0 <= choices1[j] && choices1[j] < correctResult.length)
-	  @ 		&& (\forall int j; 0 <= j && j < correctResult.length;
-	  @ 				correctResult[j] ==
-	  @ 					(\num_of int k; 0 <= k && k < numberOfVoters; choices0[k] == j))
-	  @ 		&& (\forall int j; 0 <= j && j < correctResult.length;
-	  @ 				correctResult[j] ==
-	  @ 					(\num_of int k; 0 <= k && k < numberOfVoters; choices1[k] == j))
-	  @ 		&& Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
-	  @ 		&& Params.DEFAULT_HOST_BBOARD != null && Params.RESULTS != null && \invariant_for(vm)
-	  @ 		&& vm.votesForCandidates != null && requests != null;
+	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
+	  @ 	&& Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
+	  @ 	&& Params.DEFAULT_HOST_BBOARD != null && Params.RESULTS != null
+	  @ 	&& vm.votesForCandidates != null && requests != null
+	  @ 	&& vm.bb_encryptor != null && vm.signer != null && vm.entryLog != null
+	  @ 	&& choices0.length == numberOfVoters
+	  @ 	&& choices0.length == choices1.length
+	  @ 	&& vm.votesForCandidates.length == vm.numberOfCandidates
+	  @ 	&& vm.votesForCandidates.length == correctResult.length
+	  @ 	&& (\forall int j; 0 <= j && j < vm.numberOfCandidates;
+	  @				vm.votesForCandidates[j] == 0)
+	  @ 	&& (\forall int j; 0 <= j && j < numberOfVoters;
+	  @ 			0 <= choices0[j] && choices0[j] < correctResult.length)
+	  @ 	&& (\forall int j; 0 <= j && j < numberOfVoters;
+	  @ 			0 <= choices1[j] && choices1[j] < correctResult.length)
+	  @ 	&& (\forall int j; 0 <= j && j < correctResult.length;
+	  @ 			correctResult[j] ==
+	  @ 				(\num_of int k; 0 <= k && k < numberOfVoters; choices0[k] == j))
+	  @ 	&& (\forall int j; 0 <= j && j < correctResult.length;
+	  @ 			correctResult[j] ==
+	  @ 				(\num_of int k; 0 <= k && k < numberOfVoters; choices1[k] == j));
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, NetworkError,
 	  @ 				Error, InvalidCancelation, InvalidVote, NullPointerException;
@@ -226,19 +239,19 @@ public final class Setup
 	private static /*@ helper @*/ void innerMain(VotingMachine vm, BulletinBoard bb,
 	                                             int numberOfVoters, boolean secret, int[] choices0,
 	                                             int[] choices1, final int N, final int[] actions,
-	                                             final int[] audit_choices, /*@ nullable @*/byte[][] requests)
+	                                             final int[] audit_choices, /*@ nullable @*/ byte[][] requests)
 	                throws InvalidVote, NetworkError, InvalidCancelation {
 		int voterNr = 0;
 		/*@ loop_invariant 0 <= i
 		  @ 			&& 0 <= voterNr && voterNr <= i && voterNr <= numberOfVoters
-		  @                     && correctResult != null && vm != null && \invariant_for(vm)
-		  @                     && correctResult.length <= vm.votesForCandidates.length
-		  @                     && Environment.inputValues != null && 0 <= Environment.inputCounter
-		  @ 			&& (\forall int j; 0 <= j && j < voterNr;
+		  @ 			&& correctResult != null && vm != null && vm.votesForCandidates != null
+		  @ 			&& vm.bb_encryptor != null && vm.signer != null && vm.entryLog != null
+		  @ 			&& vm.numberOfCandidates == vm.votesForCandidates.length
+		  @ 			&& correctResult.length == vm.votesForCandidates.length
+		  @ 			&& Environment.inputValues != null && 0 <= Environment.inputCounter
+		  @ 			&& (\forall int j; 0 <= j && j < vm.numberOfCandidates;
 		  @ 				vm.votesForCandidates[j] ==
-		  @ 					(\num_of int k; 0 <= k && k < j; choices0[k] == choices0[j]))
-		  @                     && (\forall int j; 0 <= j && j < correctResult.length;
-		  @                           vm.votesForCandidates[j] == correctResult[j]);
+		  @ 					(\num_of int k; 0 <= k && k < voterNr; choices0[k] == choices0[j]));
 		  @ assignable Environment.inputCounter, Environment.result,
 		  @ 			vm.voteCounter, vm.votesForCandidates[*];
 		  @ decreases N - i;
@@ -262,12 +275,16 @@ public final class Setup
 			case 2: // audit (this step altogether should not change the result)
 				int audit_choice = audit_choices[i];
 				/*@ private behaviour
-				  @ requires vm != null && \invariant_for(vm);
+				  @ requires vm != null && vm.votesForCandidates != null
+				  @ 	&& vm.bb_encryptor != null && vm.signer != null && vm.entryLog != null
+				  @ 	&& audit_choice != null
+				  @		&& correctResult.length == vm.votesForCandidates.length;
 				  @ diverges true;
 				  @ assignable Environment.inputCounter, Environment.result, vm.lastBallot;
 				  @ signals_only InvalidVote, ArrayIndexOutOfBoundsException, Error,
 				  @ 			 NetworkError, InvalidCancelation;
-				  @ ensures vm.lastBallot == null && \invariant_for(vm);
+				  @ ensures vm.lastBallot == null && vm.votesForCandidates != null
+				  @		&& correctResult.length == vm.votesForCandidates.length;
 				  @ signals (Throwable e) true;
 				  @*/
 				{

@@ -28,8 +28,8 @@ public class VotingMachine
 
 	
 	// CRYPTOGRAPHIC FUNCTIONALITIES
-	private final Encryptor bb_encryptor;
-	private final Signer signer;
+	private final /*@ spec_public @*/ Encryptor bb_encryptor;
+	private final /*@ spec_public @*/ Signer signer;
 
 	private /*@ spec_public @*/ int numberOfCandidates;
 	private /*@ spec_public @*/ int[] votesForCandidates;
@@ -55,27 +55,31 @@ public class VotingMachine
 
 	// ensures \only_assigned(votesForCandidates[*], lastBallot); // TODO implement
 	/*@ public behaviour
-	  @ requires \invariant_for(this) && Params.VOTE != null && Params.MACHINE_ENTRY != null
-	  @ 		&& Params.DEFAULT_HOST_BBOARD != null
-	  @ 		&& Environment.inputValues != null
-	  @ 		&& 0 <= Environment.inputCounter;
+	  @ requires votesForCandidates != null
+	  @ 	&& votesForCandidates.length == numberOfCandidates
+	  @ 	&& Params.VOTE != null && Params.MACHINE_ENTRY != null
+	  @ 	&& Params.DEFAULT_HOST_BBOARD != null
+	  @ 	&& Environment.inputValues != null
+	  @ 	&& bb_encryptor != null && signer != null && entryLog != null
+	  @ 	&& 0 <= Environment.inputCounter
+	  @ 	&& votesForCandidates.length == numberOfCandidates;
 	  @ diverges true;
 	  @ assignable Environment.inputCounter, votesForCandidates[*],
 	  @ 			lastBallot, voteCounter;
 	  @ signals_only InvalidVote, ArrayIndexOutOfBoundsException;
-	  @ ensures \invariant_for(this) && lastBallot != null
-	  @ 		&& Environment.inputValues != null
-	  @ 		&& 0 <= Environment.inputCounter
-	  @ 		&& 0 <= votersChoice && votersChoice < numberOfCandidates
-	  @ 		&& votersChoice == lastBallot.votersChoice
-	  @ 		&& 0 <= votersChoice && votersChoice < numberOfCandidates
-	  @ 		&& votesForCandidates[votersChoice] == \old(votesForCandidates[votersChoice]) + 1
-	  @ 		&& (\forall Object o; o != lastBallot; !\fresh(o));
+	  @ ensures votesForCandidates.length == numberOfCandidates
+	  @ 	&& lastBallot != null
+	  @ 	&& Environment.inputValues != null
+	  @ 	&& 0 <= Environment.inputCounter
+	  @ 	&& 0 <= votersChoice && votersChoice < numberOfCandidates
+	  @ 	&& votersChoice == lastBallot.votersChoice
+	  @ 	&& 0 <= votersChoice && votersChoice < numberOfCandidates
+	  @ 	&& votesForCandidates[votersChoice] == \old(votesForCandidates[votersChoice]) + 1
+	  @ 	&& (\forall Object o; o != lastBallot; !\fresh(o));
 	  @ signals (InvalidVote e) (votersChoice < 0 || votersChoice >= numberOfCandidates)
-	  @ 		&& Environment.inputValues != null
-	  @ 		&& 0 <= Environment.inputCounter;
+	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (ArrayIndexOutOfBoundsException e) Environment.inputValues != null
-	  @ 		&& 0 <= Environment.inputCounter;
+	  @ 										&& 0 <= Environment.inputCounter;
 	  @*/
 	public /*@ helper @*/ int collectBallot(int votersChoice) throws InvalidVote
 	{
@@ -97,19 +101,21 @@ public class VotingMachine
 	/*@ public behaviour
 	  @ requires Params.CANCEL != null && Params.MACHINE_ENTRY != null
 	  @ 	&& Params.DEFAULT_HOST_BBOARD != null && votesForCandidates != null
+	  @ 	&& bb_encryptor != null && signer != null && entryLog != null
 	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 	&& votesForCandidates.length == numberOfCandidates
 	  @ 	&& (lastBallot != null ==>
 	  @ 		(0 <= lastBallot.votersChoice && lastBallot.votersChoice < numberOfCandidates));
 	  @ diverges true;
 	  @ assignable votesForCandidates[*], lastBallot;
-	  @ ensures \invariant_for(this) && \old(lastBallot) != null && lastBallot == null
+	  @ ensures votesForCandidates.length == numberOfCandidates
+	  @ 	&& \old(lastBallot) != null && lastBallot == null
 	  @ 	&& votesForCandidates[\old(lastBallot.votersChoice)]
 	  @ 		== \old(votesForCandidates[lastBallot.votersChoice]) - 1
 	  @     && (\forall Object o; !\fresh(o));
 	  @ signals (InvalidCancelation e) \old(lastBallot) == null && lastBallot == null;
 	  @*/
-	public void cancelLastBallot() throws InvalidCancelation
+	public /*@ helper @*/ void cancelLastBallot() throws InvalidCancelation
 	{
 		if(lastBallot==null)
 			throw new InvalidCancelation();
@@ -120,33 +126,39 @@ public class VotingMachine
 
 	/*@ public behaviour
 	  @ requires Params.RESULTS != null && Params.DEFAULT_HOST_BBOARD != null
-	  @            && Setup.correctResult != null
-	  @            && Environment.inputValues != null && 0 <= Environment.inputCounter
-	  @            && numberOfCandidates <= Setup.correctResult.length
-	  @            && numberOfCandidates <= votesForCandidates.length
-	  @            && (\forall int j; 0 <= j && j < numberOfCandidates;
-	  @                     votesForCandidates[j] == Setup.correctResult[j]);
+	  @ 	&& Setup.correctResult != null && votesForCandidates != null
+	  @ 	&& bb_encryptor != null && signer != null && entryLog != null
+	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
+	  @ 	&& numberOfCandidates == Setup.correctResult.length
+	  @ 	&& votesForCandidates.length == numberOfCandidates
+	  @ 	&& (\forall int j; 0 <= j && j < numberOfCandidates;
+	  @ 			votesForCandidates[j] == Setup.correctResult[j]);
 	  @ assignable Environment.inputCounter, Environment.result;
 	  @ diverges true;
 	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException, Error;
-	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter
+	  @ 	&& votesForCandidates.length == numberOfCandidates;
 	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (ArrayIndexOutOfBoundsException e)
 	  @            Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @*/
-	public void publishResult() throws NetworkError
+	public /*@ helper @*/ void publishResult() throws NetworkError
 	{
 		signAndPost(Params.RESULTS, getResult(), signer);
 	}
 
 	/*@ public behaviour
 	  @ requires Params.LOG != null && Params.DEFAULT_HOST_BBOARD != null
-	  @            && Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ 	&& votesForCandidates != null && bb_encryptor != null
+	  @ 	&& signer != null && entryLog != null
+	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
+	  @ 	&& votesForCandidates.length == numberOfCandidates;
 	  @ assignable Environment.inputCounter, Environment.result;
 	  @ diverges true;
 	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException, Error;
-	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter
+	  @ 	&& votesForCandidates.length == numberOfCandidates;
 	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (ArrayIndexOutOfBoundsException e)
@@ -162,10 +174,13 @@ public class VotingMachine
 
 	/*@ private normal_behaviour
 	  @ requires Params.MACHINE_ENTRY != null && Params.DEFAULT_HOST_BBOARD != null
-	  @            && Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ 	&& bb_encryptor != null && signer != null && entryLog != null
+	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
+	  @ 	&& votesForCandidates != null
+	  @ 	&& votesForCandidates.length == numberOfCandidates;
 	  @ ensures true;
 	  @*/
-	private /*@ strictly_pure @// to be proven with JOANA */ void logAndSendNewEntry(byte[] tag) {
+	private /*@ strictly_pure helper @// to be proven with JOANA */ void logAndSendNewEntry(byte[] tag) {
 		// create a new (encrypted) log entry:
 		byte[] entry = createEncryptedEntry(++operationCounter, tag, lastBallot, bb_encryptor, signer);	
 		// add it to the log:
@@ -206,7 +221,7 @@ public class VotingMachine
 	 */
 	/*@ private behaviour
 	  @ requires Params.DEFAULT_HOST_BBOARD != null
-	  @            && Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ assignable Environment.inputCounter, Environment.result;
 	  @ diverges true;
 	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException, Error;
@@ -230,24 +245,26 @@ public class VotingMachine
 
 	/*@ private behaviour
 	  @ requires Setup.correctResult != null
-	  @ 		&& numberOfCandidates <= Setup.correctResult.length
-	  @ 		&& numberOfCandidates <= votesForCandidates.length
-	  @ 		&& (\forall int j; 0 <= j && j < numberOfCandidates;
-	  @ 				votesForCandidates[j] == Setup.correctResult[j]);
+	  @ 	&& votesForCandidates != null
+	  @ 	&& bb_encryptor != null && signer != null && entryLog != null
+	  @ 	&& numberOfCandidates == Setup.correctResult.length
+	  @ 	&& numberOfCandidates == votesForCandidates.length
+	  @ 	&& (\forall int j; 0 <= j && j < numberOfCandidates;
+	  @ 			votesForCandidates[j] == Setup.correctResult[j]);
 	  @ diverges numberOfCandidates < 0;
 	  @ signals_only NegativeArraySizeException;
 	  @ signals (NegativeArraySizeException e) numberOfCandidates < 0;
 	  @*/
-	private /*@ pure @*/ byte[] getResult() {
+	private /*@ pure helper @*/ byte[] getResult() {
 
 		int[] _result = new int[numberOfCandidates];
 		/*@ loop_invariant 0 <= i && i <= votesForCandidates.length
-		  @                   && 0 <= numberOfCandidates
-		  @                   && _result != null
-		  @                   && _result.length == numberOfCandidates
-		  @                   && i <= Setup.correctResult.length
-		  @                   && i <= _result.length
-		  @                   && i <= numberOfCandidates;
+		  @ 			&& 0 <= numberOfCandidates
+		  @ 			&& _result != null
+		  @ 			&& _result.length == numberOfCandidates
+		  @ 			&& i <= Setup.correctResult.length
+		  @ 			&& i <= _result.length
+		  @ 			&& i <= numberOfCandidates;
 		  @ assignable _result[*];
 		  @ decreases numberOfCandidates -i;
 		  @*/
@@ -269,7 +286,7 @@ public class VotingMachine
 	/*@ private normal_behaviour
 	  @ requires true;
 	  @*/
-	private static /*@ strictly_pure @// not provable */ byte[] formatResult(int[] _result) {
+	private static /*@ strictly_pure helper @// not provable */ byte[] formatResult(int[] _result) {
 		String s = "Result of the election:\n";
 		for( int i=0; i<_result.length; ++i ) {
 			s += "  Number of votes for candidate " + i + ": " + _result[i] + "\n";
