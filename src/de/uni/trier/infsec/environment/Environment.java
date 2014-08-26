@@ -27,13 +27,14 @@ public class Environment {
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException;
 	  @ assignable inputCounter;
-	  @ ensures inputValues != null && 0 <= inputCounter && 0 <= \result && \result < n;
+	  @ ensures inputValues != null && 0 <= inputCounter && 0 <= \result && \result < n
+	  @             && (\forall Object o; !\fresh(o));
 	  @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
 	  @*/
 	public static /*@ helper @*/ int untrustedInput(int n)
 	{
 		int res = -1;
-		/*@ loop_invariant 0 <= inputCounter;
+		/*@ loop_invariant 0 <= inputCounter && (\forall Object o; !\fresh(o));
 		  @ assignable inputCounter;
 		  @ decreases (res < 0 || res >= n) ? 1 : 0;
 		  @*/
@@ -93,8 +94,7 @@ public class Environment {
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException;
 	  @ assignable inputCounter;
-	  @ ensures inputValues != null && 0 <= inputCounter
-	  @    && (\result != null ==> \result.length == N)
+	  @ ensures inputValues != null && 0 <= inputCounter && \result != null && \result.length == N
 	  @    && (\forall Object o;
 	  @            o != \result && (\forall int j; 0 <= j && j < N; o != \result[j]);
 	  @            !\fresh(o));
@@ -105,7 +105,7 @@ public class Environment {
 		byte[][] output = new byte[N][];
 		/*@ loop_invariant 0 <= inputCounter && 0 <= N
 		  @           && 0 <= i && i <= N
-		  @           && inputValues != null
+		  @           && inputValues != null && output != null
 		  @           && (\forall Object o;
 		  @                   o != output && (\forall int j; 0 <= j && j < i; o != output[j]);
 		  @                   !\fresh(o));

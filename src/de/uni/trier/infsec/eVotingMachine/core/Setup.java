@@ -132,7 +132,7 @@ public final class Setup
 	  @ 			&& vm.votesForCandidates != null;
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, Throwable,
-	  @                    NetworkError, Error, InvalidCancelation, InvalidVote;
+	  @                    NetworkError, Error, InvalidCancelation, InvalidVote, NullPointerException;
 	  @ assignable correctResult, Environment.inputCounter, Environment.result,
 	  @ 			vm.voteCounter, vm.votesForCandidates[*];
 	  @ ensures flag;
@@ -179,7 +179,7 @@ public final class Setup
 	  @ 		&& vm.votesForCandidates != null;
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, NetworkError,
-	  @                    Error, InvalidCancelation, InvalidVote;
+	  @                    Error, InvalidCancelation, InvalidVote, NullPointerException;
 	  @ assignable Environment.inputCounter, Environment.result,
 	  @ 			vm.voteCounter, vm.votesForCandidates[*];
 	  @ ensures flag;
@@ -214,10 +214,10 @@ public final class Setup
 	  @ 					(\num_of int k; 0 <= k && k < numberOfVoters; choices1[k] == j))
 	  @ 		&& Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
 	  @ 		&& Params.DEFAULT_HOST_BBOARD != null
-	  @ 		&& vm.votesForCandidates != null;
+	  @ 		&& vm.votesForCandidates != null && requests != null;
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, NetworkError,
-	  @ 				Error, InvalidCancelation, InvalidVote;
+	  @ 				Error, InvalidCancelation, InvalidVote, NullPointerException;
 	  @ assignable Environment.inputCounter, Environment.result,
 	  @ 			vm.voteCounter, vm.votesForCandidates[*];
 	  @ ensures flag;
@@ -226,7 +226,7 @@ public final class Setup
 	private static /*@ helper @*/ void innerMain(VotingMachine vm, BulletinBoard bb,
 	                                             int numberOfVoters, boolean secret, int[] choices0,
 	                                             int[] choices1, final int N, final int[] actions,
-	                                             final int[] audit_choices, byte[][] requests)
+	                                             final int[] audit_choices, /*@ nullable @*/byte[][] requests)
 	                throws InvalidVote, NetworkError, InvalidCancelation {
 		int voterNr = 0;
 		/*@ loop_invariant 0 <= i
