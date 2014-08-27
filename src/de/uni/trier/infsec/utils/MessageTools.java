@@ -53,7 +53,8 @@ public class MessageTools {
       @ diverges true;
       @ signals_only NullPointerException;
       @ ensures \typeof(\result) == \type(byte[])
-      @         && \result.length == m1.length + m2.length + 4
+      @ 		&& ((m1 != null && m2 != null)
+      @ 			==> (\result.length == m1.length + m2.length + 4))
       @         && \fresh(\result)
       @         && (\forall Object o; \typeof(o) != \type(byte[]); !\fresh(o));
       @ signals (NullPointerException e) true;

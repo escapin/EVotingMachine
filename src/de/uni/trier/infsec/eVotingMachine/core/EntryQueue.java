@@ -33,7 +33,7 @@ public class EntryQueue {
       @ public normal_behaviour
       @ requires head != null && last != null;
       @ assignable last, last.next;
-      @ ensures last.entry == entry && \fresh(last);
+      @ ensures last != null && last.entry == entry && \fresh(last);
       @ also
       @ public exceptional_behaviour
       @ requires head != null && last == null;
