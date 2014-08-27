@@ -304,8 +304,7 @@ public final class Setup
 				  @		&& correctResult.length == vm.votesForCandidates.length
 				  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
 				  @ 	&& (\forall int j; 0 <= j && j < vm.numberOfCandidates;
-				  @ 			vm.votesForCandidates[j] == \old(vm.votesForCandidates[j]))
-				  @ 	&& vm.voteCounter == \old(vm.voteCounter);
+				  @ 			vm.votesForCandidates[j] == \old(vm.votesForCandidates[j]));
 				  @ signals (InvalidVote e) true;
 				  @ signals (ArrayIndexOutOfBoundsException e) true;
 				  @ signals (Error e) true;
