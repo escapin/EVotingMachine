@@ -299,7 +299,7 @@ public final class Setup
 				  @ assignable Environment.inputCounter, Environment.result, vm.lastBallot,
 				  @ 		vm.voteCounter, vm.votesForCandidates[*];
 				  @ signals_only InvalidVote, ArrayIndexOutOfBoundsException, Error,
-				  @ 			 NetworkError, InvalidCancelation;
+				  @ 			 NetworkError, InvalidCancelation, NullPointerException;
 				  @ ensures vm.lastBallot == null && vm.votesForCandidates != null
 				  @		&& correctResult.length == vm.votesForCandidates.length
 				  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
@@ -311,6 +311,7 @@ public final class Setup
 				  @ signals (Error e) true;
 				  @ signals (NetworkError e) true;
 				  @ signals (InvalidCancelation e) true;
+				  @ signals (NullPointerException e) true;
 				  @*/
 				{
 					int sqnumber = vm.collectBallot(audit_choice);

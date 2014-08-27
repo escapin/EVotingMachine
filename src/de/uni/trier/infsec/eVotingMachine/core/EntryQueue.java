@@ -6,10 +6,15 @@ public class EntryQueue {
 
     /*@ spec_public @*/ static class Node
     {
-        public byte[] entry;
+        public /*@ nullable @*/ byte[] entry;
         public /*@ nullable @*/ Node next;
 
-        public Node(byte[] entry)
+        /*@ public normal_behaviour
+          @ requires true;
+          @ assignable this.entry, this.next;
+          @ ensures this.entry == entry && this.next == null;
+          @*/
+        public Node(/*@ nullable @*/ byte[] entry)
         {
             this.entry = entry;
             this.next=null;
@@ -18,10 +23,26 @@ public class EntryQueue {
 
     private /*@ spec_public nullable @*/ Node head, last = null;
 
-    //@ axiom (\forall Node n; n.entry != null);
-    //FIXME: Justified by what?
-
-    public void add(byte[] entry)
+    /*@ public normal_behaviour
+      @ requires head == null;
+      @ assignable head, last;
+      @ ensures head != null && last != null
+      @ 	&& head.entry == entry && last.entry == entry
+      @ 	&& \fresh(head) && \fresh(last);
+      @ also
+      @ public normal_behaviour
+      @ requires head != null && last != null;
+      @ assignable last, last.next;
+      @ ensures last.entry == entry && \fresh(last);
+      @ also
+      @ public exceptional_behaviour
+      @ requires head != null && last == null;
+      @ diverges true;
+      @ signals_only NullPointerException;
+      @ assignable \nothing;
+      @ signals (NullPointerException e) true;
+      @*/
+    public /*@ helper @*/ void add(/*@ nullable @*/ byte[] entry)
     {
         Node newEntry=new Node(entry);
         if(head==null)
@@ -32,17 +53,19 @@ public class EntryQueue {
         }
     }
 
-    /*@ public normal_behaviour
+    /*@ public behaviour
       @ requires true;
       @ diverges true;
+      @ signals_only NullPointerException;
       @ ensures true;
+      @ signals (NullPointerException e) true;
       @*/
-    public /*@ pure helper @*/ byte[] getEntries()
+    public /*@ pure helper nullable @*/ byte[] getEntries()
     {
         if(head==null)
             return new byte[]{};
         byte[] entries=head.entry;
-        /*@ loop_invariant head != null && entries != null;
+        /*@ loop_invariant head != null;
           @ assignable entries;
           @*/
         for(Node n=head.next; n!=null; n=n.next)

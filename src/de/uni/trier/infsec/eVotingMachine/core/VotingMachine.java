@@ -66,7 +66,7 @@ public class VotingMachine
 	  @ diverges true;
 	  @ assignable Environment.inputCounter, votesForCandidates[*],
 	  @ 			lastBallot, voteCounter;
-	  @ signals_only InvalidVote, ArrayIndexOutOfBoundsException;
+	  @ signals_only InvalidVote, ArrayIndexOutOfBoundsException, Error, NullPointerException;
 	  @ ensures votesForCandidates.length == numberOfCandidates
 	  @ 	&& lastBallot != null
 	  @ 	&& Environment.inputValues != null
@@ -82,6 +82,8 @@ public class VotingMachine
 	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (ArrayIndexOutOfBoundsException e) Environment.inputValues != null
 	  @ 										&& 0 <= Environment.inputCounter;
+	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ signals (NullPointerException e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @*/
 	public /*@ helper @*/ int collectBallot(int votersChoice) throws InvalidVote
 	{
@@ -109,7 +111,7 @@ public class VotingMachine
 	  @ 	&& (lastBallot != null ==>
 	  @ 		(0 <= lastBallot.votersChoice && lastBallot.votersChoice < numberOfCandidates));
 	  @ diverges true;
-	  @ signals_only InvalidCancelation;
+	  @ signals_only InvalidCancelation, Error, NullPointerException;
 	  @ assignable votesForCandidates[*], lastBallot;
 	  @ ensures votesForCandidates.length == numberOfCandidates
 	  @ 	&& \old(lastBallot) != null && lastBallot == null
@@ -119,7 +121,11 @@ public class VotingMachine
 	  @ 						&& i != \old(lastBallot.votersChoice);
 	  @ 			votesForCandidates[i] == \old(votesForCandidates[i]))
 	  @     && (\forall Object o; !\fresh(o));
-	  @ signals (InvalidCancelation e) \old(lastBallot) == null && lastBallot == null;
+	  @ signals (InvalidCancelation e) Environment.inputValues != null
+	  @ 							&& 0 <= Environment.inputCounter
+	  @ 							&& \old(lastBallot) == null && lastBallot == null;
+	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ signals (NullPointerException e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @*/
 	public /*@ helper @*/ void cancelLastBallot() throws InvalidCancelation
 	{
@@ -162,12 +168,15 @@ public class VotingMachine
 	  @ 	&& votesForCandidates.length == numberOfCandidates;
 	  @ assignable Environment.inputCounter, Environment.result;
 	  @ diverges true;
-	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException, Error;
+	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException,
+	  @ 			NullPointerException, Error;
 	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 	&& votesForCandidates.length == numberOfCandidates;
 	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (ArrayIndexOutOfBoundsException e)
+	  @            Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ signals (NullPointerException e)
 	  @            Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @*/
 	public /*@ helper @*/ void publishLog() throws NetworkError
@@ -185,9 +194,10 @@ public class VotingMachine
 	  @ 	&& votesForCandidates != null
 	  @ 	&& votesForCandidates.length == numberOfCandidates;
 	  @ diverges true;
-	  @ signals_only Error;
+	  @ signals_only Error, NullPointerException;
 	  @ ensures true;
-	  @ signals (Error e) true;
+	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ signals (NullPointerException e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @*/
 	private /*@ strictly_pure helper @// to be proven with JOANA */ void logAndSendNewEntry(byte[] tag) {
 		// create a new (encrypted) log entry:
@@ -208,8 +218,9 @@ public class VotingMachine
 	 *
 	 *   ( operationCounter, ENC_BB{ TAG, timestamp, voterChoice, voteCounter} )
 	 */
-	private byte[] createEncryptedEntry(int operationCounter, byte[] tag, InnerBallot inner_ballot,
-	                                    Encryptor encryptor, Signer signer)
+	private /*@ pure helper @*/ byte[] createEncryptedEntry(int operationCounter, byte[] tag,
+															InnerBallot inner_ballot,
+															Encryptor encryptor, Signer signer)
 	{
 		byte[] vote_voteCounter = MessageTools.concatenate(
 		                MessageTools.intToByteArray(inner_ballot.votersChoice),
@@ -295,7 +306,7 @@ public class VotingMachine
 	/*@ private normal_behaviour
 	  @ requires true;
 	  @*/
-	private static /*@ strictly_pure helper @// not provable */ byte[] formatResult(int[] _result) {
+	private static /*@ pure helper @// not provable */ byte[] formatResult(int[] _result) {
 		String s = "Result of the election:\n";
 		for( int i=0; i<_result.length; ++i ) {
 			s += "  Number of votes for candidate " + i + ": " + _result[i] + "\n";

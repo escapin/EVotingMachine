@@ -24,10 +24,11 @@ public class BulletinBoard
 	 */
 	/*@ public behaviour
 	  @ requires entryLog != null && verifier != null;
-	  @ signals_only NetworkError;
+	  @ signals_only NetworkError, NullPointerException;
 	  @ diverges true;
 	  @ ensures true;
 	  @ signals (NetworkError e) true;
+	  @ signals (NullPointerException e) true;
 	  @*/
 	public /*@ strictly_pure helper @// to be proven with JOANA */ void
 		onPost(/*@ nullable @*/byte[] request) throws NetworkError
@@ -47,10 +48,11 @@ public class BulletinBoard
 	 */
 	/*@ public behaviour
 	  @ requires entryLog != null && verifier != null;
-	  @ signals_only NetworkError;
+	  @ signals_only NetworkError, NullPointerException;
 	  @ diverges true;
 	  @ ensures true;
 	  @ signals (NetworkError e) true;
+	  @ signals (NullPointerException e) true;
 	  @*/
 	public /*@ pure helper @*/ byte[] onRequestContent() throws NetworkError
 	{
