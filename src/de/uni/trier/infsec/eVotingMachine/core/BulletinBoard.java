@@ -54,7 +54,7 @@ public class BulletinBoard
 	  @ signals (NetworkError e) true;
 	  @ signals (NullPointerException e) true;
 	  @*/
-	public /*@ pure helper @*/ byte[] onRequestContent() throws NetworkError
+	public /*@ pure helper nullable @*/ byte[] onRequestContent() throws NetworkError
 	{
 		return entryLog.getEntries();
 	}
