@@ -73,6 +73,7 @@ public class VotingMachine
 	  @ 	&& voteCounter == \old(voteCounter) + 1
 	  @ 	&& 0 <= Environment.inputCounter
 	  @ 	&& 0 <= votersChoice && votersChoice < numberOfCandidates
+	  @ 	&& votersChoice == \old(votersChoice)
 	  @ 	&& votersChoice == lastBallot.votersChoice
 	  @ 	&& (votesForCandidates[votersChoice] == \old(votesForCandidates[votersChoice]) + 1)
 	  @ 	&& (\forall int i; 0 <= i && i < numberOfCandidates && i != votersChoice;
@@ -116,7 +117,7 @@ public class VotingMachine
 	  @ ensures votesForCandidates.length == numberOfCandidates
 	  @ 	&& \old(lastBallot) != null && lastBallot == null
 	  @ 	&& votesForCandidates[\old(lastBallot.votersChoice)]
-	  @ 		== \old(votesForCandidates[lastBallot.votersChoice]) - 1
+	  @ 		== \old(votesForCandidates[\old(lastBallot.votersChoice)]) - 1
 	  @ 	&& (\forall int i; 0 <= i && i < numberOfCandidates
 	  @ 						&& i != \old(lastBallot.votersChoice);
 	  @ 			votesForCandidates[i] == \old(votesForCandidates[i]))
@@ -146,12 +147,13 @@ public class VotingMachine
 	  @ 	&& (\forall int j; 0 <= j && j < numberOfCandidates;
 	  @ 			votesForCandidates[j] == Setup.correctResult[j]);
 	  @ diverges true;
-	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException, Error;
+	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException, NullPointerException, Error;
 	  @ assignable Environment.inputCounter, Environment.result;
 	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 	&& votesForCandidates.length == numberOfCandidates;
 	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ signals (NullPointerException e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (ArrayIndexOutOfBoundsException e)
 	  @            Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @*/
@@ -244,14 +246,15 @@ public class VotingMachine
 	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ assignable Environment.inputCounter, Environment.result;
 	  @ diverges true;
-	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException, Error;
+	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException, NullPointerException, Error;
 	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (ArrayIndexOutOfBoundsException e) Environment.inputValues != null
 	  @                                             && 0 <= Environment.inputCounter;
+	  @ signals (NullPointerException e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @*/
-	private static /*@ helper @*/ void signAndPost(byte[] tag, byte[] message, Signer signer)
+	private static /*@ helper @*/ void signAndPost(byte[] tag, /*@ nullable @*/ byte[] message, Signer signer)
 			throws NetworkError
 	{
 		long timestamp = Timestamp.get();
