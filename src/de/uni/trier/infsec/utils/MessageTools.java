@@ -6,20 +6,20 @@ public class MessageTools {
 	/*@ public normal_behaviour
 	  @ ensures ((\result == null) <==> (message == null))
 	  @ 	&& (\result != null ==>
-	  @ 			(\fresh(\result) && \result.length == message.length
-	  @ 				&& \result != message
-	  @ 				&& (\forall int i; 0 <= i && i < message.length;
-	  @ 									\result[i] == message[i])))
+	  @ 		(\fresh(\result) && \result.length == message.length
+	  @ 			&& \result != message
+	  @ 			&& (\forall int i; 0 <= i && i < message.length;
+	  @ 						\result[i] == message[i])))
 	  @ 	&& (\forall Object o; o != \result; !\fresh(o));
 	  @*/
     public static /*@ pure helper nullable @*/ byte[] copyOf(/*@ nullable @*/ byte[] message) {
         if (message==null) return null;
         byte[] copy = new byte[message.length];
         /*@ loop_invariant 0 <= i && i <= message.length
-          @ 			&& copy != null && copy != message && \fresh(copy)
-          @ 			&& copy.length == message.length
-          @ 			&& (\forall int j; 0 <= j && j < i; copy[j] == message[j])
-          @ 			&& (\forall Object o; o != copy; !\fresh(o));
+          @ 		&& copy != null && copy != message && \fresh(copy)
+          @ 		&& copy.length == message.length
+          @ 		&& (\forall int j; 0 <= j && j < i; copy[j] == message[j])
+          @ 		&& (\forall Object o; o != copy; !\fresh(o));
           @ assignable copy[*];
           @ decreases message.length - i;
           @*/
@@ -53,14 +53,14 @@ public class MessageTools {
       @ diverges true;
       @ signals_only NullPointerException;
       @ ensures \typeof(\result) == \type(byte[])
-      @ 		&& ((m1 != null && m2 != null)
-      @ 			==> (\result.length == m1.length + m2.length + 4))
+      @ 	&& ((m1 != null && m2 != null)
+      @ 		==> (\result.length == m1.length + m2.length + 4))
       @         && \fresh(\result)
       @         && (\forall Object o; \typeof(o) != \type(byte[]); !\fresh(o));
       @ signals (NullPointerException e) true;
       @*/
     public static /*@ pure helper @*/ byte[] concatenate(/*@ nullable @*/ byte[] m1,
-														 /*@ nullable @*/ byte[] m2) {
+                                                         /*@ nullable @*/ byte[] m2) {
         // Concatenated Message --> byte[0-3] = Integer, Length of Message 1
         byte[] out = new byte[m1.length + m2.length + 4];
 
@@ -127,9 +127,9 @@ public class MessageTools {
             if (position == 0) {
                 byte[] m1 = new byte[len];
                 /*@ loop_invariant 0 <= i && i <= len && \fresh(m1) && m1 != len
-                  @ 			&& (\forall Object o; o != m1; !\fresh(o))
-                  @ 			&& m1.length == len && len <= message.length - 4
-                  @ 			&& (\forall int j; 0 <= j && j < i; m1[j] == message[j + 4]);
+                  @ 		&& (\forall Object o; o != m1; !\fresh(o))
+                  @ 		&& m1.length == len && len <= message.length - 4
+                  @ 		&& (\forall int j; 0 <= j && j < i; m1[j] == message[j + 4]);
                   @ assignable m1[*];
                   @ decreases len - i;
                   @*/
@@ -138,10 +138,10 @@ public class MessageTools {
             } else if (position == 1) {
                 byte[] m2 = new byte[message.length - len - 4];
                 /*@ loop_invariant 0 <= i && i <= message.length - len - 4 && \fresh(m2)
-                  @ 			&& (\forall Object o; o != m2; !\fresh(o)) && m2 != len
-                  @ 			&& m2.length == message.length - len - 4
-                  @ 			&& len <= message.length - 4
-                  @ 			&& (\forall int j; 0 <= j && j < i; m2[j] == message[j + 4 + len]);
+                  @ 		&& (\forall Object o; o != m2; !\fresh(o)) && m2 != len
+                  @ 		&& m2.length == message.length - len - 4
+                  @ 		&& len <= message.length - 4
+                  @ 		&& (\forall int j; 0 <= j && j < i; m2[j] == message[j + 4 + len]);
                   @ assignable m2[*];
                   @ decreases message.length - len - 4 - i;
                   @*/
@@ -170,10 +170,10 @@ public class MessageTools {
     /*@ public behaviour
       @ signals_only NullPointerException, ArrayIndexOutOfBoundsException;
       @ diverges true;
-	  @ ensures true;
-	  @ signals (NullPointerException e) true;
-	  @ signals (ArrayIndexOutOfBoundsException e) true;
-	  @*/
+      @ ensures true;
+      @ signals (NullPointerException e) true;
+      @ signals (ArrayIndexOutOfBoundsException e) true;
+      @*/
     public static final /*@ pure helper @*/ int byteArrayToInt(/*@ nullable @*/ byte [] b) {
         return (b[0]  << 24)
                 + ((b[1] & 0xFF) << 16)

@@ -12,7 +12,7 @@ public class Timestamp {
           @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter
           @     && (\forall Object o; !\fresh(o));
           @ signals (ArrayIndexOutOfBoundsException e) Environment.inputValues != null
-          @                                             && 0 <= Environment.inputCounter;
+          @                                     && 0 <= Environment.inputCounter;
           @*/
 	public static /*@ helper @*/ long get() {
 		return 	Environment.untrustedInput();

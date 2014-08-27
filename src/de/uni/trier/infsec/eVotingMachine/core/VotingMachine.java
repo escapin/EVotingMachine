@@ -64,8 +64,7 @@ public class VotingMachine
 	  @ 	&& 0 <= Environment.inputCounter
 	  @ 	&& votesForCandidates.length == numberOfCandidates;
 	  @ diverges true;
-	  @ assignable Environment.inputCounter, votesForCandidates[*],
-	  @ 			lastBallot, voteCounter;
+	  @ assignable Environment.inputCounter, votesForCandidates[*], lastBallot, voteCounter;
 	  @ signals_only InvalidVote, ArrayIndexOutOfBoundsException, Error, NullPointerException;
 	  @ ensures votesForCandidates.length == numberOfCandidates
 	  @ 	&& lastBallot != null
@@ -77,12 +76,12 @@ public class VotingMachine
 	  @ 	&& votersChoice == lastBallot.votersChoice
 	  @ 	&& (votesForCandidates[votersChoice] == \old(votesForCandidates[votersChoice]) + 1)
 	  @ 	&& (\forall int i; 0 <= i && i < numberOfCandidates && i != votersChoice;
-	  @ 			votesForCandidates[i] == \old(votesForCandidates[i]))
+	  @ 		votesForCandidates[i] == \old(votesForCandidates[i]))
 	  @ 	&& \fresh(lastBallot) && (\forall Object o; o != lastBallot; !\fresh(o));
 	  @ signals (InvalidVote e) (votersChoice < 0 || votersChoice >= numberOfCandidates)
 	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (ArrayIndexOutOfBoundsException e) Environment.inputValues != null
-	  @ 										&& 0 <= Environment.inputCounter;
+	  @ 					&& 0 <= Environment.inputCounter;
 	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (NullPointerException e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @*/
@@ -119,12 +118,12 @@ public class VotingMachine
 	  @ 	&& votesForCandidates[\old(lastBallot.votersChoice)]
 	  @ 		== \old(votesForCandidates[\old(lastBallot.votersChoice)]) - 1
 	  @ 	&& (\forall int i; 0 <= i && i < numberOfCandidates
-	  @ 						&& i != \old(lastBallot.votersChoice);
-	  @ 			votesForCandidates[i] == \old(votesForCandidates[i]))
+	  @ 			&& i != \old(lastBallot.votersChoice);
+	  @ 		votesForCandidates[i] == \old(votesForCandidates[i]))
 	  @     && (\forall Object o; !\fresh(o));
 	  @ signals (InvalidCancelation e) Environment.inputValues != null
-	  @ 							&& 0 <= Environment.inputCounter
-	  @ 							&& \old(lastBallot) == null && lastBallot == null;
+	  @ 				&& 0 <= Environment.inputCounter
+	  @ 				&& \old(lastBallot) == null && lastBallot == null;
 	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (NullPointerException e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @*/
@@ -145,7 +144,7 @@ public class VotingMachine
 	  @ 	&& numberOfCandidates == Setup.correctResult.length
 	  @ 	&& votesForCandidates.length == numberOfCandidates
 	  @ 	&& (\forall int j; 0 <= j && j < numberOfCandidates;
-	  @ 			votesForCandidates[j] == Setup.correctResult[j]);
+	  @ 		votesForCandidates[j] == Setup.correctResult[j]);
 	  @ diverges true;
 	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException, NullPointerException, Error;
 	  @ assignable Environment.inputCounter, Environment.result;
@@ -171,7 +170,7 @@ public class VotingMachine
 	  @ assignable Environment.inputCounter, Environment.result;
 	  @ diverges true;
 	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException,
-	  @ 			NullPointerException, Error;
+	  @ 		NullPointerException, Error;
 	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 	&& votesForCandidates.length == numberOfCandidates;
 	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
@@ -250,7 +249,7 @@ public class VotingMachine
 	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (ArrayIndexOutOfBoundsException e) Environment.inputValues != null
-	  @                                             && 0 <= Environment.inputCounter;
+	  @                                    && 0 <= Environment.inputCounter;
 	  @ signals (NullPointerException e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @*/
@@ -273,7 +272,7 @@ public class VotingMachine
 	  @ 	&& numberOfCandidates == Setup.correctResult.length
 	  @ 	&& numberOfCandidates == votesForCandidates.length
 	  @ 	&& (\forall int j; 0 <= j && j < numberOfCandidates;
-	  @ 			votesForCandidates[j] == Setup.correctResult[j]);
+	  @ 		votesForCandidates[j] == Setup.correctResult[j]);
 	  @ diverges numberOfCandidates < 0;
 	  @ signals_only NegativeArraySizeException;
 	  @ signals (NegativeArraySizeException e) numberOfCandidates < 0;
@@ -282,12 +281,12 @@ public class VotingMachine
 
 		int[] _result = new int[numberOfCandidates];
 		/*@ loop_invariant 0 <= i && i <= votesForCandidates.length
-		  @ 			&& 0 <= numberOfCandidates
-		  @ 			&& _result != null
-		  @ 			&& _result.length == numberOfCandidates
-		  @ 			&& i <= Setup.correctResult.length
-		  @ 			&& i <= _result.length
-		  @ 			&& i <= numberOfCandidates;
+		  @ 		&& 0 <= numberOfCandidates
+		  @ 		&& _result != null
+		  @ 		&& _result.length == numberOfCandidates
+		  @ 		&& i <= Setup.correctResult.length
+		  @ 		&& i <= _result.length
+		  @ 		&& i <= numberOfCandidates;
 		  @ assignable _result[*];
 		  @ decreases numberOfCandidates -i;
 		  @*/

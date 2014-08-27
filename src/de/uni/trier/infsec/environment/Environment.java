@@ -28,7 +28,7 @@ public class Environment {
 	  @ signals_only ArrayIndexOutOfBoundsException;
 	  @ assignable inputCounter;
 	  @ ensures inputValues != null && 0 <= inputCounter && 0 <= \result && \result < n
-	  @             && (\forall Object o; !\fresh(o));
+	  @    && (\forall Object o; !\fresh(o));
 	  @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
 	  @*/
 	public static /*@ helper @*/ int untrustedInput(int n)
@@ -96,9 +96,9 @@ public class Environment {
 	  @ assignable inputCounter;
 	  @ ensures inputValues != null && 0 <= inputCounter && \result != null
 	  @ 	&& \result.length == N  && \fresh(\result)
-	  @ 	&& (\forall Object o;
-	  @ 			o != \result && (\forall int j; 0 <= j && j < N; o != \result[j]);
-	  @ 			!\fresh(o));
+	  @ 	&& (\forall Object o; o != \result
+	  @ 			&& (\forall int j; 0 <= j && j < N; o != \result[j]);
+	  @ 		!\fresh(o));
 	  @ signals (Exception e) inputValues != null && 0 <= inputCounter;
 	  @*/
 	public static /*@ helper nullable @*/ byte[][] untrustedInputMessages(int N)
@@ -107,8 +107,8 @@ public class Environment {
 		/*@ loop_invariant 0 <= inputCounter && 0 <= N
 		  @           && 0 <= i && i <= N
 		  @           && inputValues != null && output != null && \fresh(output)
-		  @           && (\forall Object o;
-		  @                   o != output && (\forall int j; 0 <= j && j < i; o != output[j]);
+		  @           && (\forall Object o; o != output
+		  @                            && (\forall int j; 0 <= j && j < i; o != output[j]);
 		  @                   !\fresh(o));
 		  @ assignable inputCounter, output[*];
 		  @ decreases N - i;
@@ -124,15 +124,15 @@ public class Environment {
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException;
 	  @ assignable inputCounter;
 	  @ ensures inputValues != null && 0 <= inputCounter && \result.length == N
-	  @ 	 && \fresh(\result) && (\forall Object o; o != \result; !\fresh(o));
+	  @ 	&& \fresh(\result) && (\forall Object o; o != \result; !\fresh(o));
 	  @ signals (Exception e) inputValues != null && 0 <= inputCounter;
 	  @*/
 	public static /*@ helper @*/ int[] untrustedInputArray(int N)
 	{
 		int[] output = new int[N];
 		/*@ loop_invariant 0 <= N && 0 <= inputCounter && output != null
-		  @ 			&& (\forall Object o; o != output; !\fresh(o))
-		  @ 			&& output.length == N && \fresh(output);
+		  @ 		&& (\forall Object o; o != output; !\fresh(o))
+		  @ 		&& output.length == N && \fresh(output);
 		  @ assignable inputCounter, output[*];
 		  @ decreases N - i;
 		  @*/
