@@ -282,7 +282,7 @@ public class VotingMachine
 		int[] _result = new int[numberOfCandidates];
 		/*@ loop_invariant 0 <= i && i <= votesForCandidates.length
 		  @ 		&& 0 <= numberOfCandidates
-		  @ 		&& _result != null
+		  @ 		&& _result != null && \fresh(_result)
 		  @ 		&& _result.length == numberOfCandidates
 		  @ 		&& i <= Setup.correctResult.length
 		  @ 		&& i <= _result.length

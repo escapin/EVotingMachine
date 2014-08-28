@@ -302,6 +302,8 @@ public final class Setup
 				  @ 		NetworkError, InvalidCancelation, NullPointerException;
 				  @ ensures vm.lastBallot == null && vm.votesForCandidates != null
 				  @ 	&& correctResult.length == vm.votesForCandidates.length
+				  @ 	&& vm.numberOfCandidates == vm.votesForCandidates.length
+				  @ 	&& vm.votesForCandidates.length == \old(vm.votesForCandidates.length)
 				  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
 				  @ 	&& (\forall int j; 0 <= j && j < vm.numberOfCandidates;
 				  @ 		vm.votesForCandidates[j] == \old(vm.votesForCandidates[j]));
