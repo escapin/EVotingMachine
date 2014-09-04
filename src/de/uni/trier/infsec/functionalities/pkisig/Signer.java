@@ -23,8 +23,9 @@ final public class Signer {
 		this.log = new Log();
 	}
 
-	/*@ public normal_behaviour
+	/*@ public behaviour
 	  @ requires message != null;
+	  @ signals_only Error;
 	  @ ensures true;
 	  @*/
 	public /*@ strictly_pure helper nullable @// to be proven with JOANA */ byte[]
