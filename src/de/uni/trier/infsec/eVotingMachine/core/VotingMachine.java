@@ -194,13 +194,14 @@ public class VotingMachine
 	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 	&& votesForCandidates != null
 	  @ 	&& votesForCandidates.length == numberOfCandidates;
+	  @ requires tag != null;
 	  @ diverges true;
 	  @ signals_only Error, NullPointerException;
 	  @ ensures true;
 	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (NullPointerException e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @*/
-	private /*@ strictly_pure helper @// to be proven with JOANA */ void logAndSendNewEntry(byte[] tag) {
+	private /*@ strictly_pure helper @// to be proven with JOANA */ void logAndSendNewEntry(/*@ nullable @*/ byte[] tag) {
 		// create a new (encrypted) log entry:
 		byte[] entry = createEncryptedEntry(++operationCounter, tag, lastBallot, bb_encryptor, signer);	
 		// add it to the log:

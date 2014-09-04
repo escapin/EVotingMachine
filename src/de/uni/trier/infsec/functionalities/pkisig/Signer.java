@@ -26,6 +26,7 @@ final public class Signer {
 	/*@ public behaviour
 	  @ requires message != null;
 	  @ signals_only Error;
+	  @ diverges true;
 	  @ ensures true;
 	  @*/
 	public /*@ strictly_pure helper nullable @// to be proven with JOANA */ byte[]
