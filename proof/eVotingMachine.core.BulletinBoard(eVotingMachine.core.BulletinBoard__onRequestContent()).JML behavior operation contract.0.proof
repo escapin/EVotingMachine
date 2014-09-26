@@ -1,0 +1,184 @@
+\profile "Java Profile";
+
+\settings {
+"#Proof-Settings-Config-File
+#Thu Sep 25 21:38:48 CEST 2014
+[StrategyProperty]VBT_PHASE=VBT_SYM_EX
+[SMTSettings]useUninterpretedMultiplication=true
+[SMTSettings]SelectedTaclets=
+[StrategyProperty]METHOD_OPTIONS_KEY=METHOD_CONTRACT
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY3=USER_TACLETS_OFF
+[StrategyProperty]SYMBOLIC_EXECUTION_ALIAS_CHECK_OPTIONS_KEY=SYMBOLIC_EXECUTION_ALIAS_CHECK_NEVER
+[StrategyProperty]LOOP_OPTIONS_KEY=LOOP_INVARIANT
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY2=USER_TACLETS_OFF
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY1=USER_TACLETS_OFF
+[StrategyProperty]QUANTIFIERS_OPTIONS_KEY=QUANTIFIERS_NON_SPLITTING_WITH_PROGS
+[StrategyProperty]NON_LIN_ARITH_OPTIONS_KEY=NON_LIN_ARITH_DEF_OPS
+[SMTSettings]instantiateHierarchyAssumptions=true
+[StrategyProperty]AUTO_INDUCTION_OPTIONS_KEY=AUTO_INDUCTION_OFF
+[StrategyProperty]DEP_OPTIONS_KEY=DEP_ON
+[StrategyProperty]BLOCK_OPTIONS_KEY=BLOCK_CONTRACT
+[StrategyProperty]CLASS_AXIOM_OPTIONS_KEY=CLASS_AXIOM_FREE
+[StrategyProperty]SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OPTIONS_KEY=SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OFF
+[StrategyProperty]QUERY_NEW_OPTIONS_KEY=QUERY_OFF
+[Strategy]Timeout=-1
+[Strategy]MaximumNumberOfAutomaticApplications=10000
+[SMTSettings]integersMaximum=2147483645
+[Choice]DefaultChoices=wdChecks-wdChecks\\:off , JavaCard-JavaCard\\:on , bigint-bigint\\:on , intRules-intRules\\:arithmeticSemanticsIgnoringOF , programRules-programRules\\:Java , sequences-sequences\\:on , runtimeExceptions-runtimeExceptions\\:allow , integerSimplificationRules-integerSimplificationRules\\:full , Strings-Strings\\:on , reach-reach\\:on , assertions-assertions\\:on , modelFields-modelFields\\:showSatisfiability , initialisation-initialisation\\:disableStaticInitialisation , wdOperator-wdOperator\\:L , optimisedSelectRules-optimisedSelectRules\\:on
+[SMTSettings]useConstantsForBigOrSmallIntegers=true
+[StrategyProperty]STOPMODE_OPTIONS_KEY=STOPMODE_DEFAULT
+[StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
+[SMTSettings]maxGenericSorts=2
+[SMTSettings]integersMinimum=-2147483645
+[SMTSettings]invariantForall=false
+[SMTSettings]UseBuiltUniqueness=false
+[SMTSettings]explicitTypeHierarchy=false
+[Strategy]ActiveStrategy=JavaCardDLStrategy
+[StrategyProperty]SPLITTING_OPTIONS_KEY=SPLITTING_DELAYED
+"
+}
+
+\javaSource "../src";
+
+\proofObligation "#Proof Obligation Settings
+#Thu Sep 25 21:38:48 CEST 2014
+name=de.uni.trier.infsec.eVotingMachine.core.BulletinBoard[de.uni.trier.infsec.eVotingMachine.core.BulletinBoard\\:\\:onRequestContent()].JML behavior operation contract.0
+contract=de.uni.trier.infsec.eVotingMachine.core.BulletinBoard[de.uni.trier.infsec.eVotingMachine.core.BulletinBoard\\:\\:onRequestContent()].JML behavior operation contract.0
+class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
+";
+
+\proof {
+(keyLog "0" (keyUser "miki" ) (keyVersion "c781f49facff0f907c1d2349143b682c313d0e46"))
+
+(autoModeTime "1268")
+
+(branch "dummy ID"
+(rule "impRight" (formula "1") (newnames "heapAtPre"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "2"))
+(rule "andLeft" (formula "1"))
+(rule "notLeft" (formula "4"))
+(rule "notLeft" (formula "3"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "1"))
+(rule "notLeft" (formula "2"))
+(rule "eqSymm" (formula "8") (term "1,0,0,1,0,1"))
+(rule "assignment" (formula "8") (term "1"))
+(builtin "One Step Simplification" (formula "8"))
+(rule "methodBodyExpand" (formula "8") (term "1") (newnames "heapBefore_onRequestContent,savedHeapBefore_onRequestContent"))
+(builtin "One Step Simplification" (formula "8"))
+(rule "returnUnfold" (formula "8") (term "1") (inst "#v0=x_arr"))
+(rule "variableDeclarationAssign" (formula "8") (term "1"))
+(rule "variableDeclaration" (formula "8") (term "1") (newnames "x_arr"))
+(rule "methodCallWithAssignmentUnfoldTarget" (formula "8") (term "1") (inst "#v0=e"))
+(rule "variableDeclaration" (formula "8") (term "1") (newnames "e"))
+(rule "assignment_read_attribute_this" (formula "8") (term "1"))
+(builtin "One Step Simplification" (formula "8"))
+(builtin "Use Operation Contract" (formula "8") (newnames "heapBefore_getEntries,result_0,exc_0,heapAfter_getEntries,anon_heap_getEntries") (contract "de.uni.trier.infsec.eVotingMachine.core.EntryQueue[de.uni.trier.infsec.eVotingMachine.core.EntryQueue::getEntries()].JML behavior operation contract.0"))
+(branch "Post (getEntries)"
+   (builtin "One Step Simplification" (formula "10"))
+   (builtin "One Step Simplification" (formula "6"))
+   (rule "andLeft" (formula "6"))
+   (rule "selectCreatedOfAnonAsFormulaEQ" (formula "7") (term "1,1,0") (ifseqformula "6"))
+   (rule "andLeft" (formula "7"))
+   (rule "andLeft" (formula "7"))
+   (rule "typeEqDerived" (formula "9") (term "0,1") (ifseqformula "7"))
+   (builtin "One Step Simplification" (formula "9") (ifInst ""  (formula "7")))
+   (rule "true_left" (formula "9"))
+   (rule "assignment" (formula "12") (term "1"))
+   (builtin "One Step Simplification" (formula "12"))
+   (rule "shift_paren_or" (formula "8"))
+   (rule "methodCallReturn" (formula "12") (term "1"))
+   (rule "assignment" (formula "12") (term "1"))
+   (builtin "One Step Simplification" (formula "12"))
+   (rule "methodCallEmpty" (formula "12") (term "1"))
+   (rule "tryEmpty" (formula "12") (term "1"))
+   (rule "emptyModality" (formula "12") (term "1"))
+   (builtin "One Step Simplification" (formula "12"))
+   (rule "allRight" (formula "12") (inst "sk=f_1"))
+   (rule "allRight" (formula "12") (inst "sk=o_1"))
+   (rule "orRight" (formula "12"))
+   (rule "eqSymm" (formula "13"))
+   (rule "pullOutSelect" (formula "13") (term "0") (inst "selectSK=f_1_0"))
+   (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "7"))
+   (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "13")))
+   (rule "applyEqReverse" (formula "14") (term "0") (ifseqformula "1"))
+   (builtin "One Step Simplification" (formula "14"))
+   (rule "closeTrue" (formula "14"))
+)
+(branch "Exceptional Post (getEntries)"
+   (builtin "One Step Simplification" (formula "10"))
+   (builtin "One Step Simplification" (formula "6"))
+   (rule "andLeft" (formula "6"))
+   (rule "selectCreatedOfAnonAsFormulaEQ" (formula "7") (term "1,0") (ifseqformula "6"))
+   (rule "andLeft" (formula "7"))
+   (rule "andLeft" (formula "7"))
+   (rule "notLeft" (formula "7"))
+   (rule "replace_known_right" (formula "8") (term "0,0") (ifseqformula "9"))
+   (builtin "One Step Simplification" (formula "8"))
+   (rule "methodCallParamThrow" (formula "13") (term "1"))
+   (rule "tryCatchThrow" (formula "13") (term "1"))
+   (rule "ifElseUnfold" (formula "13") (term "1") (inst "#boolv=x"))
+   (rule "variableDeclaration" (formula "13") (term "1") (newnames "x"))
+   (rule "equality_comparison_simple" (formula "13") (term "1"))
+   (builtin "One Step Simplification" (formula "13"))
+   (rule "replace_known_right" (formula "13") (term "0,0,1,0") (ifseqformula "9"))
+   (builtin "One Step Simplification" (formula "13"))
+   (rule "ifElseSplit" (formula "13"))
+   (branch "if x true"
+      (builtin "One Step Simplification" (formula "14"))
+      (builtin "One Step Simplification" (formula "1"))
+      (rule "closeFalse" (formula "1"))
+   )
+   (branch "if x false"
+      (builtin "One Step Simplification" (formula "14"))
+      (builtin "One Step Simplification" (formula "1"))
+      (rule "true_left" (formula "1"))
+      (rule "ifElseSplit" (formula "13"))
+      (branch "if exc_0 instanceof java.lang.Throwable true"
+         (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "10")))
+         (rule "true_left" (formula "1"))
+         (rule "variableDeclaration" (formula "13") (term "1") (newnames "e_1"))
+         (rule "reference_type_cast" (formula "13") (term "1"))
+         (branch "Normal Execution (exc_0 instanceof java.lang.Throwable)"
+            (builtin "One Step Simplification" (formula "14"))
+            (builtin "One Step Simplification" (formula "1"))
+            (rule "true_left" (formula "1"))
+            (rule "assignment" (formula "13") (term "1"))
+            (builtin "One Step Simplification" (formula "13"))
+            (rule "emptyModality" (formula "13") (term "1"))
+            (builtin "One Step Simplification" (formula "13") (ifInst ""  (formula "9")) (ifInst ""  (formula "8")))
+            (rule "allRight" (formula "13") (inst "sk=f_0"))
+            (rule "allRight" (formula "13") (inst "sk=o_0"))
+            (rule "orRight" (formula "13"))
+            (rule "eqSymm" (formula "14"))
+            (rule "pullOutSelect" (formula "14") (term "0") (inst "selectSK=f_0_0"))
+            (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "7"))
+            (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "14")))
+            (rule "applyEqReverse" (formula "15") (term "0") (ifseqformula "1"))
+            (builtin "One Step Simplification" (formula "15"))
+            (rule "closeTrue" (formula "15"))
+         )
+         (branch "ClassCastException (!(exc_0 instanceof java.lang.Throwable))"
+            (builtin "One Step Simplification" (formula "13"))
+            (rule "closeTrue" (formula "13"))
+         )
+      )
+      (branch "if exc_0 instanceof java.lang.Throwable false"
+         (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "10")))
+         (rule "closeFalse" (formula "1"))
+      )
+   )
+)
+(branch "Pre (getEntries)"
+   (builtin "One Step Simplification" (formula "8") (ifInst ""  (formula "1")))
+   (rule "closeTrue" (formula "8"))
+)
+(branch "Null reference (e = null)"
+   (builtin "One Step Simplification" (formula "8") (ifInst ""  (formula "6")))
+   (rule "closeTrue" (formula "8"))
+)
+)
+
+}
