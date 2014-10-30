@@ -77,9 +77,7 @@ public class VotingMachine
 	  @ 	&& (votesForCandidates[votersChoice] == \old(votesForCandidates[votersChoice]) + 1)
 	  @ 	&& (\forall int i; 0 <= i && i < numberOfCandidates && i != votersChoice;
 	  @ 		votesForCandidates[i] == \old(votesForCandidates[i]))
-	  @ 	&& \fresh(lastBallot) ; 
-	  //&& (\forall Object o; o != lastBallot; !\fresh(o));
-      @  // cannot be proven at the moment (30/10/14), bug #1501
+	  @ 	&& \fresh(lastBallot);
 	  @ signals (InvalidVote e) (votersChoice < 0 || votersChoice >= numberOfCandidates)
 	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @ signals (ArrayIndexOutOfBoundsException e) Environment.inputValues != null
@@ -122,7 +120,6 @@ public class VotingMachine
 	  @ 	&& (\forall int i; 0 <= i && i < numberOfCandidates
 	  @ 			&& i != \old(lastBallot.votersChoice);
 	  @ 		votesForCandidates[i] == \old(votesForCandidates[i]));
-	  @  // cannot be proven at the moment (30/10/14), bug #1501
 	  @ signals (InvalidCancelation e) Environment.inputValues != null
 	  @ 				&& 0 <= Environment.inputCounter
 	  @ 				&& \old(lastBallot) == null && lastBallot == null;
