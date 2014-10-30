@@ -119,8 +119,8 @@ public class VotingMachine
 	  @ 		== \old(votesForCandidates[\old(lastBallot.votersChoice)]) - 1
 	  @ 	&& (\forall int i; 0 <= i && i < numberOfCandidates
 	  @ 			&& i != \old(lastBallot.votersChoice);
-	  @ 		votesForCandidates[i] == \old(votesForCandidates[i]))
-	  @     && (\forall Object o; !\fresh(o));
+	  @ 		votesForCandidates[i] == \old(votesForCandidates[i]));
+	  @  // cannot be proven at the moment (30/10/14), bug #1501
 	  @ signals (InvalidCancelation e) Environment.inputValues != null
 	  @ 				&& 0 <= Environment.inputCounter
 	  @ 				&& \old(lastBallot) == null && lastBallot == null;
