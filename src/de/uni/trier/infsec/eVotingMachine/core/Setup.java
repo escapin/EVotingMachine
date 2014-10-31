@@ -272,7 +272,6 @@ public final class Setup
 		  @ decreases N - i;
 		  @*/
 		for( int i=0; i<N; ++i ) {
-			// TODO: change to if
 			switch( actions[i] ) {
 
 			case 0: // next voter votes

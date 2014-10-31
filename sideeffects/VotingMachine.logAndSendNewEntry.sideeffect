@@ -1,0 +1,45 @@
+de.uni.trier.infsec.eVotingMachine.core.VotingMachine.logAndSendNewEntry([B)V
+modifies the following fields:
+Lde/uni/trier/infsec/functionalities/pkienc/Decryptor$EncryptionLog$MessagePairList.next
+INDIRECT_REACHABLE
+Lde/uni/trier/infsec/eVotingMachine/core/VotingMachine.operationCounter
+DIRECT_MOD
+Lde/uni/trier/infsec/functionalities/pkisig/Signer$Log$MessageList.message
+INDIRECT_REACHABLE
+Lde/uni/trier/infsec/functionalities/pkisig/Signer$Log$MessageList.message
+INDIRECT_MOD
+Lde/uni/trier/infsec/functionalities/pkisig/Signer$Log$MessageList.next
+INDIRECT_MOD
+Lde/uni/trier/infsec/eVotingMachine/core/EntryQueue$Node.next INDIRECT_MOD
+Lde/uni/trier/infsec/environment/Environment.inputCounter INDIRECT_MOD
+Lde/uni/trier/infsec/eVotingMachine/core/EntryQueue.head INDIRECT_REACHABLE
+Lde/uni/trier/infsec/functionalities/pkienc/Decryptor$EncryptionLog.first INDIRECT_MOD
+Lde/uni/trier/infsec/functionalities/pkienc/Decryptor$EncryptionLog$MessagePairList.ciphertext
+INDIRECT_MOD
+Ljava/lang/Throwable.cause INDIRECT_MOD
+Lde/uni/trier/infsec/eVotingMachine/core/EntryQueue.last INDIRECT_MOD
+Lde/uni/trier/infsec/functionalities/pkienc/Decryptor$EncryptionLog$MessagePairList.next
+INDIRECT_MOD
+Lde/uni/trier/infsec/functionalities/pkienc/Decryptor$EncryptionLog$MessagePairList.ciphertext
+INDIRECT_REACHABLE
+Lde/uni/trier/infsec/functionalities/pkisig/Signer$Log.first INDIRECT_MOD
+Lde/uni/trier/infsec/functionalities/pkienc/Decryptor$EncryptionLog$MessagePairList.plaintext
+INDIRECT_MOD
+Lde/uni/trier/infsec/eVotingMachine/core/EntryQueue.head INDIRECT_MOD
+Lde/uni/trier/infsec/eVotingMachine/core/EntryQueue.last INDIRECT_REACHABLE
+Lde/uni/trier/infsec/eVotingMachine/core/EntryQueue$Node.entry
+INDIRECT_REACHABLE
+Lde/uni/trier/infsec/functionalities/pkienc/Decryptor$EncryptionLog.first INDIRECT_REACHABLE
+Ljava/lang/Throwable.detailMessage INDIRECT_MOD
+Lde/uni/trier/infsec/functionalities/pkisig/Signer$Log.first
+INDIRECT_REACHABLE
+Lde/uni/trier/infsec/environment/Environment.result INDIRECT_MOD
+the contents of an array with element type <Primordial,B>
+Lde/uni/trier/infsec/eVotingMachine/core/EntryQueue$Node.next
+INDIRECT_REACHABLE
+the contents of an array with element type <Primordial,B>
+Lde/uni/trier/infsec/functionalities/pkienc/Decryptor$EncryptionLog$MessagePairList.plaintext
+INDIRECT_REACHABLE
+Lde/uni/trier/infsec/eVotingMachine/core/EntryQueue$Node.entry INDIRECT_MOD
+Lde/uni/trier/infsec/functionalities/pkisig/Signer$Log$MessageList.next
+INDIRECT_REACHABLE

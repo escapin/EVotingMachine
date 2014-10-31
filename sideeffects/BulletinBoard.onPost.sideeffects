@@ -1,0 +1,16 @@
+de.uni.trier.infsec.eVotingMachine.core.BulletinBoard.onPost([B)V
+modifies the following fields:
+Lde/uni/trier/infsec/eVotingMachine/core/EntryQueue.last INDIRECT_REACHABLE
+Lde/uni/trier/infsec/eVotingMachine/core/EntryQueue$Node.next INDIRECT_MOD
+Lde/uni/trier/infsec/eVotingMachine/core/EntryQueue$Node.entry
+INDIRECT_REACHABLE
+Lde/uni/trier/infsec/environment/Environment.inputCounter INDIRECT_MOD
+Ljava/lang/Throwable.cause INDIRECT_MOD
+Lde/uni/trier/infsec/environment/Environment.result INDIRECT_MOD
+Lde/uni/trier/infsec/eVotingMachine/core/EntryQueue.last INDIRECT_MOD
+Lde/uni/trier/infsec/eVotingMachine/core/EntryQueue$Node.next
+INDIRECT_REACHABLE
+Lde/uni/trier/infsec/eVotingMachine/core/EntryQueue.head INDIRECT_REACHABLE
+Lde/uni/trier/infsec/eVotingMachine/core/EntryQueue.head INDIRECT_MOD
+Lde/uni/trier/infsec/eVotingMachine/core/EntryQueue$Node.entry INDIRECT_MOD
+
