@@ -213,7 +213,6 @@ public final class Setup
 
 	/*@ private behaviour
 	  @ requires correctResult != null && 0 < correctResult.length
-	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 	&& Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
 	  @ 	&& Params.DEFAULT_HOST_BBOARD != null && Params.RESULTS != null && Params.LOG != null
 	  @ 	&& vm.votesForCandidates != null && requests != null
@@ -262,7 +261,6 @@ public final class Setup
 		  @ 		&& vm.bb_encryptor != null && vm.signer != null && vm.entryLog != null
 		  @ 		&& vm.numberOfCandidates == vm.votesForCandidates.length
 		  @ 		&& correctResult.length == vm.votesForCandidates.length
-		  @ 		&& Environment.inputValues != null && 0 <= Environment.inputCounter
 		  @ 		&& (\forall int j; 0 <= j && j < vm.numberOfCandidates;
 		  @ 			vm.votesForCandidates[j] ==
 		  @ 				(\num_of int k; 0 <= k && k < voterNr;
@@ -292,8 +290,7 @@ public final class Setup
 				  @ requires vm != null && vm.votesForCandidates != null
 				  @ 	&& vm.bb_encryptor != null && vm.signer != null && vm.entryLog != null
 				  @ 	&& audit_choice != null
-				  @ 	&& correctResult.length == vm.votesForCandidates.length
-				  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter;
+				  @ 	&& correctResult.length == vm.votesForCandidates.length;
 				  @ diverges true;
 				  @ assignable Environment.inputCounter, Environment.result, vm.lastBallot,
 				  @ 		vm.voteCounter, vm.votesForCandidates[*];
@@ -303,7 +300,6 @@ public final class Setup
 				  @ 	&& correctResult.length == vm.votesForCandidates.length
 				  @ 	&& vm.numberOfCandidates == vm.votesForCandidates.length
 				  @ 	&& vm.votesForCandidates.length == \old(vm.votesForCandidates.length)
-				  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
 				  @ 	&& (\forall int j; 0 <= j && j < vm.numberOfCandidates;
 				  @ 		vm.votesForCandidates[j] == \old(vm.votesForCandidates[j]));
 				  @ signals (InvalidVote e) true;

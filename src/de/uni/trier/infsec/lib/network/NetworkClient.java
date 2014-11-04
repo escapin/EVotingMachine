@@ -4,16 +4,12 @@ import de.uni.trier.infsec.environment.Environment;
 
 public class NetworkClient {
 
-    /*@ public behaviour
-      @ requires Environment.inputValues != null && 0 <= Environment.inputCounter;
+    // TODO: cannot be verified since accessing the environment
+    /*@ public behavior
       @ assignable Environment.inputCounter, Environment.result;
       @ signals_only NetworkError, ArrayIndexOutOfBoundsException, Error;
       @ diverges true;
-      @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter;
-      @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter;
-      @ signals (ArrayIndexOutOfBoundsException e)
-      @                 Environment.inputValues != null && 0 <= Environment.inputCounter;
-      @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
+      @ ensures true;
       @*/
     public static /*@ helper @*/ void send(byte[] message, String server, int port)
             throws NetworkError {

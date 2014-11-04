@@ -53,23 +53,19 @@ public class VotingMachine
 		lastBallot=null;
 	}
 
-	/*@ public behaviour
+	/*@ public behavior
 	  @ requires votesForCandidates != null
 	  @ 	&& votesForCandidates.length == numberOfCandidates
 	  @ 	&& Params.VOTE != null && Params.MACHINE_ENTRY != null
 	  @ 	&& Params.DEFAULT_HOST_BBOARD != null
-	  @ 	&& Environment.inputValues != null
 	  @ 	&& bb_encryptor != null && signer != null && entryLog != null
-	  @ 	&& 0 <= Environment.inputCounter
 	  @ 	&& votesForCandidates.length == numberOfCandidates;
 	  @ diverges true;
 	  @ assignable Environment.inputCounter, votesForCandidates[*], lastBallot, voteCounter;
 	  @ signals_only InvalidVote, ArrayIndexOutOfBoundsException, Error, NullPointerException;
 	  @ ensures votesForCandidates.length == numberOfCandidates
 	  @ 	&& lastBallot != null
-	  @ 	&& Environment.inputValues != null
 	  @ 	&& voteCounter == \old(voteCounter) + 1
-	  @ 	&& 0 <= Environment.inputCounter
 	  @ 	&& 0 <= votersChoice && votersChoice < numberOfCandidates
 	  @ 	&& votersChoice == \old(votersChoice)
 	  @ 	&& votersChoice == lastBallot.votersChoice
@@ -77,12 +73,6 @@ public class VotingMachine
 	  @ 	&& (\forall int i; 0 <= i && i < numberOfCandidates && i != votersChoice;
 	  @ 		votesForCandidates[i] == \old(votesForCandidates[i]))
 	  @ 	&& \fresh(lastBallot) ; 
-	  @ signals (InvalidVote e) (votersChoice < 0 || votersChoice >= numberOfCandidates)
-	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter;
-	  @ signals (ArrayIndexOutOfBoundsException e) Environment.inputValues != null
-	  @ 					&& 0 <= Environment.inputCounter;
-	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
-	  @ signals (NullPointerException e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @*/
 	public /*@ helper @*/ int collectBallot(int votersChoice) throws InvalidVote
 	{
@@ -105,7 +95,6 @@ public class VotingMachine
 	  @ requires Params.CANCEL != null && Params.MACHINE_ENTRY != null
 	  @ 	&& Params.DEFAULT_HOST_BBOARD != null && votesForCandidates != null
 	  @ 	&& bb_encryptor != null && signer != null && entryLog != null
-	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 	&& votesForCandidates.length == numberOfCandidates
 	  @ 	&& (lastBallot != null ==>
 	  @ 		(0 <= lastBallot.votersChoice && lastBallot.votersChoice < numberOfCandidates));
@@ -119,11 +108,6 @@ public class VotingMachine
 	  @ 	&& (\forall int i; 0 <= i && i < numberOfCandidates
 	  @ 			&& i != \old(lastBallot.votersChoice);
 	  @ 		votesForCandidates[i] == \old(votesForCandidates[i]));
-	  @ signals (InvalidCancelation e) Environment.inputValues != null
-	  @ 				&& 0 <= Environment.inputCounter
-	  @ 				&& \old(lastBallot) == null && lastBallot == null;
-	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
-	  @ signals (NullPointerException e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @*/
 	public /*@ helper @*/ void cancelLastBallot() throws InvalidCancelation
 	{
@@ -138,7 +122,6 @@ public class VotingMachine
 	  @ requires Params.RESULTS != null && Params.DEFAULT_HOST_BBOARD != null
 	  @ 	&& Setup.correctResult != null && votesForCandidates != null
 	  @ 	&& bb_encryptor != null && signer != null && entryLog != null
-	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 	&& numberOfCandidates == Setup.correctResult.length
 	  @ 	&& votesForCandidates.length == numberOfCandidates
 	  @ 	&& (\forall int j; 0 <= j && j < numberOfCandidates;
@@ -146,37 +129,23 @@ public class VotingMachine
 	  @ diverges true;
 	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException, NullPointerException, Error;
 	  @ assignable Environment.inputCounter, Environment.result;
-	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter
-	  @ 	&& votesForCandidates.length == numberOfCandidates;
-	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
-	  @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter;
-	  @ signals (NullPointerException e) Environment.inputValues != null && 0 <= Environment.inputCounter;
-	  @ signals (ArrayIndexOutOfBoundsException e)
-	  @            Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ ensures votesForCandidates.length == numberOfCandidates;
 	  @*/
 	public /*@ helper @*/ void publishResult() throws NetworkError
 	{
 		signAndPost(Params.RESULTS, getResult(), signer);
 	}
 
-	/*@ public behaviour
+	/*@ public behavior
 	  @ requires Params.LOG != null && Params.DEFAULT_HOST_BBOARD != null
 	  @ 	&& votesForCandidates != null && bb_encryptor != null
 	  @ 	&& signer != null && entryLog != null
-	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 	&& votesForCandidates.length == numberOfCandidates;
 	  @ assignable Environment.inputCounter, Environment.result;
 	  @ diverges true;
 	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException,
 	  @ 		NullPointerException, Error;
-	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter
-	  @ 	&& votesForCandidates.length == numberOfCandidates;
-	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
-	  @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter;
-	  @ signals (ArrayIndexOutOfBoundsException e)
-	  @            Environment.inputValues != null && 0 <= Environment.inputCounter;
-	  @ signals (NullPointerException e)
-	  @            Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ ensures votesForCandidates.length == numberOfCandidates;
 	  @*/
 	public /*@ helper @*/ void publishLog() throws NetworkError
 	{
@@ -189,15 +158,12 @@ public class VotingMachine
 	/*@ private behaviour
 	  @ requires Params.MACHINE_ENTRY != null && Params.DEFAULT_HOST_BBOARD != null
 	  @ 	&& bb_encryptor != null && signer != null && entryLog != null
-	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 	&& votesForCandidates != null
 	  @ 	&& votesForCandidates.length == numberOfCandidates;
 	  @ requires tag != null;
 	  @ diverges true;
 	  @ signals_only Error, NullPointerException;
 	  @ ensures true;
-	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
-	  @ signals (NullPointerException e) Environment.inputValues != null && 0 <= Environment.inputCounter;
 	  @*/
 	private /*@ strictly_pure helper @// to be proven with JOANA */ void logAndSendNewEntry(/*@ nullable @*/ byte[] tag) {
 		// create a new (encrypted) log entry:
@@ -240,17 +206,11 @@ public class VotingMachine
 	 *   Concatenation is made right to left
 	 */
 	/*@ private behaviour
-	  @ requires Params.DEFAULT_HOST_BBOARD != null
-	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ requires Params.DEFAULT_HOST_BBOARD != null;
 	  @ assignable Environment.inputCounter, Environment.result;
 	  @ diverges true;
 	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException, NullPointerException, Error;
-	  @ ensures Environment.inputValues != null && 0 <= Environment.inputCounter;
-	  @ signals (NetworkError e) Environment.inputValues != null && 0 <= Environment.inputCounter;
-	  @ signals (ArrayIndexOutOfBoundsException e) Environment.inputValues != null
-	  @                                    && 0 <= Environment.inputCounter;
-	  @ signals (NullPointerException e) Environment.inputValues != null && 0 <= Environment.inputCounter;
-	  @ signals (Error e) Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ ensures true;
 	  @*/
 	private static /*@ helper @*/ void signAndPost(byte[] tag, /*@ nullable @*/ byte[] message, Signer signer)
 			throws NetworkError

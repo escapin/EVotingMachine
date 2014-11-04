@@ -45,7 +45,6 @@ public class Environment {
 	}
 
 	/*@ public behaviour
-	  @ requires inputValues != null && 0 <= inputCounter;
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, Error;
 	  @ assignable inputCounter, result;
