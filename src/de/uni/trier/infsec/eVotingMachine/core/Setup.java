@@ -19,30 +19,25 @@ public final class Setup
 
 	//@ private static ghost boolean flag;
 
-	/*@ private behaviour
-	  @ requires 0 < numberOfCandidates
-	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter;
+	/*@ private behavior
+	  @ requires 0 < numberOfCandidates;
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException;
 	  @ assignable Environment.inputCounter;
 	  @ ensures 0 <= numberOfVoters && \result.length == numberOfVoters
-	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 	&& (\forall int j; 0 <= j && j < numberOfVoters;
 	  @ 		0 <= \result[j] && \result[j] < numberOfCandidates)
-	  @ 	&& \fresh(\result) && (\forall Object o; o != \result; !\fresh(o));
-	  @ signals (Exception e) Environment.inputValues != null && 0 <= Environment.inputCounter;
+	  @ 	&& \fresh(\result);
 	  @*/
 	private static /*@ helper @*/ int[] createChoices(int numberOfVoters,
 	                                                  int numberOfCandidates) {
 		final int[] choices = new int[numberOfVoters];
 		/*@ loop_invariant 0 <= i && i <= numberOfVoters && choices != null
 		  @ 		&& choices.length == numberOfVoters
-		  @ 		&& Environment.inputValues != null
 		  @ 		&& 0 <= numberOfVoters && 0 < numberOfCandidates
-		  @ 		&& 0 <= Environment.inputCounter
 		  @ 		&& (\forall int j; 0 <= j && j < i;
 		  @ 			0 <= choices[j] && choices[j] < numberOfCandidates)
-		  @ 		&& \fresh(choices) && (\forall Object o; o != choices; !\fresh(o));
+		  @ 		&& \fresh(choices);
 		  @ assignable Environment.inputCounter, choices[*];
 		  @ decreases numberOfVoters - i;
 		  @*/
@@ -127,7 +122,6 @@ public final class Setup
 
 	/*@ private behaviour
 	  @ requires 0 < numberOfCandidates
-	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 	&& Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
 	  @ 	&& Params.DEFAULT_HOST_BBOARD != null && Params.RESULTS != null && Params.LOG != null
 	  @ 	&& vm.votesForCandidates != null && vm.numberOfCandidates == numberOfCandidates
@@ -173,7 +167,6 @@ public final class Setup
 	  @ 	&& vm.bb_encryptor != null && vm.signer != null && vm.entryLog != null
 	  @ 	&& bb.verifier != null && bb.entryLog != null
 	  @ 	&& vm.votesForCandidates.length == vm.numberOfCandidates
-	  @ 	&& Environment.inputValues != null && 0 <= Environment.inputCounter
 	  @ 	&& Params.VOTE != null && Params.CANCEL != null && Params.MACHINE_ENTRY != null
 	  @ 	&& Params.DEFAULT_HOST_BBOARD != null && Params.RESULTS != null && Params.LOG != null
 	  @ 	&& vm.votesForCandidates.length == correctResult.length

@@ -4,7 +4,6 @@ import de.uni.trier.infsec.environment.Environment;
 
 public class Timestamp {
 
-    // TODO: cannot be verified, since changes the environment
         /*@ public behavior
           @ assignable Environment.inputCounter;
           @ diverges true;

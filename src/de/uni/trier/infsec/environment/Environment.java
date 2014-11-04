@@ -9,27 +9,22 @@ public class Environment {
 
 	//@ public static invariant 0 <= inputCounter;
 
-	/*@ public behaviour
-	  @ requires inputValues != null && 0 <= inputCounter;
+	/*@ public behavior
 	  @ assignable inputCounter;
-	  @ diverges inputValues.length <= inputCounter;
+	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException;
-	  @ ensures inputValues != null && 0 <= inputCounter && (\forall Object o; !\fresh(o));
-	  @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
+	  @ ensures true;
 	  @*/
 	public static /*@ helper @*/ int untrustedInput()
 	{
 		return inputValues[inputCounter++];
 	}
 
-	/*@ public behaviour
-	  @ requires inputValues != null && 0 <= inputCounter && 0 < n;
+	/*@ public behavior
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException;
 	  @ assignable inputCounter;
-	  @ ensures inputValues != null && 0 <= inputCounter && 0 <= \result && \result < n
-	  @    && (\forall Object o; !\fresh(o));
-	  @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
+	  @ ensures 0 <= \result && \result < n;
 	  @*/
 	public static /*@ helper @*/ int untrustedInput(int n)
 	{
@@ -44,13 +39,11 @@ public class Environment {
 		return res;
 	}
 
-	/*@ public behaviour
+	/*@ public behavior
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, Error;
 	  @ assignable inputCounter, result;
-	  @ ensures inputValues != null && 0 <= inputCounter && (\forall Object o; !\fresh(o));
-	  @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
-	  @ signals (Error e) inputValues != null && 0 <= inputCounter;
+	  @ ensures true;
 	  @*/
 	public synchronized static /*@ helper @*/ void untrustedOutput(long x)
 	{
@@ -60,14 +53,11 @@ public class Environment {
 		}
 	}
 
-	/*@ public behaviour
-	  @ requires inputValues != null && 0 <= inputCounter;
+	/*@ public behavior
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException;
 	  @ assignable inputCounter;
-	  @ ensures inputValues != null && 0 <= inputCounter
-	  @    && (\forall Object o; o != \result; !\fresh(o));
-	  @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
+	  @ ensures true;
 	  @*/
 	public static /*@ helper nullable @*/ byte[] untrustedInputMessage()
 	{
@@ -88,17 +78,12 @@ public class Environment {
 		return returnval;
 	}
 
-	/*@ public behaviour
-	  @ requires inputValues != null && 0 <= inputCounter;
+	/*@ public behavior
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException;
 	  @ assignable inputCounter;
-	  @ ensures inputValues != null && 0 <= inputCounter && \result != null
-	  @ 	&& \result.length == N  && \fresh(\result)
-	  @ 	&& (\forall Object o; o != \result
-	  @ 			&& (\forall int j; 0 <= j && j < N; o != \result[j]);
-	  @ 		!\fresh(o));
-	  @ signals (Exception e) inputValues != null && 0 <= inputCounter;
+	  @ ensures \result != null
+	  @ 	&& \result.length == N  && \fresh(\result);
 	  @*/
 	public static /*@ helper nullable @*/ byte[][] untrustedInputMessages(int N)
 	{
@@ -117,14 +102,12 @@ public class Environment {
 		return output;
 	}
 
-	/*@ public behaviour
-	  @ requires inputValues != null && 0 <= inputCounter;
+	/*@ public behavior
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException;
 	  @ assignable inputCounter;
-	  @ ensures inputValues != null && 0 <= inputCounter && \result.length == N
-	  @ 	&& \fresh(\result) && (\forall Object o; o != \result; !\fresh(o));
-	  @ signals (Exception e) inputValues != null && 0 <= inputCounter;
+	  @ ensures \result.length == N
+	  @ 	&& \fresh(\result);
 	  @*/
 	public static /*@ helper @*/ int[] untrustedInputArray(int N)
 	{
@@ -140,14 +123,11 @@ public class Environment {
 		return output;
 	}
 
-	/*@ public behaviour
-	  @ requires inputValues != null && 0 <= inputCounter;
+	/*@ public behavior
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, Error;
 	  @ assignable inputCounter, result;
-	  @ ensures inputValues != null && 0 <= inputCounter;
-	  @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
-	  @ signals (Error e) inputValues != null && 0 <= inputCounter;
+	  @ ensures true;
 	  @*/
 	public static /*@ helper @*/ void untrustedOutputMessage(byte[] t)
 	{
@@ -161,14 +141,11 @@ public class Environment {
 		}
 	}
 
-	/*@ public behaviour
-	  @ requires inputValues != null && 0 <= inputCounter;
+	/*@ public behavior
 	  @ diverges true;
 	  @ signals_only ArrayIndexOutOfBoundsException, Error;
 	  @ assignable inputCounter, result;
-	  @ ensures inputValues != null && 0 <= inputCounter;
-	  @ signals (ArrayIndexOutOfBoundsException e) inputValues != null && 0 <= inputCounter;
-	  @ signals (Error e) inputValues != null && 0 <= inputCounter;
+	  @ ensures true;
 	  @*/
 	public static /*@ helper @*/ void untrustedOutputString(String s)
 	{
