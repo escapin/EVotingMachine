@@ -7,7 +7,6 @@ public class Environment {
 	private /*@ spec_public @*/ static int [] inputValues = {1,7,3}; // just an example
 	private /*@ spec_public @*/ static int inputCounter = 0;
 
-	//@ public static invariant 0 <= inputCounter;
 
 	/*@ public behavior
 	  @ assignable inputCounter;
