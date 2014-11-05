@@ -62,7 +62,6 @@ public class VotingMachine
 	  @ 	&& votesForCandidates.length == numberOfCandidates;
 	  @ diverges true;
 	  @ assignable Environment.inputCounter, votesForCandidates[*], lastBallot, voteCounter;
-	  @ signals_only InvalidVote, ArrayIndexOutOfBoundsException, Error, NullPointerException;
 	  @ ensures votesForCandidates.length == numberOfCandidates
 	  @ 	&& lastBallot != null
 	  @ 	&& voteCounter == \old(voteCounter) + 1
@@ -99,7 +98,6 @@ public class VotingMachine
 	  @ 	&& (lastBallot != null ==>
 	  @ 		(0 <= lastBallot.votersChoice && lastBallot.votersChoice < numberOfCandidates));
 	  @ diverges true;
-	  @ signals_only InvalidCancelation, Error, NullPointerException;
 	  @ assignable votesForCandidates[*], lastBallot;
 	  @ ensures votesForCandidates.length == numberOfCandidates
 	  @ 	&& \old(lastBallot) != null && lastBallot == null
@@ -127,7 +125,6 @@ public class VotingMachine
 	  @ 	&& (\forall int j; 0 <= j && j < numberOfCandidates;
 	  @ 		votesForCandidates[j] == Setup.correctResult[j]);
 	  @ diverges true;
-	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException, NullPointerException, Error;
 	  @ assignable Environment.inputCounter, Environment.result;
 	  @ ensures votesForCandidates.length == numberOfCandidates;
 	  @*/
@@ -143,8 +140,6 @@ public class VotingMachine
 	  @ 	&& votesForCandidates.length == numberOfCandidates;
 	  @ assignable Environment.inputCounter, Environment.result;
 	  @ diverges true;
-	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException,
-	  @ 		NullPointerException, Error;
 	  @ ensures votesForCandidates.length == numberOfCandidates;
 	  @*/
 	public /*@ helper @*/ void publishLog() throws NetworkError
@@ -162,7 +157,6 @@ public class VotingMachine
 	  @ 	&& votesForCandidates.length == numberOfCandidates;
 	  @ requires tag != null;
 	  @ diverges true;
-	  @ signals_only Error, NullPointerException;
 	  @ ensures true;
 	  @*/
 	private /*@ strictly_pure helper @// to be proven with JOANA */ void logAndSendNewEntry(/*@ nullable @*/ byte[] tag) {
@@ -209,7 +203,6 @@ public class VotingMachine
 	  @ requires Params.DEFAULT_HOST_BBOARD != null;
 	  @ assignable Environment.inputCounter, Environment.result;
 	  @ diverges true;
-	  @ signals_only NetworkError, ArrayIndexOutOfBoundsException, NullPointerException, Error;
 	  @ ensures true;
 	  @*/
 	private static /*@ helper @*/ void signAndPost(byte[] tag, /*@ nullable @*/ byte[] message, Signer signer)

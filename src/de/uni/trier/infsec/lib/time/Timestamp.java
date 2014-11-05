@@ -7,7 +7,6 @@ public class Timestamp {
         /*@ public behavior
           @ assignable Environment.inputCounter;
           @ diverges true;
-          @ signals_only ArrayIndexOutOfBoundsException;
           @ ensures true;
           @*/
 	public static /*@ helper @*/ long get() {

@@ -12,7 +12,6 @@ public class Environment {
 	/*@ public behavior
 	  @ assignable inputCounter;
 	  @ diverges true;
-	  @ signals_only ArrayIndexOutOfBoundsException;
 	  @ ensures true;
 	  @*/
 	public static /*@ helper @*/ int untrustedInput()
@@ -22,16 +21,14 @@ public class Environment {
 
 	/*@ public behavior
 	  @ diverges true;
-	  @ signals_only ArrayIndexOutOfBoundsException;
 	  @ assignable inputCounter;
 	  @ ensures 0 <= \result && \result < n;
 	  @*/
 	public static /*@ helper @*/ int untrustedInput(int n)
 	{
 		int res = -1;
-		/*@ loop_invariant 0 <= inputCounter && (\forall Object o; !\fresh(o));
+		/*@ loop_invariant true;
 		  @ assignable inputCounter;
-		  @ decreases (res < 0 || res >= n) ? 1 : 0;
 		  @*/
 		while (res < 0 || res >= n) {
 			res = untrustedInput();
@@ -41,7 +38,6 @@ public class Environment {
 
 	/*@ public behavior
 	  @ diverges true;
-	  @ signals_only ArrayIndexOutOfBoundsException, Error;
 	  @ assignable inputCounter, result;
 	  @ ensures true;
 	  @*/
@@ -55,7 +51,6 @@ public class Environment {
 
 	/*@ public behavior
 	  @ diverges true;
-	  @ signals_only ArrayIndexOutOfBoundsException;
 	  @ assignable inputCounter;
 	  @ ensures true;
 	  @*/
@@ -66,11 +61,8 @@ public class Environment {
 		if (llen<0 || len!=llen) // check whether casting to int has changed its value
 			return null;
 		byte[] returnval = new byte[len];
-		/*@ loop_invariant 0 <= inputCounter && 0 <= len
-		  @           && inputValues != null
-		  @           && (\forall Object o; o != returnval; !\fresh(o));
+		/*@ loop_invariant true;
 		  @ assignable inputCounter, returnval[*];
-		  @ decreases len - i;
 		  @*/
 		for (int i = 0; i < len; i++) {
 			returnval[i] = (byte) Environment.untrustedInput();
@@ -80,7 +72,6 @@ public class Environment {
 
 	/*@ public behavior
 	  @ diverges true;
-	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException;
 	  @ assignable inputCounter;
 	  @ ensures \result != null
 	  @ 	&& \result.length == N  && \fresh(\result);
@@ -88,14 +79,8 @@ public class Environment {
 	public static /*@ helper nullable @*/ byte[][] untrustedInputMessages(int N)
 	{
 		byte[][] output = new byte[N][];
-		/*@ loop_invariant 0 <= inputCounter && 0 <= N
-		  @           && 0 <= i && i <= N
-		  @           && inputValues != null && output != null && \fresh(output)
-		  @           && (\forall Object o; o != output
-		  @                            && (\forall int j; 0 <= j && j < i; o != output[j]);
-		  @                   !\fresh(o));
+		/*@ loop_invariant true;
 		  @ assignable inputCounter, output[*];
-		  @ decreases N - i;
 		  @*/
 		for(int i=0;i<N;i++)
 			output[i]=untrustedInputMessage();
@@ -104,7 +89,6 @@ public class Environment {
 
 	/*@ public behavior
 	  @ diverges true;
-	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException;
 	  @ assignable inputCounter;
 	  @ ensures \result.length == N
 	  @ 	&& \fresh(\result);
@@ -112,11 +96,9 @@ public class Environment {
 	public static /*@ helper @*/ int[] untrustedInputArray(int N)
 	{
 		int[] output = new int[N];
-		/*@ loop_invariant 0 <= N && 0 <= inputCounter && output != null
-		  @ 		&& (\forall Object o; o != output; !\fresh(o))
+		/*@ loop_invariant 0 <= N
 		  @ 		&& output.length == N && \fresh(output);
 		  @ assignable inputCounter, output[*];
-		  @ decreases N - i;
 		  @*/
 		for(int i=0;i<N;i++)
 			output[i]=untrustedInput();
@@ -125,16 +107,14 @@ public class Environment {
 
 	/*@ public behavior
 	  @ diverges true;
-	  @ signals_only ArrayIndexOutOfBoundsException, Error;
 	  @ assignable inputCounter, result;
 	  @ ensures true;
 	  @*/
 	public static /*@ helper @*/ void untrustedOutputMessage(byte[] t)
 	{
 		untrustedOutput(t.length);
-		/*@ loop_invariant 0 <= inputCounter;
+		/*@ loop_invariant true;
 		  @ assignable inputCounter, result;
-		  @ decreases t.length - i;
 		  @*/
 		for (int i = 0; i < t.length; i++) {
 			untrustedOutput(t[i]);
@@ -143,16 +123,14 @@ public class Environment {
 
 	/*@ public behavior
 	  @ diverges true;
-	  @ signals_only ArrayIndexOutOfBoundsException, Error;
 	  @ assignable inputCounter, result;
 	  @ ensures true;
 	  @*/
 	public static /*@ helper @*/ void untrustedOutputString(String s)
 	{
 		untrustedOutput(s.length());
-		/*@ loop_invariant 0 <= inputCounter && 0 <= i;
+		/*@ loop_invariant true;
 		  @ assignable inputCounter, result;
-		  @ decreases s.length() - i;
 		  @*/
 		for (int i = 0; i < s.length(); i++) {
 			untrustedOutput(s.charAt(i));

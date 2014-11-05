@@ -24,7 +24,6 @@ public class BulletinBoard
 	 */
 	/*@ public behaviour
 	  @ requires entryLog != null && verifier != null;
-	  @ signals_only NetworkError, NullPointerException;
 	  @ diverges true;
 	  @ ensures true;
 	  @ signals (NetworkError e) true;
@@ -48,7 +47,6 @@ public class BulletinBoard
 	 */
 	/*@ public behaviour
 	  @ requires entryLog != null && verifier != null;
-	  @ signals_only NetworkError, NullPointerException;
 	  @ diverges true;
 	  @ ensures true;
 	  @ signals (NetworkError e) true;

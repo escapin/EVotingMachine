@@ -6,7 +6,6 @@ public class NetworkClient {
 
     /*@ public behavior
       @ assignable Environment.inputCounter, Environment.result;
-      @ signals_only NetworkError, ArrayIndexOutOfBoundsException, Error;
       @ diverges true;
       @ ensures true;
       @*/
@@ -23,7 +22,6 @@ public class NetworkClient {
 
     /*@ public behavior
       @ assignable Environment.inputCounter, Environment.result;
-      @ signals_only NetworkError, ArrayIndexOutOfBoundsException, Error;
       @ diverges true;
       @ ensures true;
       @*/

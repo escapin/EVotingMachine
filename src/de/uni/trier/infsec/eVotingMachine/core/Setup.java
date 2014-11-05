@@ -22,7 +22,6 @@ public final class Setup
 	/*@ private behavior
 	  @ requires 0 < numberOfCandidates;
 	  @ diverges true;
-	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException;
 	  @ assignable Environment.inputCounter;
 	  @ ensures 0 <= numberOfVoters && \result.length == numberOfVoters
 	  @ 	&& (\forall int j; 0 <= j && j < numberOfVoters;
@@ -131,8 +130,6 @@ public final class Setup
 	  @ 	&& (\forall int j; 0 <= j && j < vm.numberOfCandidates;
 	  @ 		vm.votesForCandidates[j] == 0);
 	  @ diverges true;
-	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, Throwable,
-	  @ 		NetworkError, Error, InvalidCancelation, InvalidVote, NullPointerException;
 	  @ assignable correctResult, Environment.inputCounter, Environment.result, vm.lastBallot,
 	  @ 		vm.voteCounter, vm.votesForCandidates[*], flag;
 	  @ ensures flag;
@@ -185,8 +182,6 @@ public final class Setup
 	  @ 		correctResult[j] ==
 	  @ 			(\num_of int k; 0 <= k && k < numberOfVoters; choices1[k] == j));
 	  @ diverges true;
-	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, NetworkError,
-	  @            Error, InvalidCancelation, InvalidVote, NullPointerException;
 	  @ assignable Environment.inputCounter, Environment.result, vm.lastBallot,
 	  @ 		vm.voteCounter, vm.votesForCandidates[*], flag;
 	  @ ensures flag;
@@ -235,8 +230,6 @@ public final class Setup
 	  @ 		correctResult[j] ==
 	  @ 			(\num_of int k; 0 <= k && k < numberOfVoters; choices1[k] == j));
 	  @ diverges true;
-	  @ signals_only ArrayIndexOutOfBoundsException, NegativeArraySizeException, NetworkError,
-	  @ 		Error, InvalidCancelation, InvalidVote, NullPointerException;
 	  @ assignable Environment.inputCounter, Environment.result, vm.lastBallot,
 	  @ 		vm.voteCounter, vm.votesForCandidates[*], flag;
 	  @ ensures flag;
@@ -287,8 +280,6 @@ public final class Setup
 				  @ diverges true;
 				  @ assignable Environment.inputCounter, Environment.result, vm.lastBallot,
 				  @ 		vm.voteCounter, vm.votesForCandidates[*];
-				  @ signals_only InvalidVote, ArrayIndexOutOfBoundsException, Error,
-				  @ 		NetworkError, InvalidCancelation, NullPointerException;
 				  @ ensures vm.lastBallot == null && vm.votesForCandidates != null
 				  @ 	&& correctResult.length == vm.votesForCandidates.length
 				  @ 	&& vm.numberOfCandidates == vm.votesForCandidates.length
