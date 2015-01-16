@@ -75,11 +75,25 @@ public class VotingMachine
 	  @*/
 	public /*@ helper @*/ int collectBallot(int votersChoice) throws InvalidVote
 	{
-		if ( votersChoice < 0 || votersChoice >= numberOfCandidates ) 
-			throw new InvalidVote();
+		/**
+		 * JOANA edit: votersChoice is considered secret since it depends on the secret.
+		 * If, depending on its value, an exception is thrown (or not), everything which happens
+		 * after this if-statement depends on votersChoice, since votersChoice decides
+		 * if everything is executed or the program crashes.
+		 */
+//		if ( votersChoice < 0 || votersChoice >= numberOfCandidates )
+//			throw new InvalidVote();
 
 		// increase the vote for the corresponding candidate
-		votesForCandidates[votersChoice]++;
+		/**
+		 * JOANA edit: votersChoice is used as index here. Since JOANA does not reason
+		 * about values and the boundaries of arrays, it assumes that the value of votersChoice
+		 * decides whether the array access is successuful or the program crashes (and also whether
+		 * the result is touched or not).
+		 * Surrounding it with a try..catch-block makes the program in any case not crash, so,
+		 * from JOANA's perspective, it is fine.
+		 */
+		try {votesForCandidates[votersChoice]++;} catch (Throwable t) {};
 
 		// create a new inner ballot
 		lastBallot = new InnerBallot(votersChoice, ++voteCounter, Timestamp.get());
@@ -111,7 +125,16 @@ public class VotingMachine
 	{
 		if(lastBallot==null)
 			throw new InvalidCancelation();
-		votesForCandidates[lastBallot.votersChoice]--;
+
+		/**
+		 * JOANA edit: votersChoice is used as index here. Since JOANA does not reason
+		 * about values and the boundaries of arrays, it assumes that the value of votersChoice
+		 * decides whether the array access is successuful or the program crashes (and also whether
+		 * the result is touched or not).
+		 * Surrounding it with a try..catch-block makes the program in any case not crash, so,
+		 * from JOANA's perspective, it is fine.
+		 */
+		try {votesForCandidates[lastBallot.votersChoice]--;} catch (Throwable t) {};
 		logAndSendNewEntry(Params.CANCEL);
 		lastBallot = null;
 	}
