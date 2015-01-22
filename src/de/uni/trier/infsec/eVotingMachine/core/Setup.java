@@ -307,7 +307,8 @@ public final class Setup
 				break;
 
 			case 4: // make the bulletin board send its content over the network
-				bb.onRequestContent();
+				byte[] bbConent = bb.onRequestContent();
+				Environment.untrustedOutputMessage(bbConent);
 				break;
 			}
 		}
