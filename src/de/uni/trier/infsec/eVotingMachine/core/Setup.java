@@ -224,7 +224,7 @@ public final class Setup
 	  @ 	&& (\forall int j; 0 <= j && j < numberOfVoters;
 	  @ 		0 <= choices1[j] && choices1[j] < correctResult.length)
       @     && (\forall int j; 0 <= j && j < numberOfVoters;
-      @         0 <= audit_choices1[j] && audit_choices[j] < correctResult.length)
+      @         0 <= audit_choices[j] && audit_choices[j] < correctResult.length)
 	  @ 	&& (\forall int j; 0 <= j && j < correctResult.length;
 	  @ 		correctResult[j] ==
 	  @ 			(\num_of int k; 0 <= k && k < numberOfVoters; choices0[k] == j))
@@ -258,7 +258,7 @@ public final class Setup
           @     && (\forall int j; 0 <= j && j < numberOfVoters;
           @         0 <= choices1[j] && choices1[j] < correctResult.length)
           @     && (\forall int j; 0 <= j && j < numberOfVoters;
-          @         0 <= audit_choices1[j] && audit_choices[j] < correctResult.length);
+          @         0 <= audit_choices[j] && audit_choices[j] < correctResult.length);
 		  @ assignable Environment.inputCounter, Environment.result, vm.lastBallot,
 		  @ 		vm.voteCounter, vm.votesForCandidates[*];
 		  @ decreases N - i;
