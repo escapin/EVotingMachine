@@ -15,6 +15,10 @@ public class VotingMachine
 		public final int votersChoice;
 		public final int voteCounter;
 		public final long timestamp;
+		/*@ normal_behavior
+		  @ ensures votersChoice == choice;
+		  @ pure
+		  @*/
 		public InnerBallot(int choice, int counter, long ts) {
 			votersChoice = choice;
 			voteCounter = counter;
