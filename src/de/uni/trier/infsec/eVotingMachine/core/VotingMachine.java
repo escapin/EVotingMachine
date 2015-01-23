@@ -15,6 +15,10 @@ public class VotingMachine
 		public final int votersChoice;
 		public final int voteCounter;
 		public final long timestamp;
+		/*@ normal_behavior
+		  @ ensures votersChoice == choice;
+		  @ pure
+		  @*/
 		public InnerBallot(int choice, int counter, long ts) {
 			votersChoice = choice;
 			voteCounter = counter;
@@ -60,6 +64,7 @@ public class VotingMachine
 	  @ 	&& Params.DEFAULT_HOST_BBOARD != null
 	  @ 	&& bb_encryptor != null && signer != null && entryLog != null
 	  @ 	&& votesForCandidates.length == numberOfCandidates;
+	  @ requires 0 <= votersChoice && votersChoice < numberOfCandidates;
 	  @ diverges true;
 	  @ assignable Environment.inputCounter, votesForCandidates[*], lastBallot, voteCounter;
 	  @ ensures votesForCandidates.length == numberOfCandidates
