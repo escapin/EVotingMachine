@@ -260,7 +260,27 @@ public final class Setup
 
 			case 0: // next voter votes
 				if (voterNr<numberOfVoters) {
-					int choice = secret ? choices0[voterNr] : choices1[voterNr];
+					/**
+					 * JOANA edit: 
+					 * A statement like
+					 * int choice = secret ? choices0[voterNr] : choices1[voterNr]
+					 * is highly problematic from JOANA's perspective: JOANA does not reason
+					 * about values and array bounds, so it assumes that both the accesses
+					 * to choices0[voterNr] and choices1[voterNr] may fail and lead to a crash
+					 * of the whole program (which influences the result because it may or may not
+					 * be updated depending on the secret).
+					 * In consequence, JOANA cannot exclude that the secret
+					 * decides about whether the program crashes or not because it does not know that
+					 * e.g. it cannot be the case that voterNr is out of bounds for choices0 but in the
+					 * bounds of choices1.
+					 * The rewrited version should be conservative (under the assumption that the arrays
+					 * have the same lengths). For JOANA it's also fine because the secret only decides
+					 * about the actual choice but not about whether the program crashes (at the point at
+					 * which the choice is made, the program cannot have crashed).
+					 */
+					int choice0 = choices0[voterNr];
+					int choice1 = choices1[voterNr];
+					int choice = secret ? choice0 : choice1;
 					vm.collectBallot(choice);
 					++voterNr;
 				}
