@@ -64,6 +64,7 @@ public class VotingMachine
 	  @ 	&& Params.DEFAULT_HOST_BBOARD != null
 	  @ 	&& bb_encryptor != null && signer != null && entryLog != null
 	  @ 	&& votesForCandidates.length == numberOfCandidates;
+	  @ requires 0 <= votersChoice && votersChoice < numberOfCandidates;
 	  @ diverges true;
 	  @ assignable Environment.inputCounter, votesForCandidates[*], lastBallot, voteCounter;
 	  @ ensures votesForCandidates.length == numberOfCandidates
