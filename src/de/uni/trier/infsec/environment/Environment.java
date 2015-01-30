@@ -109,7 +109,7 @@ public class Environment {
 	  @ assignable inputCounter, result;
 	  @ ensures true;
 	  @*/
-	public static /*@ helper @*/ void untrustedOutputMessage(byte[] t)
+	public static /*@ helper @*/ void untrustedOutputMessage(/*@ nullable @*/byte[] t)
 	{
 		untrustedOutput(t.length);
 		/*@ loop_invariant true;
