@@ -2,7 +2,7 @@
 
 \settings {
 "#Proof-Settings-Config-File
-#Thu Sep 25 22:32:16 CEST 2014
+#Fri Jan 30 10:45:59 CET 2015
 [StrategyProperty]VBT_PHASE=VBT_SYM_EX
 [SMTSettings]useUninterpretedMultiplication=true
 [SMTSettings]SelectedTaclets=
@@ -24,10 +24,11 @@
 [Strategy]Timeout=-1
 [Strategy]MaximumNumberOfAutomaticApplications=10000
 [SMTSettings]integersMaximum=2147483645
-[Choice]DefaultChoices=wdChecks-wdChecks\\:off , JavaCard-JavaCard\\:on , bigint-bigint\\:on , intRules-intRules\\:arithmeticSemanticsIgnoringOF , programRules-programRules\\:Java , sequences-sequences\\:on , runtimeExceptions-runtimeExceptions\\:allow , integerSimplificationRules-integerSimplificationRules\\:full , Strings-Strings\\:on , reach-reach\\:on , assertions-assertions\\:on , modelFields-modelFields\\:showSatisfiability , initialisation-initialisation\\:disableStaticInitialisation , wdOperator-wdOperator\\:L , optimisedSelectRules-optimisedSelectRules\\:on
+[Choice]DefaultChoices=wdChecks-wdChecks\\:off , JavaCard-JavaCard\\:on , bigint-bigint\\:on , intRules-intRules\\:arithmeticSemanticsIgnoringOF , programRules-programRules\\:Java , sequences-sequences\\:on , runtimeExceptions-runtimeExceptions\\:allow , integerSimplificationRules-integerSimplificationRules\\:full , Strings-Strings\\:on , reach-reach\\:on , assertions-assertions\\:on , modelFields-modelFields\\:treatAsAxiom , initialisation-initialisation\\:disableStaticInitialisation , wdOperator-wdOperator\\:L , moreSeqRules-moreSeqRules\\:off
 [SMTSettings]useConstantsForBigOrSmallIntegers=true
 [StrategyProperty]STOPMODE_OPTIONS_KEY=STOPMODE_DEFAULT
 [StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
+[StrategyProperty]INF_FLOW_CHECK_PROPERTY=INF_FLOW_CHECK_FALSE
 [SMTSettings]maxGenericSorts=2
 [SMTSettings]integersMinimum=-2147483645
 [SMTSettings]invariantForall=false
@@ -41,16 +42,16 @@
 \javaSource "../src";
 
 \proofObligation "#Proof Obligation Settings
-#Thu Sep 25 22:32:16 CEST 2014
+#Fri Jan 30 10:45:59 CET 2015
 name=de.uni.trier.infsec.utils.MessageTools[de.uni.trier.infsec.utils.MessageTools\\:\\:intToByteArray(int)].JML normal_behavior operation contract.0
 contract=de.uni.trier.infsec.utils.MessageTools[de.uni.trier.infsec.utils.MessageTools\\:\\:intToByteArray(int)].JML normal_behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
 \proof {
-(keyLog "0" (keyUser "miki" ) (keyVersion "c781f49facff0f907c1d2349143b682c313d0e46"))
+(keyLog "0" (keyUser "miki" ) (keyVersion "8ba82498c6938c8c5fb8b06e092b978f30dda885"))
 
-(autoModeTime "904")
+(autoModeTime "1027")
 
 (branch "dummy ID"
 (builtin "One Step Simplification" (formula "1") (newnames "heapAtPre"))
@@ -380,7 +381,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                      (rule "commute_and" (formula "5") (term "0,0,1,0,0,0"))
                      (rule "commute_and_2" (formula "5") (term "0,1,0,0,0"))
                      (rule "ifthenelse_split" (formula "1") (term "0"))
-                     (branch "f_0 = <created> ∧ o_0 = x_arr_4 TRUE"
+                     (branch "f_0 = java.lang.Object::<created> ∧ o_0 = x_arr_4 TRUE"
                         (rule "andLeft" (formula "1"))
                         (rule "applyEqReverse" (formula "4") (term "2,0") (ifseqformula "3"))
                         (rule "hideAuxiliaryEq" (formula "3"))
@@ -446,11 +447,11 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                         (rule "eqSymm" (formula "10"))
                         (rule "close" (formula "10") (ifseqformula "1"))
                      )
-                     (branch "f_0 = <created> ∧ o_0 = x_arr_4 FALSE"
+                     (branch "f_0 = java.lang.Object::<created> ∧ o_0 = x_arr_4 FALSE"
                         (rule "applyEqReverse" (formula "2") (term "2,0") (ifseqformula "1"))
                         (rule "hideAuxiliaryEq" (formula "1"))
                         (rule "ifthenelse_split" (formula "1") (term "0"))
-                        (branch "f_0 = <transient> ∧ o_0 = x_arr_4 TRUE"
+                        (branch "f_0 = java.lang.Object::<transient> ∧ o_0 = x_arr_4 TRUE"
                            (rule "andLeft" (formula "1"))
                            (rule "applyEqReverse" (formula "4") (term "2,0") (ifseqformula "3"))
                            (rule "hideAuxiliaryEq" (formula "3"))
@@ -521,11 +522,11 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                            (rule "eqSymm" (formula "3"))
                            (rule "close" (formula "9") (ifseqformula "3"))
                         )
-                        (branch "f_0 = <transient> ∧ o_0 = x_arr_4 FALSE"
+                        (branch "f_0 = java.lang.Object::<transient> ∧ o_0 = x_arr_4 FALSE"
                            (rule "applyEqReverse" (formula "2") (term "2,0") (ifseqformula "1"))
                            (rule "hideAuxiliaryEq" (formula "1"))
                            (rule "ifthenelse_split" (formula "1") (term "0"))
-                           (branch "f_0 = <transactionConditionallyUpdated> ∧ o_0 = x_arr_4 TRUE"
+                           (branch " f_0 = java.lang.Object::<transactionConditionallyUpdated> ∧ o_0 = x_arr_4 TRUE"
                               (rule "andLeft" (formula "1"))
                               (rule "applyEqReverse" (formula "4") (term "2,0") (ifseqformula "3"))
                               (builtin "One Step Simplification" (formula "4") (ifInst ""  (formula "2")))
@@ -592,11 +593,11 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                               (rule "eqSymm" (formula "4"))
                               (rule "close" (formula "10") (ifseqformula "4"))
                            )
-                           (branch "f_0 = <transactionConditionallyUpdated> ∧ o_0 = x_arr_4 FALSE"
+                           (branch " f_0 = java.lang.Object::<transactionConditionallyUpdated> ∧ o_0 = x_arr_4 FALSE"
                               (rule "applyEqReverse" (formula "2") (term "2,0") (ifseqformula "1"))
                               (rule "hideAuxiliaryEq" (formula "1"))
                               (rule "ifthenelse_split" (formula "1") (term "0"))
-                              (branch "f_0 = <initialized> ∧ o_0 = x_arr_4 TRUE"
+                              (branch "f_0 = java.lang.Object::<initialized> ∧ o_0 = x_arr_4 TRUE"
                                  (rule "andLeft" (formula "1"))
                                  (rule "applyEqReverse" (formula "4") (term "2,0") (ifseqformula "3"))
                                  (rule "hideAuxiliaryEq" (formula "3"))
@@ -662,7 +663,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                  (rule "applyEq" (formula "1") (term "1,0") (ifseqformula "3"))
                                  (rule "close" (formula "8") (ifseqformula "1"))
                               )
-                              (branch "f_0 = <initialized> ∧ o_0 = x_arr_4 FALSE"
+                              (branch "f_0 = java.lang.Object::<initialized> ∧ o_0 = x_arr_4 FALSE"
                                  (rule "applyEqReverse" (formula "2") (term "2,0") (ifseqformula "1"))
                                  (rule "hideAuxiliaryEq" (formula "1"))
                                  (rule "replace_known_right" (formula "2") (term "0,0") (ifseqformula "11"))
@@ -670,7 +671,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                  (rule "applyEqReverse" (formula "3") (term "2,0") (ifseqformula "2"))
                                  (rule "hideAuxiliaryEq" (formula "2"))
                                  (rule "ifthenelse_split" (formula "1") (term "0"))
-                                 (branch " o_0 = x_arr_4 ∧ ∃ int iv; (iv ≥ 0 ∧ iv ≤ 3 ∧ arr(iv) = f_0) ∧ ¬f_0 = <created> TRUE"
+                                 (branch " o_0 = x_arr_4 ∧ ∃ int iv; (iv ≥ 0 ∧ iv ≤ 3 ∧ arr(iv) = f_0) ∧ ¬f_0 = java.lang.Object::<created> TRUE"
                                     (rule "andLeft" (formula "1"))
                                     (rule "notLeft" (formula "2"))
                                     (rule "andLeft" (formula "1"))
@@ -728,7 +729,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                     (rule "applyEq" (formula "1") (term "1,0") (ifseqformula "2"))
                                     (rule "close" (formula "14") (ifseqformula "1"))
                                  )
-                                 (branch " o_0 = x_arr_4 ∧ ∃ int iv; (iv ≥ 0 ∧ iv ≤ 3 ∧ arr(iv) = f_0) ∧ ¬f_0 = <created> FALSE"
+                                 (branch " o_0 = x_arr_4 ∧ ∃ int iv; (iv ≥ 0 ∧ iv ≤ 3 ∧ arr(iv) = f_0) ∧ ¬f_0 = java.lang.Object::<created> FALSE"
                                     (rule "applyEqReverse" (formula "2") (term "2,0") (ifseqformula "1"))
                                     (rule "hideAuxiliaryEq" (formula "1"))
                                     (rule "ifthenelse_split" (formula "1") (term "0"))
@@ -872,21 +873,17 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                              (builtin "One Step Simplification" (formula "13"))
                                              (rule "replace_known_left" (formula "10") (term "0,0") (ifseqformula "2"))
                                              (builtin "One Step Simplification" (formula "10") (ifInst ""  (formula "14")))
-                                             (rule "applyEqRigid" (formula "14") (term "0") (ifseqformula "1"))
-                                             (builtin "One Step Simplification" (formula "14"))
-                                             (rule "false_right" (formula "14"))
-                                             (rule "applyEqRigid" (formula "8") (term "0") (ifseqformula "1"))
-                                             (builtin "One Step Simplification" (formula "8"))
-                                             (rule "equal_literals" (formula "8"))
-                                             (rule "false_right" (formula "8"))
-                                             (rule "applyEq" (formula "9") (term "1,1,0") (ifseqformula "1"))
-                                             (builtin "One Step Simplification" (formula "9"))
-                                             (rule "castDel" (formula "9") (term "0,1"))
-                                             (rule "castDel" (formula "9") (term "0,0"))
-                                             (rule "leq_literals" (formula "9") (term "1"))
-                                             (builtin "One Step Simplification" (formula "9"))
-                                             (rule "qeq_literals" (formula "9"))
-                                             (rule "closeTrue" (formula "9"))
+                                             (rule "applyEq" (formula "13") (term "0") (ifseqformula "1"))
+                                             (builtin "One Step Simplification" (formula "13"))
+                                             (rule "false_right" (formula "13"))
+                                             (rule "applyEq" (formula "10") (term "1,1,0") (ifseqformula "1"))
+                                             (builtin "One Step Simplification" (formula "10"))
+                                             (rule "castDel" (formula "10") (term "0,0"))
+                                             (rule "castDel" (formula "10") (term "0,1"))
+                                             (rule "qeq_literals" (formula "10") (term "0"))
+                                             (builtin "One Step Simplification" (formula "10"))
+                                             (rule "leq_literals" (formula "10"))
+                                             (rule "closeTrue" (formula "10"))
                                           )
                                           (branch "f_0 = arr(2) ∧ o_0 = x_arr_4 FALSE"
                                              (rule "applyEqReverse" (formula "2") (term "2,0") (ifseqformula "1"))

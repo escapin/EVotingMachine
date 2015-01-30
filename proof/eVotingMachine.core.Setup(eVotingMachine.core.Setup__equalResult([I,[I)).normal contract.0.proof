@@ -2,7 +2,7 @@
 
 \settings {
 "#Proof-Settings-Config-File
-#Thu Sep 25 22:14:31 CEST 2014
+#Fri Jan 30 09:45:51 CET 2015
 [StrategyProperty]VBT_PHASE=VBT_SYM_EX
 [SMTSettings]useUninterpretedMultiplication=true
 [SMTSettings]SelectedTaclets=
@@ -24,10 +24,11 @@
 [Strategy]Timeout=-1
 [Strategy]MaximumNumberOfAutomaticApplications=10000
 [SMTSettings]integersMaximum=2147483645
-[Choice]DefaultChoices=wdChecks-wdChecks\\:off , JavaCard-JavaCard\\:on , bigint-bigint\\:on , intRules-intRules\\:arithmeticSemanticsIgnoringOF , programRules-programRules\\:Java , sequences-sequences\\:on , runtimeExceptions-runtimeExceptions\\:allow , integerSimplificationRules-integerSimplificationRules\\:full , Strings-Strings\\:on , reach-reach\\:on , assertions-assertions\\:on , modelFields-modelFields\\:showSatisfiability , initialisation-initialisation\\:disableStaticInitialisation , wdOperator-wdOperator\\:L , optimisedSelectRules-optimisedSelectRules\\:on
+[Choice]DefaultChoices=wdChecks-wdChecks\\:off , JavaCard-JavaCard\\:on , bigint-bigint\\:on , intRules-intRules\\:arithmeticSemanticsIgnoringOF , programRules-programRules\\:Java , sequences-sequences\\:on , runtimeExceptions-runtimeExceptions\\:allow , integerSimplificationRules-integerSimplificationRules\\:full , Strings-Strings\\:on , reach-reach\\:on , assertions-assertions\\:on , modelFields-modelFields\\:treatAsAxiom , initialisation-initialisation\\:disableStaticInitialisation , wdOperator-wdOperator\\:L , moreSeqRules-moreSeqRules\\:off
 [SMTSettings]useConstantsForBigOrSmallIntegers=true
 [StrategyProperty]STOPMODE_OPTIONS_KEY=STOPMODE_DEFAULT
 [StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
+[StrategyProperty]INF_FLOW_CHECK_PROPERTY=INF_FLOW_CHECK_FALSE
 [SMTSettings]maxGenericSorts=2
 [SMTSettings]integersMinimum=-2147483645
 [SMTSettings]invariantForall=false
@@ -41,16 +42,16 @@
 \javaSource "../src";
 
 \proofObligation "#Proof Obligation Settings
-#Thu Sep 25 22:14:31 CEST 2014
+#Fri Jan 30 09:45:51 CET 2015
 name=de.uni.trier.infsec.eVotingMachine.core.Setup[de.uni.trier.infsec.eVotingMachine.core.Setup\\:\\:equalResult([I,[I)].JML normal_behavior operation contract.0
 contract=de.uni.trier.infsec.eVotingMachine.core.Setup[de.uni.trier.infsec.eVotingMachine.core.Setup\\:\\:equalResult([I,[I)].JML normal_behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
 \proof {
-(keyLog "0" (keyUser "miki" ) (keyVersion "c781f49facff0f907c1d2349143b682c313d0e46"))
+(keyLog "0" (keyUser "miki" ) (keyVersion "8ba82498c6938c8c5fb8b06e092b978f30dda885"))
 
-(autoModeTime "746")
+(autoModeTime "780")
 
 (branch "dummy ID"
 (builtin "One Step Simplification" (formula "1") (newnames "heapAtPre"))
@@ -98,16 +99,16 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 (rule "add_zero_right" (formula "8") (term "0,0,0,0,0,0,0,0,0,0,1"))
 (rule "inEqSimp_sepPosMonomial0" (formula "8") (term "0,0,0,0,0,0,0,0,1"))
 (rule "mul_literals" (formula "8") (term "1,0,0,0,0,0,0,0,0,1"))
-(rule "methodBodyExpand" (formula "8") (term "1") (newnames "heapBefore_equalResult,savedHeapBefore_equalResult"))
+(rule "methodBodyExpand" (formula "8") (term "1") (newnames "heapBefore_equalResult,savedHeapBefore_equalResult,_r1Before_equalResult,_r2Before_equalResult"))
 (builtin "One Step Simplification" (formula "8"))
 (rule "for_to_while" (formula "8") (term "1") (inst "#outerLabel=_label1") (inst "#innerLabel=_label0"))
 (rule "variableDeclarationAssign" (formula "8") (term "1"))
 (rule "variableDeclaration" (formula "8") (term "1") (newnames "j"))
 (rule "assignment" (formula "8") (term "1"))
 (builtin "One Step Simplification" (formula "8"))
-(builtin "Loop Invariant" (formula "8") (newnames "heapBeforeLoop,jBeforeLoop,j_0,anon_heap_loop,o,f,variant,b"))
+(builtin "Loop Invariant" (formula "8") (newnames "variant,b,heapBefore_LOOP,jBefore_LOOP,j_0,heap_After_LOOP,anon_heap_LOOP,o,f"))
 (branch "Invariant Initially Valid"
-   (builtin "One Step Simplification" (formula "8") (ifInst ""  (formula "1")) (ifInst ""  (formula "7")) (ifInst ""  (formula "3")) (ifInst ""  (formula "6")) (ifInst ""  (formula "2")))
+   (builtin "One Step Simplification" (formula "8") (ifInst ""  (formula "1")))
    (rule "leq_literals" (formula "8") (term "0"))
    (builtin "One Step Simplification" (formula "8"))
    (rule "eqSymm" (formula "8") (term "0"))

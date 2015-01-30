@@ -2,27 +2,29 @@
 
 \settings {
 "#Proof-Settings-Config-File
-#Tue Nov 04 15:27:13 CET 2014
+#Fri Jan 30 10:00:35 CET 2015
 [StrategyProperty]VBT_PHASE=VBT_SYM_EX
 [SMTSettings]useUninterpretedMultiplication=true
 [SMTSettings]SelectedTaclets=
 [StrategyProperty]METHOD_OPTIONS_KEY=METHOD_CONTRACT
 [StrategyProperty]USER_TACLETS_OPTIONS_KEY3=USER_TACLETS_OFF
+[StrategyProperty]SYMBOLIC_EXECUTION_ALIAS_CHECK_OPTIONS_KEY=SYMBOLIC_EXECUTION_ALIAS_CHECK_NEVER
 [StrategyProperty]LOOP_OPTIONS_KEY=LOOP_INVARIANT
 [StrategyProperty]USER_TACLETS_OPTIONS_KEY2=USER_TACLETS_OFF
 [StrategyProperty]USER_TACLETS_OPTIONS_KEY1=USER_TACLETS_OFF
 [StrategyProperty]QUANTIFIERS_OPTIONS_KEY=QUANTIFIERS_NON_SPLITTING_WITH_PROGS
-[StrategyProperty]NON_LIN_ARITH_OPTIONS_KEY=NON_LIN_ARITH_NONE
+[StrategyProperty]NON_LIN_ARITH_OPTIONS_KEY=NON_LIN_ARITH_DEF_OPS
 [SMTSettings]instantiateHierarchyAssumptions=true
 [StrategyProperty]AUTO_INDUCTION_OPTIONS_KEY=AUTO_INDUCTION_OFF
 [StrategyProperty]DEP_OPTIONS_KEY=DEP_ON
 [StrategyProperty]BLOCK_OPTIONS_KEY=BLOCK_CONTRACT
 [StrategyProperty]CLASS_AXIOM_OPTIONS_KEY=CLASS_AXIOM_FREE
+[StrategyProperty]SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OPTIONS_KEY=SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OFF
 [StrategyProperty]QUERY_NEW_OPTIONS_KEY=QUERY_OFF
 [Strategy]Timeout=-1
 [Strategy]MaximumNumberOfAutomaticApplications=10000
 [SMTSettings]integersMaximum=2147483645
-[Choice]DefaultChoices=assertions-assertions\\:on , initialisation-initialisation\\:disableStaticInitialisation , intRules-intRules\\:arithmeticSemanticsIgnoringOF , programRules-programRules\\:Java , runtimeExceptions-runtimeExceptions\\:allow , JavaCard-JavaCard\\:on , Strings-Strings\\:on , modelFields-modelFields\\:showSatisfiability , bigint-bigint\\:on , sequences-sequences\\:on , reach-reach\\:on , integerSimplificationRules-integerSimplificationRules\\:full , wdOperator-wdOperator\\:L , wdChecks-wdChecks\\:off , moreSeqRules-moreSeqRules\\:off
+[Choice]DefaultChoices=wdChecks-wdChecks\\:off , JavaCard-JavaCard\\:on , bigint-bigint\\:on , intRules-intRules\\:arithmeticSemanticsIgnoringOF , programRules-programRules\\:Java , sequences-sequences\\:on , runtimeExceptions-runtimeExceptions\\:allow , integerSimplificationRules-integerSimplificationRules\\:full , Strings-Strings\\:on , reach-reach\\:on , assertions-assertions\\:on , modelFields-modelFields\\:treatAsAxiom , initialisation-initialisation\\:disableStaticInitialisation , wdOperator-wdOperator\\:L , moreSeqRules-moreSeqRules\\:off
 [SMTSettings]useConstantsForBigOrSmallIntegers=true
 [StrategyProperty]STOPMODE_OPTIONS_KEY=STOPMODE_DEFAULT
 [StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
@@ -40,16 +42,16 @@
 \javaSource "../src";
 
 \proofObligation "#Proof Obligation Settings
-#Tue Nov 04 15:27:13 CET 2014
+#Fri Jan 30 10:00:35 CET 2015
 name=de.uni.trier.infsec.eVotingMachine.core.VotingMachine[de.uni.trier.infsec.eVotingMachine.core.VotingMachine\\:\\:publishLog()].JML behavior operation contract.0
 contract=de.uni.trier.infsec.eVotingMachine.core.VotingMachine[de.uni.trier.infsec.eVotingMachine.core.VotingMachine\\:\\:publishLog()].JML behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
 \proof {
-(keyLog "0" (keyUser "daniel" ) (keyVersion "a3c9955ecfa6899dbaa85cea7a4d75b6bcd45d13"))
+(keyLog "0" (keyUser "miki" ) (keyVersion "8ba82498c6938c8c5fb8b06e092b978f30dda885"))
 
-(autoModeTime "322")
+(autoModeTime "477")
 
 (branch "dummy ID"
 (rule "impRight" (formula "1") (newnames "heapAtPre"))
@@ -66,6 +68,8 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 (rule "notLeft" (formula "5"))
 (rule "andLeft" (formula "1"))
 (rule "insert_constant_string_value" (formula "9") (term "0") (ifseqformula "1"))
+(builtin "One Step Simplification" (formula "9"))
+(rule "castDel" (formula "9") (term "0,0"))
 (rule "andLeft" (formula "7"))
 (rule "notLeft" (formula "6"))
 (rule "notLeft" (formula "2"))
@@ -95,8 +99,8 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 (builtin "One Step Simplification" (formula "13"))
 (builtin "Use Operation Contract" (formula "13") (newnames "heapBefore_getEntries,result,exc_0,heapAfter_getEntries,anon_heap_getEntries") (contract "de.uni.trier.infsec.eVotingMachine.core.EntryQueue[de.uni.trier.infsec.eVotingMachine.core.EntryQueue::getEntries()].JML behavior operation contract.0"))
 (branch "Post (getEntries)"
-   (builtin "One Step Simplification" (formula "15"))
    (builtin "One Step Simplification" (formula "7"))
+   (builtin "One Step Simplification" (formula "15"))
    (rule "andLeft" (formula "7"))
    (rule "selectCreatedOfAnonAsFormulaEQ" (formula "8") (term "1,1,0") (ifseqformula "7"))
    (rule "andLeft" (formula "8"))
@@ -193,17 +197,17 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
       (rule "ifthenelse_split" (formula "1") (term "0"))
       (branch " ¬o_3 = null ∧ ¬( o_3.<created> = TRUE ∨ o_3.<created>@anon_heap_getEntries«anonHeapFunction» = TRUE) TRUE"
          (rule "andLeft" (formula "1"))
-         (rule "notLeft" (formula "2"))
          (rule "notLeft" (formula "1"))
-         (rule "orRight" (formula "15"))
+         (rule "notLeft" (formula "1"))
+         (rule "orRight" (formula "14"))
          (rule "applyEqReverse" (formula "27") (term "1") (ifseqformula "1"))
          (rule "hideAuxiliaryEq" (formula "1"))
          (rule "eqSymm" (formula "26"))
-         (rule "replace_known_right" (formula "23") (term "1") (ifseqformula "13"))
-         (builtin "One Step Simplification" (formula "23"))
-         (rule "false_right" (formula "23"))
-         (rule "replace_known_right" (formula "24") (term "0,0") (ifseqformula "13"))
-         (builtin "One Step Simplification" (formula "24") (ifInst ""  (formula "14")))
+         (rule "replace_known_right" (formula "24") (term "1") (ifseqformula "15"))
+         (builtin "One Step Simplification" (formula "24"))
+         (rule "false_right" (formula "24"))
+         (rule "replace_known_right" (formula "24") (term "0,1") (ifseqformula "13"))
+         (builtin "One Step Simplification" (formula "24") (ifInst ""  (formula "15")))
          (rule "closeTrue" (formula "24"))
       )
       (branch " ¬o_3 = null ∧ ¬( o_3.<created> = TRUE ∨ o_3.<created>@anon_heap_getEntries«anonHeapFunction» = TRUE) FALSE"
@@ -292,18 +296,15 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                (rule "ifthenelse_split" (formula "1") (term "0"))
                (branch " ¬o_2 = null ∧ ¬( o_2.<created> = TRUE ∨ o_2.<created>@anon_heap_getEntries«anonHeapFunction» = TRUE) TRUE"
                   (rule "andLeft" (formula "1"))
-                  (rule "notLeft" (formula "2"))
                   (rule "notLeft" (formula "1"))
-                  (rule "orRight" (formula "17"))
+                  (rule "notLeft" (formula "1"))
+                  (rule "orRight" (formula "16"))
                   (rule "applyEqReverse" (formula "30") (term "1") (ifseqformula "1"))
                   (rule "hideAuxiliaryEq" (formula "1"))
                   (rule "eqSymm" (formula "29"))
-                  (rule "replace_known_right" (formula "26") (term "1") (ifseqformula "15"))
-                  (builtin "One Step Simplification" (formula "26"))
-                  (rule "false_right" (formula "26"))
-                  (rule "replace_known_right" (formula "27") (term "0,1") (ifseqformula "16"))
-                  (builtin "One Step Simplification" (formula "27") (ifInst ""  (formula "15")))
-                  (rule "closeTrue" (formula "27"))
+                  (rule "replace_known_right" (formula "28") (term "0,1") (ifseqformula "15"))
+                  (builtin "One Step Simplification" (formula "28") (ifInst ""  (formula "17")))
+                  (rule "closeTrue" (formula "28"))
                )
                (branch " ¬o_2 = null ∧ ¬( o_2.<created> = TRUE ∨ o_2.<created>@anon_heap_getEntries«anonHeapFunction» = TRUE) FALSE"
                   (rule "close" (formula "28") (ifseqformula "1"))
@@ -324,22 +325,27 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
       (builtin "One Step Simplification" (formula "17") (ifInst ""  (formula "16")) (ifInst ""  (formula "11")) (ifInst ""  (formula "16")) (ifInst ""  (formula "11")))
       (rule "selectCreatedOfAnonAsFormulaEQ" (formula "17") (term "1,1") (ifseqformula "7"))
       (rule "insert_constant_string_value" (formula "17") (term "0,0,0") (ifseqformula "1"))
+      (builtin "One Step Simplification" (formula "17"))
+      (rule "wellFormedAnonEQ" (formula "17") (term "0,0,0,1") (ifseqformula "7"))
       (rule "selectCreatedOfAnonAsFormulaEQ" (formula "17") (term "1,0,0,1") (ifseqformula "7"))
       (rule "selectCreatedOfAnonAsFormulaEQ" (formula "17") (term "1,1,0,1") (ifseqformula "7"))
-      (rule "wellFormedAnonEQ" (formula "17") (term "0,0,0,1") (ifseqformula "7"))
+      (rule "castDel" (formula "17") (term "0,0,0,0"))
       (rule "eqSymm" (formula "17") (term "0,0"))
       (rule "replace_known_left" (formula "17") (term "0,0,0,0,1") (ifseqformula "1"))
       (builtin "One Step Simplification" (formula "17") (ifInst ""  (formula "15")) (ifInst ""  (formula "6")))
       (rule "shift_paren_or" (formula "17") (term "1,0"))
       (rule "replace_known_left" (formula "17") (term "1,0") (ifseqformula "9"))
       (builtin "One Step Simplification" (formula "17"))
+      (rule "arrayLengthIsAShort" (formula "5") (term "0"))
+      (builtin "One Step Simplification" (formula "5"))
+      (rule "true_left" (formula "5"))
       (rule "andRight" (formula "17"))
-      (branch "Case 1"
+      (branch
          (rule "orRight" (formula "17"))
          (rule "referencedObjectIsCreatedRight" (formula "17") (ifseqformula "16"))
          (rule "close" (formula "17") (ifseqformula "1"))
       )
-      (branch "Case 2"
+      (branch
          (rule "orRight" (formula "17"))
          (rule "referencedObjectIsCreatedRight" (formula "17") (ifseqformula "11"))
          (rule "close" (formula "17") (ifseqformula "1"))
@@ -347,8 +353,8 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
    )
 )
 (branch "Exceptional Post (getEntries)"
-   (builtin "One Step Simplification" (formula "15"))
    (builtin "One Step Simplification" (formula "7"))
+   (builtin "One Step Simplification" (formula "15"))
    (rule "andLeft" (formula "7"))
    (rule "selectCreatedOfAnonAsFormulaEQ" (formula "8") (term "1,0") (ifseqformula "7"))
    (rule "andLeft" (formula "8"))
@@ -394,59 +400,65 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
             (rule "eqSymm" (formula "18") (term "1,0,0,1"))
             (rule "replace_known_right" (formula "18") (term "0,0,0") (ifseqformula "10"))
             (builtin "One Step Simplification" (formula "18") (ifInst ""  (formula "10")))
+            (rule "arrayLengthIsAShort" (formula "5") (term "0"))
+            (builtin "One Step Simplification" (formula "5"))
+            (rule "true_left" (formula "5"))
             (rule "arrayLengthNotNegative" (formula "5") (term "0"))
             (rule "applyEq" (formula "5") (term "0") (ifseqformula "6"))
-            (rule "arrayLengthIsAShort" (formula "6") (term "0"))
-            (builtin "One Step Simplification" (formula "6"))
-            (rule "true_left" (formula "6"))
             (rule "cut_direct" (formula "9") (term "0"))
             (branch "CUT: exc_0.<created> = TRUE TRUE"
                (builtin "One Step Simplification" (formula "10"))
                (rule "true_left" (formula "10"))
-               (rule "onlyCreatedObjectsAreReferenced" (formula "18") (term "0") (ifseqformula "1"))
-               (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "19"))
+               (rule "onlyCreatedObjectsAreReferenced" (formula "16") (term "0") (ifseqformula "1"))
+               (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "17"))
                (builtin "One Step Simplification" (formula "1"))
-               (rule "cut_direct" (formula "20") (term "0"))
-               (branch "CUT: java.lang.RuntimeException::instance(exc_0) = TRUE TRUE"
-                  (builtin "One Step Simplification" (formula "21"))
-                  (rule "allRight" (formula "21") (inst "sk=f_1"))
-                  (rule "allRight" (formula "21") (inst "sk=o_1"))
-                  (rule "orRight" (formula "21"))
-                  (rule "orRight" (formula "21"))
-                  (rule "orRight" (formula "21"))
-                  (rule "pullOutSelect" (formula "24") (term "0") (inst "selectSK=f_1_0"))
-                  (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "11"))
-                  (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "24")))
-                  (rule "applyEqReverse" (formula "25") (term "0") (ifseqformula "1"))
-                  (builtin "One Step Simplification" (formula "25"))
-                  (rule "closeTrue" (formula "25"))
-               )
-               (branch "CUT: java.lang.RuntimeException::instance(exc_0) = TRUE FALSE"
-                  (rule "closeTypeSwitched" (formula "20") (ifseqformula "11"))
-               )
-            )
-            (branch "CUT: exc_0.<created> = TRUE FALSE"
-               (builtin "One Step Simplification" (formula "9"))
-               (rule "onlyCreatedObjectsAreReferenced" (formula "19") (term "0") (ifseqformula "1"))
+               (rule "onlyCreatedObjectsAreReferenced" (formula "19") (term "0") (ifseqformula "2"))
                (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "20"))
                (builtin "One Step Simplification" (formula "1"))
                (rule "cut_direct" (formula "21") (term "0"))
                (branch "CUT: java.lang.RuntimeException::instance(exc_0) = TRUE TRUE"
                   (builtin "One Step Simplification" (formula "22"))
-                  (rule "allRight" (formula "22") (inst "sk=f_0"))
-                  (rule "allRight" (formula "22") (inst "sk=o_0"))
+                  (rule "allRight" (formula "22") (inst "sk=f_1"))
+                  (rule "allRight" (formula "22") (inst "sk=o_1"))
                   (rule "orRight" (formula "22"))
                   (rule "orRight" (formula "22"))
                   (rule "orRight" (formula "22"))
-                  (rule "pullOutSelect" (formula "25") (term "0") (inst "selectSK=f_0_0"))
-                  (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "11"))
+                  (rule "pullOutSelect" (formula "25") (term "0") (inst "selectSK=f_1_0"))
+                  (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "12"))
                   (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "25")))
                   (rule "applyEqReverse" (formula "26") (term "0") (ifseqformula "1"))
                   (builtin "One Step Simplification" (formula "26"))
                   (rule "closeTrue" (formula "26"))
                )
                (branch "CUT: java.lang.RuntimeException::instance(exc_0) = TRUE FALSE"
-                  (rule "closeType" (formula "11") (ifseqformula "21"))
+                  (rule "closeType" (formula "12") (ifseqformula "21"))
+               )
+            )
+            (branch "CUT: exc_0.<created> = TRUE FALSE"
+               (builtin "One Step Simplification" (formula "9"))
+               (rule "onlyCreatedObjectsAreReferenced" (formula "17") (term "0") (ifseqformula "1"))
+               (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "18"))
+               (builtin "One Step Simplification" (formula "1"))
+               (rule "onlyCreatedObjectsAreReferenced" (formula "20") (term "0") (ifseqformula "2"))
+               (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "21"))
+               (builtin "One Step Simplification" (formula "1"))
+               (rule "cut_direct" (formula "22") (term "0"))
+               (branch "CUT: java.lang.RuntimeException::instance(exc_0) = TRUE TRUE"
+                  (builtin "One Step Simplification" (formula "23"))
+                  (rule "allRight" (formula "23") (inst "sk=f_0"))
+                  (rule "allRight" (formula "23") (inst "sk=o_0"))
+                  (rule "orRight" (formula "23"))
+                  (rule "orRight" (formula "23"))
+                  (rule "orRight" (formula "23"))
+                  (rule "pullOutSelect" (formula "26") (term "0") (inst "selectSK=f_0_0"))
+                  (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "12"))
+                  (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "26")))
+                  (rule "applyEqReverse" (formula "27") (term "0") (ifseqformula "1"))
+                  (builtin "One Step Simplification" (formula "27"))
+                  (rule "closeTrue" (formula "27"))
+               )
+               (branch "CUT: java.lang.RuntimeException::instance(exc_0) = TRUE FALSE"
+                  (rule "closeTypeSwitched" (formula "22") (ifseqformula "12"))
                )
             )
          )
