@@ -15,14 +15,18 @@ public class VotingMachine
 		public final int votersChoice;
 		public final int voteCounter;
 		public final long timestamp;
-		/*@ normal_behavior
-		  @ ensures votersChoice == choice;
-		  @ pure
+
+		/*@ public normal_behaviour
+		  @ requires true;
+		  @ assignable this.votersChoice, this.voteCounter, this.timestamp;
+		  @ ensures this.votersChoice == choice
+		  @ 	&& this.voteCounter == counter
+		  @ 	&& this.timestamp == ts;
 		  @*/
-		public InnerBallot(int choice, int counter, long ts) {
-			votersChoice = choice;
-			voteCounter = counter;
-			timestamp = ts;
+		public /*@ helper @// not provable */ InnerBallot(int choice, int counter, long ts) {
+			this.votersChoice = choice;
+			this.voteCounter = counter;
+			this.timestamp = ts;
 		}
 	}
 
@@ -64,16 +68,16 @@ public class VotingMachine
 	  @ 	&& Params.DEFAULT_HOST_BBOARD != null
 	  @ 	&& bb_encryptor != null && signer != null && entryLog != null
 	  @ 	&& votesForCandidates.length == numberOfCandidates;
-	  @ requires 0 <= votersChoice && votersChoice < numberOfCandidates;
 	  @ diverges true;
 	  @ assignable Environment.inputCounter, votesForCandidates[*], lastBallot, voteCounter;
 	  @ ensures votesForCandidates.length == numberOfCandidates
 	  @ 	&& lastBallot != null
 	  @ 	&& voteCounter == \old(voteCounter) + 1
-	  @ 	&& 0 <= votersChoice && votersChoice < numberOfCandidates
 	  @ 	&& votersChoice == \old(votersChoice)
 	  @ 	&& votersChoice == lastBallot.votersChoice
-	  @ 	&& (votesForCandidates[votersChoice] == \old(votesForCandidates[votersChoice]) + 1)
+	  @ 	&& ((0 <= votersChoice && votersChoice < numberOfCandidates)
+	  @ 		==> (votesForCandidates[votersChoice]
+	  @ 			== \old(votesForCandidates[votersChoice]) + 1))
 	  @ 	&& (\forall int i; 0 <= i && i < numberOfCandidates && i != votersChoice;
 	  @ 		votesForCandidates[i] == \old(votesForCandidates[i]))
 	  @ 	&& \fresh(lastBallot) ; 
@@ -93,7 +97,7 @@ public class VotingMachine
 		/**
 		 * JOANA edit: votersChoice is used as index here. Since JOANA does not reason
 		 * about values and the boundaries of arrays, it assumes that the value of votersChoice
-		 * decides whether the array access is successuful or the program crashes (and also whether
+		 * decides whether the array access is successful or the program crashes (and also whether
 		 * the result is touched or not).
 		 * Surrounding it with a try..catch-block makes the program in any case not crash, so,
 		 * from JOANA's perspective, it is fine.
@@ -113,15 +117,14 @@ public class VotingMachine
 	  @ requires Params.CANCEL != null && Params.MACHINE_ENTRY != null
 	  @ 	&& Params.DEFAULT_HOST_BBOARD != null && votesForCandidates != null
 	  @ 	&& bb_encryptor != null && signer != null && entryLog != null
-	  @ 	&& votesForCandidates.length == numberOfCandidates
-	  @ 	&& (lastBallot != null ==>
-	  @ 		(0 <= lastBallot.votersChoice && lastBallot.votersChoice < numberOfCandidates));
+	  @ 	&& votesForCandidates.length == numberOfCandidates;
 	  @ diverges true;
 	  @ assignable votesForCandidates[*], lastBallot;
 	  @ ensures votesForCandidates.length == numberOfCandidates
 	  @ 	&& \old(lastBallot) != null && lastBallot == null
-	  @ 	&& votesForCandidates[\old(lastBallot.votersChoice)]
-	  @ 		== \old(votesForCandidates[\old(lastBallot.votersChoice)]) - 1
+	  @ 	&& ((0 <= \old(lastBallot.votersChoice) && \old(lastBallot.votersChoice) < numberOfCandidates)
+	  @ 			==> (votesForCandidates[\old(lastBallot.votersChoice)]
+	  @ 				== \old(votesForCandidates[\old(lastBallot.votersChoice)]) - 1))
 	  @ 	&& (\forall int i; 0 <= i && i < numberOfCandidates
 	  @ 			&& i != \old(lastBallot.votersChoice);
 	  @ 		votesForCandidates[i] == \old(votesForCandidates[i]));
@@ -134,7 +137,7 @@ public class VotingMachine
 		/**
 		 * JOANA edit: votersChoice is used as index here. Since JOANA does not reason
 		 * about values and the boundaries of arrays, it assumes that the value of votersChoice
-		 * decides whether the array access is successuful or the program crashes (and also whether
+		 * decides whether the array access is successful or the program crashes (and also whether
 		 * the result is touched or not).
 		 * Surrounding it with a try..catch-block makes the program in any case not crash, so,
 		 * from JOANA's perspective, it is fine.

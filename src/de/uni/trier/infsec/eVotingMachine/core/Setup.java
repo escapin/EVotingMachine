@@ -223,8 +223,6 @@ public final class Setup
 	  @ 		0 <= choices0[j] && choices0[j] < correctResult.length)
 	  @ 	&& (\forall int j; 0 <= j && j < numberOfVoters;
 	  @ 		0 <= choices1[j] && choices1[j] < correctResult.length)
-      @     && (\forall int j; 0 <= j && j < numberOfVoters;
-      @         0 <= audit_choices[j] && audit_choices[j] < correctResult.length)
 	  @ 	&& (\forall int j; 0 <= j && j < correctResult.length;
 	  @ 		correctResult[j] ==
 	  @ 			(\num_of int k; 0 <= k && k < numberOfVoters; choices0[k] == j))
@@ -252,13 +250,11 @@ public final class Setup
 		  @ 		&& (\forall int j; 0 <= j && j < vm.numberOfCandidates;
 		  @ 			vm.votesForCandidates[j] ==
 		  @ 				(\num_of int k; 0 <= k && k < voterNr;
-		  @ 					j == (secret ? choices0[k] : choices1[k])));
-		  @ maintaining (\forall int j; 0 <= j && j < numberOfVoters;
-          @         0 <= choices0[j] && choices0[j] < correctResult.length)
-          @     && (\forall int j; 0 <= j && j < numberOfVoters;
-          @         0 <= choices1[j] && choices1[j] < correctResult.length)
-          @     && (\forall int j; 0 <= j && j < numberOfVoters;
-          @         0 <= audit_choices[j] && audit_choices[j] < correctResult.length);
+		  @ 					j == (secret ? choices0[k] : choices1[k])))
+		  @ 		&& (\forall int j; 0 <= j && j < numberOfVoters;
+		  @ 			0 <= choices0[j] && choices0[j] < correctResult.length)
+		  @ 		&& (\forall int j; 0 <= j && j < numberOfVoters;
+		  @ 			0 <= choices1[j] && choices1[j] < correctResult.length);
 		  @ assignable Environment.inputCounter, Environment.result, vm.lastBallot,
 		  @ 		vm.voteCounter, vm.votesForCandidates[*];
 		  @ decreases N - i;
@@ -300,12 +296,12 @@ public final class Setup
 
 			case 2: // audit (this step altogether should not change the result)
 				int audit_choice = audit_choices[i];
-				/*@ private behaviour
+
+				/*@ public behaviour
 				  @ requires vm != null && vm.votesForCandidates != null
 				  @ 	&& vm.bb_encryptor != null && vm.signer != null && vm.entryLog != null
 				  @ 	&& audit_choice != null
 				  @ 	&& correctResult.length == vm.votesForCandidates.length;
-				  @ requires 0 <= audit_choice && audit_choice < correctResult.length;
 				  @ diverges true;
 				  @ assignable Environment.inputCounter, Environment.result, vm.lastBallot,
 				  @ 		vm.voteCounter, vm.votesForCandidates[*];
