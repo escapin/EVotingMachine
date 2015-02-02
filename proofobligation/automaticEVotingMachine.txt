@@ -7,44 +7,44 @@
 #
 
 # Proof obligations for EVotingMachine case study
-provable: ./../../EVotingMachine/proofobligation/environment.Environment(environment.Environment__untrustedOutputString(String)).contract.0.key
-provable: ./../../EVotingMachine/proofobligation/environment.Environment(environment.Environment__untrustedOutputMessage([B)).contract.0.key
 provable: ./../../EVotingMachine/proofobligation/environment.Environment(environment.Environment__untrustedInputArray(int)).contract.0.key
-provable: ./../../EVotingMachine/proofobligation/environment.Environment(environment.Environment__untrustedInputMessages(int)).contract.0.key
-provable: ./../../EVotingMachine/proofobligation/environment.Environment(environment.Environment__untrustedInputMessage()).contract.0.key
-provable: ./../../EVotingMachine/proofobligation/environment.Environment(environment.Environment__untrustedOutput(long)).contract.0.key
-provable: ./../../EVotingMachine/proofobligation/environment.Environment(environment.Environment__untrustedInput(int)).contract.0.key
 provable: ./../../EVotingMachine/proofobligation/environment.Environment(environment.Environment__untrustedInput()).contract.0.key
-provable: ./../../EVotingMachine/proofobligation/utils.MessageTools(utils.MessageTools__longToByteArray(long)).normal contract.0.key
-provable: ./../../EVotingMachine/proofobligation/utils.MessageTools(utils.MessageTools__intToByteArray(int)).normal contract.0.key
-provable: ./../../EVotingMachine/proofobligation/utils.MessageTools(utils.MessageTools__byteArrayToInt([B)).contract.0.key
-provable: ./../../EVotingMachine/proofobligation/utils.MessageTools(utils.MessageTools__second([B)).normal contract.0.key
-provable: ./../../EVotingMachine/proofobligation/utils.MessageTools(utils.MessageTools__first([B)).normal contract.0.key
-provable: ./../../EVotingMachine/proofobligation/utils.MessageTools(utils.MessageTools__project([B,int)).normal contract.0.key
-provable: ./../../EVotingMachine/proofobligation/utils.MessageTools(utils.MessageTools__concatenate([B,[B)).contract.0.key
-provable: ./../../EVotingMachine/proofobligation/utils.MessageTools(utils.MessageTools__copyOf([B)).normal contract.0.key
+provable: ./../../EVotingMachine/proofobligation/environment.Environment(environment.Environment__untrustedInput(int)).contract.0.key
+provable: ./../../EVotingMachine/proofobligation/environment.Environment(environment.Environment__untrustedInputMessage()).contract.0.key
+provable: ./../../EVotingMachine/proofobligation/environment.Environment(environment.Environment__untrustedInputMessages(int)).contract.0.key
+provable: ./../../EVotingMachine/proofobligation/environment.Environment(environment.Environment__untrustedOutput(long)).contract.0.key
+provable: ./../../EVotingMachine/proofobligation/environment.Environment(environment.Environment__untrustedOutputMessage([B)).contract.0.key
+provable: ./../../EVotingMachine/proofobligation/environment.Environment(environment.Environment__untrustedOutputString(String)).contract.0.key
 provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.BulletinBoard(eVotingMachine.core.BulletinBoard__onRequestContent()).contract.0.key
-provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.EntryQueue.Node(eVotingMachine.core.EntryQueue.Node__Node([B)).normal contract.0.key
-provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.EntryQueue(eVotingMachine.core.EntryQueue__getEntries()).contract.0.key
-provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.EntryQueue(eVotingMachine.core.EntryQueue__add([B)).normal contract.1.key
-provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.EntryQueue(eVotingMachine.core.EntryQueue__add([B)).normal contract.0.key
 provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.EntryQueue(eVotingMachine.core.EntryQueue__add([B)).exceptional contract.0.key
-provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachine(eVotingMachine.core.VotingMachine__formatResult((I)).normal contract.0.key
-provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachine(eVotingMachine.core.VotingMachine__getResult()).contract.0.key
-provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachine(eVotingMachine.core.VotingMachine__getResult()).contract.1.key
-provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachine(eVotingMachine.core.VotingMachine__signAndPost([B,[B,functionalities.pkisig.Signer)).contract.0.key
-provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachine(eVotingMachine.core.VotingMachine__publishLog()).contract.0.key
-provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachine(eVotingMachine.core.VotingMachine__publishResult()).contract.0.key
-provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachine(eVotingMachine.core.VotingMachine__cancelLastBallot()).contract.0.key
-provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachine(eVotingMachine.core.VotingMachine__collectBallot(int)).contract.0.key
-provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.Setup(eVotingMachine.core.Setup__innerMain(eVotingMachine.core.VotingMachine,eVotingMachine.core.BulletinBoard,int,boolean,[I,[I,int,[I,[I,[[B)).contract.key
-provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.Setup(eVotingMachine.core.Setup__mainLoop(eVotingMachine.core.VotingMachine,eVotingMachine.core.BulletinBoard,int,boolean,[I,[I)).contract.key
-provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.Setup(eVotingMachine.core.Setup__main2(eVotingMachine.core.VotingMachine,eVotingMachine.core.BulletinBoard,int,int,boolean)).contract.key
-provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.Setup(eVotingMachine.core.Setup__equalResult([I,[I)).normal contract.0.key
+provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.EntryQueue(eVotingMachine.core.EntryQueue__add([B)).normal contract.0.key
+provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.EntryQueue(eVotingMachine.core.EntryQueue__add([B)).normal contract.1.key
+provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.EntryQueue(eVotingMachine.core.EntryQueue__getEntries()).contract.0.key
+provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.EntryQueue.Node(eVotingMachine.core.EntryQueue.Node__Node([B)).normal contract.0.key
 provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.Setup(eVotingMachine.core.Setup__computeResult([I,int)).normal contract.0.key
 provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.Setup(eVotingMachine.core.Setup__createChoices(int,int)).contract.0.key
-provable: ./../../EVotingMachine/proofobligation/lib.time.Timestamp(lib.time.Timestamp__get()).contract.0.key
-provable: ./../../EVotingMachine/proofobligation/lib.network.NetworkClient(lib.network.NetworkClient__sendRequest([B,String,int)).contract.0.key
+provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.Setup(eVotingMachine.core.Setup__equalResult([I,[I)).normal contract.0.key
+provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.Setup(eVotingMachine.core.Setup__innerMain(eVotingMachine.core.VotingMachine,eVotingMachine.core.BulletinBoard,int,boolean,[I,[I,int,[I,[I,[[B)).contract.key
+provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.Setup(eVotingMachine.core.Setup__main2(eVotingMachine.core.VotingMachine,eVotingMachine.core.BulletinBoard,int,int,boolean)).contract.key
+provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.Setup(eVotingMachine.core.Setup__mainLoop(eVotingMachine.core.VotingMachine,eVotingMachine.core.BulletinBoard,int,boolean,[I,[I)).contract.key
+provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachine(eVotingMachine.core.VotingMachine__cancelLastBallot()).contract.0.key
+provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachine(eVotingMachine.core.VotingMachine__collectBallot(int)).contract.0.key
+provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachine(eVotingMachine.core.VotingMachine__getResult()).contract.0.key
+provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachine(eVotingMachine.core.VotingMachine__getResult()).contract.1.key
+provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachine(eVotingMachine.core.VotingMachine__publishLog()).contract.0.key
+provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachine(eVotingMachine.core.VotingMachine__publishResult()).contract.0.key
+provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachine(eVotingMachine.core.VotingMachine__signAndPost([B,[B,functionalities.pkisig.Signer)).contract.0.key
+provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachine.InnerBallot(eVotingMachine.core.VotingMachine.InnerBallot__InnerBallot(int,int,long)).normal contract.0.key
 provable: ./../../EVotingMachine/proofobligation/lib.network.NetworkClient(lib.network.NetworkClient__send((B,String,int)).contract.0.key
+provable: ./../../EVotingMachine/proofobligation/lib.network.NetworkClient(lib.network.NetworkClient__sendRequest([B,String,int)).contract.0.key
+provable: ./../../EVotingMachine/proofobligation/lib.time.Timestamp(lib.time.Timestamp__get()).contract.0.key
+provable: ./../../EVotingMachine/proofobligation/utils.MessageTools(utils.MessageTools__byteArrayToInt([B)).contract.0.key
+provable: ./../../EVotingMachine/proofobligation/utils.MessageTools(utils.MessageTools__concatenate([B,[B)).contract.0.key
+provable: ./../../EVotingMachine/proofobligation/utils.MessageTools(utils.MessageTools__copyOf([B)).normal contract.0.key
+provable: ./../../EVotingMachine/proofobligation/utils.MessageTools(utils.MessageTools__first([B)).normal contract.0.key
+provable: ./../../EVotingMachine/proofobligation/utils.MessageTools(utils.MessageTools__intToByteArray(int)).normal contract.0.key
+provable: ./../../EVotingMachine/proofobligation/utils.MessageTools(utils.MessageTools__longToByteArray(long)).normal contract.0.key
+provable: ./../../EVotingMachine/proofobligation/utils.MessageTools(utils.MessageTools__project([B,int)).normal contract.0.key
+provable: ./../../EVotingMachine/proofobligation/utils.MessageTools(utils.MessageTools__second([B)).normal contract.0.key
 
 # End -- please do not remove this line.
