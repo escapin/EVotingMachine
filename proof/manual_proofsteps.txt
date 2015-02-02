@@ -1,9 +1,5 @@
 Basically, all necessary manual steps are of the same kind, i.e. instantiate quantified formulas with object instances. In total, this concerns five proofs.
 
-=== eVotingMachine.core.Setup(eVotingMachine.core.Setup__computeResult([I,int)).normal contract.0.proof ===
-Run auto mode, then when the prover stops instantiate the formula
-"∀ Object o; (o = null ∨ o = x_arr_2 ∨ o.<created> = TRUE ∨ ¬o.<created>@anon_heap_LOOP = TRUE)" on all (three) open branches with the object instance in the antecedent and subsequently again run the auto mode once more.
-
 === utils.MessageTools(utils.MessageTools__concatenate([B,[B)).contract.0.proof ===
 Run auto mode, then when the prover stops instantiate on each open branch the following formulas (or a subset of them, if some are not there)
 "∀ Object o; (o = null ∨ o = result_0 ∨ o = x_arr_2 ∨ o.<created> = TRUE ∨ ¬o.<created>@anon_heap_LOOP = TRUE)",

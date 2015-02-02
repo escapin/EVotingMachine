@@ -53,8 +53,7 @@ public final class Setup
 	  @ ensures \result.length == numberOfCandidates
 	  @ 	&& \fresh(\result) && choices != \result
 	  @ 	&& (\forall int j; 0 <= j && j < numberOfCandidates;
-	  @ 		\result[j] == (\num_of int k; 0 <= k && k < choices.length; choices[k] == j))
-	  @ 	&& (\forall Object o; o != \result; !\fresh(o));
+	  @ 		\result[j] == (\num_of int k; 0 <= k && k < choices.length; choices[k] == j));
 	  @*/
 	private static /*@ pure helper @*/ int[] computeResult (int[] choices,
 	                                                        int numberOfCandidates) {
@@ -65,8 +64,7 @@ public final class Setup
 		  @ 		&& (\forall int j; 0 <= j && j < numberOfCandidates;
 		  @ 			res[j] ==
 		  @ 				(\num_of int k; 0 <= k && k < i; choices[k] == j))
-		  @ 		&& \fresh(res)
-		  @ 		&& (\forall Object o; o != res; !\fresh(o));
+		  @ 		&& \fresh(res);
 		  @ assignable res[*];
 		  @ decreases choices.length - i;
 		  @*/
