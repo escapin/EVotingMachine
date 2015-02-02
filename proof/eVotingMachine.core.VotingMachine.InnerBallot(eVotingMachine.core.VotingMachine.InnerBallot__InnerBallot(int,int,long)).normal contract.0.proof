@@ -2,27 +2,29 @@
 
 \settings {
 "#Proof-Settings-Config-File
-#Mon Feb 02 13:01:50 CET 2015
+#Mon Feb 02 15:15:58 CET 2015
 [StrategyProperty]VBT_PHASE=VBT_SYM_EX
 [SMTSettings]useUninterpretedMultiplication=true
 [SMTSettings]SelectedTaclets=
 [StrategyProperty]METHOD_OPTIONS_KEY=METHOD_CONTRACT
 [StrategyProperty]USER_TACLETS_OPTIONS_KEY3=USER_TACLETS_OFF
+[StrategyProperty]SYMBOLIC_EXECUTION_ALIAS_CHECK_OPTIONS_KEY=SYMBOLIC_EXECUTION_ALIAS_CHECK_NEVER
 [StrategyProperty]LOOP_OPTIONS_KEY=LOOP_INVARIANT
 [StrategyProperty]USER_TACLETS_OPTIONS_KEY2=USER_TACLETS_OFF
 [StrategyProperty]USER_TACLETS_OPTIONS_KEY1=USER_TACLETS_OFF
 [StrategyProperty]QUANTIFIERS_OPTIONS_KEY=QUANTIFIERS_NON_SPLITTING_WITH_PROGS
-[StrategyProperty]NON_LIN_ARITH_OPTIONS_KEY=NON_LIN_ARITH_NONE
+[StrategyProperty]NON_LIN_ARITH_OPTIONS_KEY=NON_LIN_ARITH_DEF_OPS
 [SMTSettings]instantiateHierarchyAssumptions=true
 [StrategyProperty]AUTO_INDUCTION_OPTIONS_KEY=AUTO_INDUCTION_OFF
 [StrategyProperty]DEP_OPTIONS_KEY=DEP_ON
 [StrategyProperty]BLOCK_OPTIONS_KEY=BLOCK_CONTRACT
 [StrategyProperty]CLASS_AXIOM_OPTIONS_KEY=CLASS_AXIOM_FREE
+[StrategyProperty]SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OPTIONS_KEY=SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OFF
 [StrategyProperty]QUERY_NEW_OPTIONS_KEY=QUERY_OFF
 [Strategy]Timeout=-1
 [Strategy]MaximumNumberOfAutomaticApplications=80000
 [SMTSettings]integersMaximum=2147483645
-[Choice]DefaultChoices=assertions-assertions\\:on , initialisation-initialisation\\:disableStaticInitialisation , intRules-intRules\\:arithmeticSemanticsIgnoringOF , programRules-programRules\\:Java , runtimeExceptions-runtimeExceptions\\:allow , JavaCard-JavaCard\\:on , Strings-Strings\\:on , modelFields-modelFields\\:treatAsAxiom , bigint-bigint\\:on , sequences-sequences\\:on , reach-reach\\:on , integerSimplificationRules-integerSimplificationRules\\:full , wdOperator-wdOperator\\:L , wdChecks-wdChecks\\:off , moreSeqRules-moreSeqRules\\:off
+[Choice]DefaultChoices=assertions-assertions\\:on , initialisation-initialisation\\:disableStaticInitialisation , intRules-intRules\\:arithmeticSemanticsIgnoringOF , programRules-programRules\\:Java , runtimeExceptions-runtimeExceptions\\:allow , JavaCard-JavaCard\\:on , Strings-Strings\\:on , modelFields-modelFields\\:treatAsAxiom , bigint-bigint\\:on , sequences-sequences\\:on , moreSeqRules-moreSeqRules\\:off , reach-reach\\:on , integerSimplificationRules-integerSimplificationRules\\:full , wdOperator-wdOperator\\:L , wdChecks-wdChecks\\:off
 [SMTSettings]useConstantsForBigOrSmallIntegers=true
 [StrategyProperty]STOPMODE_OPTIONS_KEY=STOPMODE_DEFAULT
 [StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
@@ -40,16 +42,16 @@
 \javaSource "../src";
 
 \proofObligation "#Proof Obligation Settings
-#Mon Feb 02 13:01:50 CET 2015
+#Mon Feb 02 15:15:58 CET 2015
 name=de.uni.trier.infsec.eVotingMachine.core.VotingMachine.InnerBallot[de.uni.trier.infsec.eVotingMachine.core.VotingMachine.InnerBallot\\:\\:InnerBallot(int,int,long)].JML normal_behavior operation contract.0
 contract=de.uni.trier.infsec.eVotingMachine.core.VotingMachine.InnerBallot[de.uni.trier.infsec.eVotingMachine.core.VotingMachine.InnerBallot\\:\\:InnerBallot(int,int,long)].JML normal_behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
 \proof {
-(keyLog "0" (keyUser "daniel" ) (keyVersion "1404d2f0e645d6592a301f51ca5999ad3a5f9fac"))
+(keyLog "0" (keyUser "kirsten" ) (keyVersion "31a2f66d4110d575b74cc5815e7ca260a8d03cf2"))
 
-(autoModeTime "2227")
+(autoModeTime "4688")
 
 (branch "dummy ID"
 (builtin "One Step Simplification" (formula "1") (newnames "heapAtPre"))
@@ -148,10 +150,10 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
    (builtin "One Step Simplification" (formula "6"))
    (rule "eqSymm" (formula "6") (term "1,0,0,1"))
    (rule "dismissNonSelectedField" (formula "6") (term "0,1,1,0"))
-   (rule "dismissNonSelectedField" (formula "6") (term "0,0,1,0"))
    (rule "dismissNonSelectedField" (formula "6") (term "0,0,0"))
    (rule "dismissNonSelectedField" (formula "6") (term "0,0,1,0"))
    (rule "dismissNonSelectedField" (formula "6") (term "0,0,0"))
+   (rule "dismissNonSelectedField" (formula "6") (term "0,0,1,0"))
    (rule "dismissNonSelectedField" (formula "6") (term "0,0,0"))
    (rule "pullOutSelect" (formula "6") (term "0,1,1,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_VotingMachine_InnerBallot_timestamp_0"))
    (rule "simplifySelectOfStore" (formula "1"))
@@ -215,8 +217,8 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
    (rule "replace_known_right" (formula "1") (term "0,1,0,0,0") (ifseqformula "6"))
    (builtin "One Step Simplification" (formula "1"))
    (rule "commute_and" (formula "10"))
-   (rule "commute_and" (formula "8"))
    (rule "commute_and" (formula "9"))
+   (rule "commute_and" (formula "8"))
    (rule "commute_and" (formula "2") (term "0,0"))
    (rule "commute_and" (formula "1") (term "0,0"))
    (rule "ifthenelse_split" (formula "1") (term "0"))
@@ -227,20 +229,22 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
       (rule "applyEqReverse" (formula "14") (term "1") (ifseqformula "4"))
       (rule "hideAuxiliaryEq" (formula "3"))
       (rule "hideAuxiliaryEq" (formula "3"))
+      (rule "replace_known_left" (formula "10") (term "1") (ifseqformula "2"))
+      (builtin "One Step Simplification" (formula "10"))
       (rule "replace_known_left" (formula "8") (term "1") (ifseqformula "2"))
       (builtin "One Step Simplification" (formula "8"))
       (rule "replace_known_left" (formula "9") (term "1") (ifseqformula "2"))
       (builtin "One Step Simplification" (formula "9"))
-      (rule "replace_known_left" (formula "10") (term "1") (ifseqformula "2"))
-      (builtin "One Step Simplification" (formula "10"))
-      (rule "applyEq" (formula "12") (term "2,0") (ifseqformula "1"))
-      (rule "narrowSelectType" (formula "12") (term "0") (ifseqformula "4"))
-      (rule "replace_known_right" (formula "11") (term "0,1") (ifseqformula "12"))
+      (rule "applyEq" (formula "12") (term "1,0") (ifseqformula "2"))
+      (rule "applyEq" (formula "11") (term "1,0,0,1") (ifseqformula "2"))
+      (rule "replace_known_right" (formula "11") (term "0,1") (ifseqformula "7"))
       (builtin "One Step Simplification" (formula "11"))
       (rule "notRight" (formula "11"))
-      (rule "applyEq" (formula "9") (term "0") (ifseqformula "2"))
-      (builtin "One Step Simplification" (formula "9"))
-      (rule "false_right" (formula "9"))
+      (rule "applyEq" (formula "12") (term "2,0") (ifseqformula "2"))
+      (rule "narrowSelectType" (formula "12") (term "0") (ifseqformula "5"))
+      (rule "applyEq" (formula "11") (term "0") (ifseqformula "2"))
+      (builtin "One Step Simplification" (formula "11"))
+      (rule "false_right" (formula "11"))
       (rule "applyEq" (formula "9") (term "0") (ifseqformula "2"))
       (builtin "One Step Simplification" (formula "9"))
       (rule "false_right" (formula "9"))
@@ -261,30 +265,30 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
          (rule "hideAuxiliaryEq" (formula "3"))
          (rule "replace_known_left" (formula "10") (term "1") (ifseqformula "2"))
          (builtin "One Step Simplification" (formula "10"))
+         (rule "replace_known_left" (formula "6") (term "1") (ifseqformula "2"))
+         (builtin "One Step Simplification" (formula "6"))
          (rule "replace_known_left" (formula "11") (term "1") (ifseqformula "2"))
          (builtin "One Step Simplification" (formula "11"))
          (rule "replace_known_left" (formula "9") (term "1") (ifseqformula "2"))
          (builtin "One Step Simplification" (formula "9"))
-         (rule "replace_known_left" (formula "6") (term "1") (ifseqformula "2"))
-         (builtin "One Step Simplification" (formula "6"))
          (rule "applyEq" (formula "12") (term "1,0,0,1") (ifseqformula "2"))
          (rule "replace_known_right" (formula "12") (term "0,1") (ifseqformula "8"))
          (builtin "One Step Simplification" (formula "12"))
          (rule "notRight" (formula "12"))
-         (rule "applyEq" (formula "13") (term "2,0") (ifseqformula "2"))
+         (rule "applyEqRigid" (formula "13") (term "2,0") (ifseqformula "2"))
          (rule "narrowSelectType" (formula "13") (term "0") (ifseqformula "5"))
          (rule "applyEqRigid" (formula "11") (term "0") (ifseqformula "2"))
          (builtin "One Step Simplification" (formula "11"))
          (rule "false_right" (formula "11"))
-         (rule "applyEq" (formula "11") (term "0") (ifseqformula "2"))
-         (builtin "One Step Simplification" (formula "11"))
-         (rule "false_right" (formula "11"))
-         (rule "applyEqRigid" (formula "10") (term "0") (ifseqformula "2"))
-         (builtin "One Step Simplification" (formula "10"))
-         (rule "false_right" (formula "10"))
          (rule "applyEqRigid" (formula "7") (term "0") (ifseqformula "2"))
          (builtin "One Step Simplification" (formula "7"))
          (rule "false_right" (formula "7"))
+         (rule "applyEqRigid" (formula "10") (term "0") (ifseqformula "2"))
+         (builtin "One Step Simplification" (formula "10"))
+         (rule "false_right" (formula "10"))
+         (rule "applyEq" (formula "9") (term "0") (ifseqformula "2"))
+         (builtin "One Step Simplification" (formula "9"))
+         (rule "false_right" (formula "9"))
          (rule "applyEqRigid" (formula "3") (term "0") (ifseqformula "1"))
          (rule "eqSymm" (formula "3"))
          (rule "close" (formula "7") (ifseqformula "3"))

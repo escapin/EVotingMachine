@@ -2,7 +2,7 @@
 
 \settings {
 "#Proof-Settings-Config-File
-#Fri Jan 30 10:11:52 CET 2015
+#Mon Feb 02 15:23:41 CET 2015
 [StrategyProperty]VBT_PHASE=VBT_SYM_EX
 [SMTSettings]useUninterpretedMultiplication=true
 [SMTSettings]SelectedTaclets=
@@ -22,9 +22,9 @@
 [StrategyProperty]SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OPTIONS_KEY=SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OFF
 [StrategyProperty]QUERY_NEW_OPTIONS_KEY=QUERY_OFF
 [Strategy]Timeout=-1
-[Strategy]MaximumNumberOfAutomaticApplications=10000
+[Strategy]MaximumNumberOfAutomaticApplications=80000
 [SMTSettings]integersMaximum=2147483645
-[Choice]DefaultChoices=wdChecks-wdChecks\\:off , JavaCard-JavaCard\\:on , bigint-bigint\\:on , intRules-intRules\\:arithmeticSemanticsIgnoringOF , programRules-programRules\\:Java , sequences-sequences\\:on , runtimeExceptions-runtimeExceptions\\:allow , integerSimplificationRules-integerSimplificationRules\\:full , Strings-Strings\\:on , reach-reach\\:on , assertions-assertions\\:on , modelFields-modelFields\\:treatAsAxiom , initialisation-initialisation\\:disableStaticInitialisation , wdOperator-wdOperator\\:L , moreSeqRules-moreSeqRules\\:off
+[Choice]DefaultChoices=assertions-assertions\\:on , initialisation-initialisation\\:disableStaticInitialisation , intRules-intRules\\:arithmeticSemanticsIgnoringOF , programRules-programRules\\:Java , runtimeExceptions-runtimeExceptions\\:allow , JavaCard-JavaCard\\:on , Strings-Strings\\:on , modelFields-modelFields\\:treatAsAxiom , bigint-bigint\\:on , sequences-sequences\\:on , moreSeqRules-moreSeqRules\\:off , reach-reach\\:on , integerSimplificationRules-integerSimplificationRules\\:full , wdOperator-wdOperator\\:L , wdChecks-wdChecks\\:off
 [SMTSettings]useConstantsForBigOrSmallIntegers=true
 [StrategyProperty]STOPMODE_OPTIONS_KEY=STOPMODE_DEFAULT
 [StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
@@ -42,16 +42,16 @@
 \javaSource "../src";
 
 \proofObligation "#Proof Obligation Settings
-#Fri Jan 30 10:11:52 CET 2015
+#Mon Feb 02 15:23:41 CET 2015
 name=de.uni.trier.infsec.eVotingMachine.core.EntryQueue[de.uni.trier.infsec.eVotingMachine.core.EntryQueue\\:\\:add([B)].JML normal_behavior operation contract.1
 contract=de.uni.trier.infsec.eVotingMachine.core.EntryQueue[de.uni.trier.infsec.eVotingMachine.core.EntryQueue\\:\\:add([B)].JML normal_behavior operation contract.1
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
 \proof {
-(keyLog "0" (keyUser "miki" ) (keyVersion "8ba82498c6938c8c5fb8b06e092b978f30dda885"))
+(keyLog "0" (keyUser "kirsten" ) (keyVersion "31a2f66d4110d575b74cc5815e7ca260a8d03cf2"))
 
-(autoModeTime "529")
+(autoModeTime "287")
 
 (branch "dummy ID"
 (builtin "One Step Simplification" (formula "1") (newnames "heapAtPre"))
