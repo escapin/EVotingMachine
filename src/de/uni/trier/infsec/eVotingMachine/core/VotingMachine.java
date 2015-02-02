@@ -11,7 +11,7 @@ import de.uni.trier.infsec.utils.MessageTools;
 
 public class VotingMachine
 {
-	public class InnerBallot{
+	public static class InnerBallot{
 		public final int votersChoice;
 		public final int voteCounter;
 		public final long timestamp;
@@ -23,7 +23,7 @@ public class VotingMachine
 		  @ 	&& this.voteCounter == counter
 		  @ 	&& this.timestamp == ts;
 		  @*/
-		public /*@ helper @// not provable */ InnerBallot(int choice, int counter, long ts) {
+		public /*@ helper @*/ InnerBallot(int choice, int counter, long ts) {
 			this.votersChoice = choice;
 			this.voteCounter = counter;
 			this.timestamp = ts;
