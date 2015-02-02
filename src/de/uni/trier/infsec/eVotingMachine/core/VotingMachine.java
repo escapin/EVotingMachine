@@ -260,7 +260,7 @@ public class VotingMachine
 	  @ signals_only NegativeArraySizeException;
 	  @ signals (NegativeArraySizeException e) numberOfCandidates < 0;
 	  @*/
-	private /*@ pure helper @*/ byte[] getResult() {
+	private /*@ pure helper nullable @*/ byte[] getResult() {
 
 		int[] _result = new int[numberOfCandidates];
 		/*@ loop_invariant 0 <= i && i <= votesForCandidates.length
@@ -271,7 +271,7 @@ public class VotingMachine
 		  @ 		&& i <= _result.length
 		  @ 		&& i <= numberOfCandidates;
 		  @ assignable _result[*];
-		  @ decreases numberOfCandidates -i;
+		  @ decreases numberOfCandidates - i;
 		  @*/
 		for (int i=0; i<numberOfCandidates; ++i) {
 			int x = votesForCandidates[i];
@@ -291,8 +291,9 @@ public class VotingMachine
 	/*@ private normal_behaviour
 	  @ requires true;
 	  @*/
-	private static /*@ pure helper @// not provable */ byte[] formatResult(int[] _result) {
+	private static /*@ pure helper nullable @// not provable */ byte[] formatResult(int[] _result) {
 		String s = "Result of the election:\n";
+
 		for( int i=0; i<_result.length; ++i ) {
 			s += "  Number of votes for candidate " + i + ": " + _result[i] + "\n";
 		}
