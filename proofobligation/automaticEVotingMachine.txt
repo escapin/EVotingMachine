@@ -35,7 +35,7 @@ provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachi
 provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachine(eVotingMachine.core.VotingMachine__publishResult()).contract.0.key
 provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachine(eVotingMachine.core.VotingMachine__signAndPost([B,[B,functionalities.pkisig.Signer)).contract.0.key
 provable: ./../../EVotingMachine/proofobligation/eVotingMachine.core.VotingMachine.InnerBallot(eVotingMachine.core.VotingMachine.InnerBallot__InnerBallot(int,int,long)).normal contract.0.key
-provable: ./../../EVotingMachine/proofobligation/lib.network.NetworkClient(lib.network.NetworkClient__send((B,String,int)).contract.0.key
+provable: ./../../EVotingMachine/proofobligation/lib.network.NetworkClient(lib.network.NetworkClient__send([B,String,int)).contract.0.key
 provable: ./../../EVotingMachine/proofobligation/lib.network.NetworkClient(lib.network.NetworkClient__sendRequest([B,String,int)).contract.0.key
 provable: ./../../EVotingMachine/proofobligation/lib.time.Timestamp(lib.time.Timestamp__get()).contract.0.key
 provable: ./../../EVotingMachine/proofobligation/utils.MessageTools(utils.MessageTools__byteArrayToInt([B)).contract.0.key
