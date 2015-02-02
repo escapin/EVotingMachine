@@ -1,0 +1,303 @@
+\profile "Java Profile";
+
+\settings {
+"#Proof-Settings-Config-File
+#Mon Feb 02 13:01:50 CET 2015
+[StrategyProperty]VBT_PHASE=VBT_SYM_EX
+[SMTSettings]useUninterpretedMultiplication=true
+[SMTSettings]SelectedTaclets=
+[StrategyProperty]METHOD_OPTIONS_KEY=METHOD_CONTRACT
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY3=USER_TACLETS_OFF
+[StrategyProperty]LOOP_OPTIONS_KEY=LOOP_INVARIANT
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY2=USER_TACLETS_OFF
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY1=USER_TACLETS_OFF
+[StrategyProperty]QUANTIFIERS_OPTIONS_KEY=QUANTIFIERS_NON_SPLITTING_WITH_PROGS
+[StrategyProperty]NON_LIN_ARITH_OPTIONS_KEY=NON_LIN_ARITH_NONE
+[SMTSettings]instantiateHierarchyAssumptions=true
+[StrategyProperty]AUTO_INDUCTION_OPTIONS_KEY=AUTO_INDUCTION_OFF
+[StrategyProperty]DEP_OPTIONS_KEY=DEP_ON
+[StrategyProperty]BLOCK_OPTIONS_KEY=BLOCK_CONTRACT
+[StrategyProperty]CLASS_AXIOM_OPTIONS_KEY=CLASS_AXIOM_FREE
+[StrategyProperty]QUERY_NEW_OPTIONS_KEY=QUERY_OFF
+[Strategy]Timeout=-1
+[Strategy]MaximumNumberOfAutomaticApplications=80000
+[SMTSettings]integersMaximum=2147483645
+[Choice]DefaultChoices=assertions-assertions\\:on , initialisation-initialisation\\:disableStaticInitialisation , intRules-intRules\\:arithmeticSemanticsIgnoringOF , programRules-programRules\\:Java , runtimeExceptions-runtimeExceptions\\:allow , JavaCard-JavaCard\\:on , Strings-Strings\\:on , modelFields-modelFields\\:treatAsAxiom , bigint-bigint\\:on , sequences-sequences\\:on , reach-reach\\:on , integerSimplificationRules-integerSimplificationRules\\:full , wdOperator-wdOperator\\:L , wdChecks-wdChecks\\:off , moreSeqRules-moreSeqRules\\:off
+[SMTSettings]useConstantsForBigOrSmallIntegers=true
+[StrategyProperty]STOPMODE_OPTIONS_KEY=STOPMODE_DEFAULT
+[StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
+[StrategyProperty]INF_FLOW_CHECK_PROPERTY=INF_FLOW_CHECK_FALSE
+[SMTSettings]maxGenericSorts=2
+[SMTSettings]integersMinimum=-2147483645
+[SMTSettings]invariantForall=false
+[SMTSettings]UseBuiltUniqueness=false
+[SMTSettings]explicitTypeHierarchy=false
+[Strategy]ActiveStrategy=JavaCardDLStrategy
+[StrategyProperty]SPLITTING_OPTIONS_KEY=SPLITTING_DELAYED
+"
+}
+
+\javaSource "../src";
+
+\proofObligation "#Proof Obligation Settings
+#Mon Feb 02 13:01:50 CET 2015
+name=de.uni.trier.infsec.eVotingMachine.core.VotingMachine.InnerBallot[de.uni.trier.infsec.eVotingMachine.core.VotingMachine.InnerBallot\\:\\:InnerBallot(int,int,long)].JML normal_behavior operation contract.0
+contract=de.uni.trier.infsec.eVotingMachine.core.VotingMachine.InnerBallot[de.uni.trier.infsec.eVotingMachine.core.VotingMachine.InnerBallot\\:\\:InnerBallot(int,int,long)].JML normal_behavior operation contract.0
+class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
+";
+
+\proof {
+(keyLog "0" (keyUser "daniel" ) (keyVersion "1404d2f0e645d6592a301f51ca5999ad3a5f9fac"))
+
+(autoModeTime "2227")
+
+(branch "dummy ID"
+(builtin "One Step Simplification" (formula "1") (newnames "heapAtPre"))
+(rule "impRight" (formula "1"))
+(rule "andLeft" (formula "1"))
+(rule "eqSymm" (formula "3") (term "1,0,0,1,0,1"))
+(rule "assignment" (formula "3") (term "1"))
+(builtin "One Step Simplification" (formula "3"))
+(rule "variableDeclarationAssign" (formula "3") (term "1"))
+(rule "variableDeclaration" (formula "3") (term "1"))
+(rule "elementOfUnion" (formula "3") (term "0,0,0,0,1,0,1"))
+(rule "elementOfSingleton" (formula "3") (term "1,0,0,0,0,1,0,1"))
+(rule "elementOfUnion" (formula "3") (term "0,0,0,0,0,1,0,1"))
+(rule "elementOfSingleton" (formula "3") (term "0,0,0,0,0,0,1,0,1"))
+(rule "elementOfSingleton" (formula "3") (term "1,0,0,0,0,0,1,0,1"))
+(rule "staticMethodCallStaticWithAssignmentViaTypereference" (formula "3") (term "1") (inst "#v0=i"))
+(rule "variableDeclaration" (formula "3") (term "1") (newnames "i"))
+(rule "methodBodyExpand" (formula "3") (term "1") (newnames "heapBefore_<createObject>,savedHeapBefore_<createObject>"))
+(builtin "One Step Simplification" (formula "3"))
+(rule "variableDeclaration" (formula "3") (term "1") (newnames "__NEW__"))
+(rule "staticMethodCallStaticWithAssignmentViaTypereference" (formula "3") (term "1") (inst "#v0=i_1"))
+(rule "variableDeclaration" (formula "3") (term "1") (newnames "i_1"))
+(rule "allocateInstance" (formula "3"))
+(builtin "One Step Simplification" (formula "4"))
+(builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "2")))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "1"))
+(rule "notLeft" (formula "2"))
+(rule "notLeft" (formula "1"))
+(rule "blockEmpty" (formula "6") (term "1"))
+(rule "assignment" (formula "6") (term "1"))
+(builtin "One Step Simplification" (formula "6"))
+(rule "methodBodyExpand" (formula "6") (term "1") (newnames "heapBefore_<create>,savedHeapBefore_<create>"))
+(builtin "One Step Simplification" (formula "6"))
+(rule "assignment_write_attribute_this" (formula "6") (term "1"))
+(builtin "One Step Simplification" (formula "6"))
+(rule "methodCallWithinClass" (formula "6") (term "1"))
+(rule "methodBodyExpand" (formula "6") (term "1") (newnames "heapBefore_<prepareEnter>,savedHeapBefore_<prepareEnter>"))
+(builtin "One Step Simplification" (formula "6"))
+(rule "methodCallSuper" (formula "6") (term "1"))
+(rule "methodBodyExpand" (formula "6") (term "1") (newnames "heapBefore_<prepare>,savedHeapBefore_<prepare>"))
+(builtin "One Step Simplification" (formula "6"))
+(rule "methodCallEmpty" (formula "6") (term "1"))
+(rule "blockEmpty" (formula "6") (term "1"))
+(rule "assignment_write_attribute_this" (formula "6") (term "1"))
+(builtin "One Step Simplification" (formula "6"))
+(rule "assignment_write_attribute_this" (formula "6") (term "1"))
+(builtin "One Step Simplification" (formula "6"))
+(rule "assignment_write_attribute_this" (formula "6") (term "1"))
+(builtin "One Step Simplification" (formula "6"))
+(rule "methodCallEmpty" (formula "6") (term "1"))
+(rule "blockEmpty" (formula "6") (term "1"))
+(rule "methodCallReturnIgnoreResult" (formula "6") (term "1"))
+(rule "methodCallReturn" (formula "6") (term "1"))
+(rule "assignment" (formula "6") (term "1"))
+(builtin "One Step Simplification" (formula "6"))
+(rule "methodCallEmpty" (formula "6") (term "1"))
+(rule "blockEmpty" (formula "6") (term "1"))
+(rule "assignment" (formula "6") (term "1"))
+(builtin "One Step Simplification" (formula "6"))
+(rule "blockEmpty" (formula "6") (term "1"))
+(rule "variableDeclarationAssign" (formula "6") (term "1"))
+(rule "variableDeclaration" (formula "6") (term "1") (newnames "var"))
+(rule "assignment" (formula "6") (term "1"))
+(builtin "One Step Simplification" (formula "6"))
+(rule "variableDeclarationAssign" (formula "6") (term "1"))
+(rule "variableDeclaration" (formula "6") (term "1") (newnames "var_1"))
+(rule "assignment" (formula "6") (term "1"))
+(builtin "One Step Simplification" (formula "6"))
+(rule "variableDeclarationAssign" (formula "6") (term "1"))
+(rule "variableDeclaration" (formula "6") (term "1") (newnames "var_2"))
+(rule "assignment" (formula "6") (term "1"))
+(builtin "One Step Simplification" (formula "6"))
+(rule "methodBodyExpand" (formula "6") (term "1") (newnames "heapBefore_<init>,savedHeapBefore_<init>"))
+(builtin "One Step Simplification" (formula "6"))
+(rule "methodCallSuper" (formula "6") (term "1"))
+(rule "methodBodyExpand" (formula "6") (term "1") (newnames "heapBefore_<init>_0,savedHeapBefore_<init>_0"))
+(builtin "One Step Simplification" (formula "6"))
+(rule "methodCallEmpty" (formula "6") (term "1"))
+(rule "blockEmpty" (formula "6") (term "1"))
+(rule "assignment_write_attribute_this" (formula "6") (term "1"))
+(builtin "One Step Simplification" (formula "6"))
+(rule "assignment_write_attribute_this" (formula "6") (term "1"))
+(builtin "One Step Simplification" (formula "6"))
+(rule "assignment_write_attribute_this" (formula "6") (term "1"))
+(builtin "One Step Simplification" (formula "6"))
+(rule "methodCallEmpty" (formula "6") (term "1"))
+(rule "blockEmpty" (formula "6") (term "1"))
+(rule "assignment_write_attribute" (formula "6") (term "1"))
+(branch "Normal Execution (self != null)"
+   (builtin "One Step Simplification" (formula "7"))
+   (builtin "One Step Simplification" (formula "6") (ifInst ""  (formula "4")))
+   (rule "false_right" (formula "6"))
+   (rule "tryEmpty" (formula "6") (term "1"))
+   (rule "emptyModality" (formula "6") (term "1"))
+   (builtin "One Step Simplification" (formula "6"))
+   (rule "eqSymm" (formula "6") (term "1,0,0,1"))
+   (rule "dismissNonSelectedField" (formula "6") (term "0,1,1,0"))
+   (rule "dismissNonSelectedField" (formula "6") (term "0,0,1,0"))
+   (rule "dismissNonSelectedField" (formula "6") (term "0,0,0"))
+   (rule "dismissNonSelectedField" (formula "6") (term "0,0,1,0"))
+   (rule "dismissNonSelectedField" (formula "6") (term "0,0,0"))
+   (rule "dismissNonSelectedField" (formula "6") (term "0,0,0"))
+   (rule "pullOutSelect" (formula "6") (term "0,1,1,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_VotingMachine_InnerBallot_timestamp_0"))
+   (rule "simplifySelectOfStore" (formula "1"))
+   (builtin "One Step Simplification" (formula "1"))
+   (rule "castDel" (formula "1") (term "0"))
+   (rule "applyEqReverse" (formula "7") (term "0,1,1,0") (ifseqformula "1"))
+   (builtin "One Step Simplification" (formula "7"))
+   (rule "hideAuxiliaryEq" (formula "1"))
+   (rule "pullOutSelect" (formula "6") (term "0,0,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_VotingMachine_InnerBallot_votersChoice_0"))
+   (rule "simplifySelectOfStore" (formula "1"))
+   (builtin "One Step Simplification" (formula "1"))
+   (rule "castDel" (formula "1") (term "0"))
+   (rule "applyEqReverse" (formula "7") (term "0,0,0") (ifseqformula "1"))
+   (builtin "One Step Simplification" (formula "7"))
+   (rule "hideAuxiliaryEq" (formula "1"))
+   (rule "pullOutSelect" (formula "6") (term "0,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_VotingMachine_InnerBallot_voteCounter_0"))
+   (rule "simplifySelectOfStore" (formula "1"))
+   (builtin "One Step Simplification" (formula "1"))
+   (rule "castDel" (formula "1") (term "0"))
+   (rule "applyEqReverse" (formula "7") (term "0,0") (ifseqformula "1"))
+   (builtin "One Step Simplification" (formula "7"))
+   (rule "allRight" (formula "7") (inst "sk=f_0"))
+   (rule "allRight" (formula "7") (inst "sk=o_0"))
+   (rule "orRight" (formula "7"))
+   (rule "orRight" (formula "7"))
+   (rule "orRight" (formula "7"))
+   (rule "orRight" (formula "7"))
+   (rule "hideAuxiliaryEq" (formula "1"))
+   (rule "pullOutSelect" (formula "10") (term "0") (inst "selectSK=f_0_0"))
+   (rule "simplifySelectOfStore" (formula "1"))
+   (builtin "One Step Simplification" (formula "1"))
+   (rule "castDel" (formula "1") (term "1,0"))
+   (rule "eqSymm" (formula "11"))
+   (rule "eqSymm" (formula "1") (term "1,0,0"))
+   (rule "eqSymm" (formula "1") (term "0,0,0"))
+   (rule "pullOutSelect" (formula "1") (term "2,0") (inst "selectSK=f_0_1"))
+   (rule "simplifySelectOfStore" (formula "1"))
+   (builtin "One Step Simplification" (formula "1"))
+   (rule "castDel" (formula "1") (term "1,0"))
+   (rule "eqSymm" (formula "1") (term "0,0,0"))
+   (rule "eqSymm" (formula "1") (term "1,0,0"))
+   (rule "replace_known_right" (formula "1") (term "0,0") (ifseqformula "10"))
+   (builtin "One Step Simplification" (formula "1"))
+   (rule "simplifySelectOfStore" (formula "1"))
+   (builtin "One Step Simplification" (formula "1"))
+   (rule "castDel" (formula "1") (term "1,0"))
+   (rule "eqSymm" (formula "1") (term "0,0,0"))
+   (rule "eqSymm" (formula "1") (term "1,0,0"))
+   (rule "replace_known_right" (formula "1") (term "0,0") (ifseqformula "9"))
+   (builtin "One Step Simplification" (formula "1"))
+   (rule "simplifySelectOfStore" (formula "1"))
+   (builtin "One Step Simplification" (formula "1"))
+   (rule "castDel" (formula "1") (term "1,0"))
+   (rule "eqSymm" (formula "1") (term "1,0,0"))
+   (rule "eqSymm" (formula "1") (term "0,0,0"))
+   (rule "replace_known_right" (formula "1") (term "0,0") (ifseqformula "8"))
+   (builtin "One Step Simplification" (formula "1"))
+   (rule "simplifySelectOfCreate" (formula "1"))
+   (rule "castDel" (formula "1") (term "1,0"))
+   (rule "eqSymm" (formula "1") (term "0,0,0,0"))
+   (rule "replace_known_right" (formula "1") (term "0,1,0,0,0") (ifseqformula "6"))
+   (builtin "One Step Simplification" (formula "1"))
+   (rule "commute_and" (formula "10"))
+   (rule "commute_and" (formula "8"))
+   (rule "commute_and" (formula "9"))
+   (rule "commute_and" (formula "2") (term "0,0"))
+   (rule "commute_and" (formula "1") (term "0,0"))
+   (rule "ifthenelse_split" (formula "1") (term "0"))
+   (branch "f_0 = java.lang.Object::<created> ∧ o_0 = i_1 TRUE"
+      (rule "andLeft" (formula "1"))
+      (rule "applyEqReverse" (formula "4") (term "2,0") (ifseqformula "3"))
+      (builtin "One Step Simplification" (formula "4") (ifInst ""  (formula "2")))
+      (rule "applyEqReverse" (formula "14") (term "1") (ifseqformula "4"))
+      (rule "hideAuxiliaryEq" (formula "3"))
+      (rule "hideAuxiliaryEq" (formula "3"))
+      (rule "replace_known_left" (formula "8") (term "1") (ifseqformula "2"))
+      (builtin "One Step Simplification" (formula "8"))
+      (rule "replace_known_left" (formula "9") (term "1") (ifseqformula "2"))
+      (builtin "One Step Simplification" (formula "9"))
+      (rule "replace_known_left" (formula "10") (term "1") (ifseqformula "2"))
+      (builtin "One Step Simplification" (formula "10"))
+      (rule "applyEq" (formula "12") (term "2,0") (ifseqformula "1"))
+      (rule "narrowSelectType" (formula "12") (term "0") (ifseqformula "4"))
+      (rule "replace_known_right" (formula "11") (term "0,1") (ifseqformula "12"))
+      (builtin "One Step Simplification" (formula "11"))
+      (rule "notRight" (formula "11"))
+      (rule "applyEq" (formula "9") (term "0") (ifseqformula "2"))
+      (builtin "One Step Simplification" (formula "9"))
+      (rule "false_right" (formula "9"))
+      (rule "applyEq" (formula "9") (term "0") (ifseqformula "2"))
+      (builtin "One Step Simplification" (formula "9"))
+      (rule "false_right" (formula "9"))
+      (rule "applyEqRigid" (formula "9") (term "0") (ifseqformula "2"))
+      (builtin "One Step Simplification" (formula "9"))
+      (rule "false_right" (formula "9"))
+      (rule "applyEq" (formula "3") (term "0") (ifseqformula "1"))
+      (rule "eqSymm" (formula "3"))
+      (rule "close" (formula "7") (ifseqformula "3"))
+   )
+   (branch "f_0 = java.lang.Object::<created> ∧ o_0 = i_1 FALSE"
+      (rule "applyEqReverse" (formula "2") (term "2,0") (ifseqformula "1"))
+      (rule "hideAuxiliaryEq" (formula "1"))
+      (rule "ifthenelse_split" (formula "1") (term "0"))
+      (branch "f_0 = java.lang.Object::<initialized> ∧ o_0 = i_1 TRUE"
+         (rule "andLeft" (formula "1"))
+         (rule "applyEqReverse" (formula "14") (term "1") (ifseqformula "3"))
+         (rule "hideAuxiliaryEq" (formula "3"))
+         (rule "replace_known_left" (formula "10") (term "1") (ifseqformula "2"))
+         (builtin "One Step Simplification" (formula "10"))
+         (rule "replace_known_left" (formula "11") (term "1") (ifseqformula "2"))
+         (builtin "One Step Simplification" (formula "11"))
+         (rule "replace_known_left" (formula "9") (term "1") (ifseqformula "2"))
+         (builtin "One Step Simplification" (formula "9"))
+         (rule "replace_known_left" (formula "6") (term "1") (ifseqformula "2"))
+         (builtin "One Step Simplification" (formula "6"))
+         (rule "applyEq" (formula "12") (term "1,0,0,1") (ifseqformula "2"))
+         (rule "replace_known_right" (formula "12") (term "0,1") (ifseqformula "8"))
+         (builtin "One Step Simplification" (formula "12"))
+         (rule "notRight" (formula "12"))
+         (rule "applyEq" (formula "13") (term "2,0") (ifseqformula "2"))
+         (rule "narrowSelectType" (formula "13") (term "0") (ifseqformula "5"))
+         (rule "applyEqRigid" (formula "11") (term "0") (ifseqformula "2"))
+         (builtin "One Step Simplification" (formula "11"))
+         (rule "false_right" (formula "11"))
+         (rule "applyEq" (formula "11") (term "0") (ifseqformula "2"))
+         (builtin "One Step Simplification" (formula "11"))
+         (rule "false_right" (formula "11"))
+         (rule "applyEqRigid" (formula "10") (term "0") (ifseqformula "2"))
+         (builtin "One Step Simplification" (formula "10"))
+         (rule "false_right" (formula "10"))
+         (rule "applyEqRigid" (formula "7") (term "0") (ifseqformula "2"))
+         (builtin "One Step Simplification" (formula "7"))
+         (rule "false_right" (formula "7"))
+         (rule "applyEqRigid" (formula "3") (term "0") (ifseqformula "1"))
+         (rule "eqSymm" (formula "3"))
+         (rule "close" (formula "7") (ifseqformula "3"))
+      )
+      (branch "f_0 = java.lang.Object::<initialized> ∧ o_0 = i_1 FALSE"
+         (rule "close" (formula "13") (ifseqformula "1"))
+      )
+   )
+)
+(branch "Null Reference (self = null)"
+   (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "5")))
+   (rule "closeFalse" (formula "1"))
+)
+)
+
+}
