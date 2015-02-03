@@ -2,7 +2,7 @@
 
 \settings {
 "#Proof-Settings-Config-File
-#Mon Feb 02 13:22:41 CET 2015
+#Mon Feb 02 15:25:15 CET 2015
 [StrategyProperty]VBT_PHASE=VBT_SYM_EX
 [SMTSettings]useUninterpretedMultiplication=true
 [SMTSettings]SelectedTaclets=
@@ -24,7 +24,7 @@
 [Strategy]Timeout=-1
 [Strategy]MaximumNumberOfAutomaticApplications=80000
 [SMTSettings]integersMaximum=2147483645
-[Choice]DefaultChoices=assertions-assertions\\:on , initialisation-initialisation\\:disableStaticInitialisation , intRules-intRules\\:arithmeticSemanticsIgnoringOF , programRules-programRules\\:Java , runtimeExceptions-runtimeExceptions\\:allow , JavaCard-JavaCard\\:on , Strings-Strings\\:on , modelFields-modelFields\\:treatAsAxiom , bigint-bigint\\:on , sequences-sequences\\:on , reach-reach\\:on , integerSimplificationRules-integerSimplificationRules\\:full , wdOperator-wdOperator\\:L , wdChecks-wdChecks\\:off , moreSeqRules-moreSeqRules\\:off
+[Choice]DefaultChoices=assertions-assertions\\:on , initialisation-initialisation\\:disableStaticInitialisation , intRules-intRules\\:arithmeticSemanticsIgnoringOF , programRules-programRules\\:Java , runtimeExceptions-runtimeExceptions\\:allow , JavaCard-JavaCard\\:on , Strings-Strings\\:on , modelFields-modelFields\\:treatAsAxiom , bigint-bigint\\:on , sequences-sequences\\:on , moreSeqRules-moreSeqRules\\:off , reach-reach\\:on , integerSimplificationRules-integerSimplificationRules\\:full , wdOperator-wdOperator\\:L , wdChecks-wdChecks\\:off
 [SMTSettings]useConstantsForBigOrSmallIntegers=true
 [StrategyProperty]STOPMODE_OPTIONS_KEY=STOPMODE_DEFAULT
 [StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
@@ -42,16 +42,16 @@
 \javaSource "../src";
 
 \proofObligation "#Proof Obligation Settings
-#Mon Feb 02 13:22:41 CET 2015
+#Mon Feb 02 15:25:15 CET 2015
 name=de.uni.trier.infsec.eVotingMachine.core.Setup[de.uni.trier.infsec.eVotingMachine.core.Setup\\:\\:computeResult([I,int)].JML normal_behavior operation contract.0
 contract=de.uni.trier.infsec.eVotingMachine.core.Setup[de.uni.trier.infsec.eVotingMachine.core.Setup\\:\\:computeResult([I,int)].JML normal_behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
 \proof {
-(keyLog "0" (keyUser "daniel" ) (keyVersion "1404d2f0e645d6592a301f51ca5999ad3a5f9fac"))
+(keyLog "0" (keyUser "kirsten" ) (keyVersion "31a2f66d4110d575b74cc5815e7ca260a8d03cf2"))
 
-(autoModeTime "4016")
+(autoModeTime "8094")
 
 (branch "dummy ID"
 (builtin "One Step Simplification" (formula "1") (newnames "heapAtPre"))
@@ -1537,9 +1537,9 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                     (rule "eqSymm" (formula "1") (term "1,0,0"))
                                     (rule "commute_and" (formula "1") (term "0,0"))
                                     (rule "andRight" (formula "26"))
-                                    (branch "Case 1"
+                                    (branch
                                        (rule "andRight" (formula "26"))
-                                       (branch "Case 1"
+                                       (branch
                                           (rule "allRight" (formula "26") (inst "sk=j_1"))
                                           (rule "orRight" (formula "26"))
                                           (rule "orRight" (formula "26"))
@@ -1861,7 +1861,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                              )
                                           )
                                        )
-                                       (branch "Case 2"
+                                       (branch
                                           (rule "allRight" (formula "26") (inst "sk=j_0"))
                                           (rule "orRight" (formula "26"))
                                           (rule "orRight" (formula "26"))
@@ -2184,7 +2184,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                           )
                                        )
                                     )
-                                    (branch "Case 2"
+                                    (branch
                                        (rule "allRight" (formula "26") (inst "sk=f_1"))
                                        (rule "allRight" (formula "26") (inst "sk=o_1"))
                                        (rule "orRight" (formula "26"))
