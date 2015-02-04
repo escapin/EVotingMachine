@@ -148,7 +148,9 @@ public final class Setup
 			throw new Throwable();	// abort if the vectors do not yield the same result
 
 		// store correct result (CONSERVATIVE EXTENSTION)
-		correctResult = r1;
+		correctResult = new int[r1.length];
+		for(int i=0; i<r1.length; ++i)
+			correctResult[i] = r1[i];
 
 		// THE MAIN LOOP
 		mainLoop(vm, bb, numberOfVoters, secret, choices0, choices1);
