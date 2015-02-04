@@ -149,6 +149,12 @@ public final class Setup
 
 		// store correct result (CONSERVATIVE EXTENSTION)
 		correctResult = new int[r1.length];
+		/*@ loop_invariant 0 <= i && i <= r1.length && r1 != null && correctResult != null
+		  @ 			&& correctResult.length == r1.length
+		  @ 			&& (\forall int j; 0 <= j && j < i; correctResult[j] == r1[j]);
+		  @ assignable correctResult[*];
+		  @ decreases r1.length - i;
+		  @*/
 		for(int i=0; i<r1.length; ++i)
 			correctResult[i] = r1[i];
 
