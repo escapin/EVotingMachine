@@ -1,3 +1,5 @@
 git archive --format=zip --prefix=EVotingMachine/ -o EVotingMachine.zip HEAD \
     README.txt \
-    src
+    src \
+    build.xml \
+    static_ifc

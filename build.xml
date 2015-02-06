@@ -1,0 +1,56 @@
+<project name="EVotingMachineIFC" default="ifc" basedir=".">
+	<description>
+	This build file runs the non-interference check for the E-Voting example code.
+	</description>
+
+	<!-- set global properties for this build -->
+	<property name="example.src.dir" value="src"/>
+	<property name="example.bin.dir" value="example/bin"/>
+	<property name="analysis.src.dir" value="static_ifc/src"/>
+	<property name="analysis.bin.dir" value="static_ifc/bin"/>
+	<property name="analysis.lib.jar" value="static_ifc/lib/joana.api.jar"/>
+	<property name="analysis.pdg.file" value="static_ifc/eVotingMachine.pdg"/>
+	<property name="analysis.main.class" value="static_ifc.VerifyEVotingMachine"/>
+	<property name="viewer.webstart.file" value="static_ifc/joana-graphviewer.jnlp"/>	
+	
+	<target name="build-example-code" description="builds the example code">
+		<mkdir dir="${example.bin.dir}" />
+		<javac
+			srcdir="${example.src.dir}"
+			destdir="${example.bin.dir}"
+			includeantruntime="false"
+		/>
+	</target>
+
+	<target name="build-analysis-code" description="builds the driver code for the static analysis of the example code">
+		<mkdir dir="${analysis.bin.dir}" />
+		<javac
+			classpath="${analysis.lib.jar}"
+			srcdir="${analysis.src.dir}"
+			destdir="${analysis.bin.dir}"
+			includeantruntime="false"
+		/>
+	</target>
+
+	<target name="clean-all" depends="clean" description="cleans everything">
+		<delete file="${analysis.pdg.file}"/>
+	</target>
+
+	<target name="clean" description="cleans everything except for the PDG produced while checking">
+		<delete dir="${example.bin.dir}"/>
+		<delete dir="${analysis.bin.dir}"/>
+	</target>
+
+	<target name="ifc" depends="build-example-code,build-analysis-code" description="builds everything and runs the IFC check on the example">
+		<java classname="${analysis.main.class}" fork="true" failonerror="true">
+			<classpath>
+				<pathelement path="${analysis.bin.dir}"/>
+				<pathelement location="${analysis.lib.jar}"/>
+			</classpath>
+			<jvmarg value="-Xmx1024M"/>
+			<sysproperty key="api.annotation.debug" value="true"/>
+			<arg value="${example.bin.dir}"/>
+			<arg value="${analysis.pdg.file}"/>
+		</java>
+	</target>
+</project>
