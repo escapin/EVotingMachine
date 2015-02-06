@@ -337,7 +337,7 @@ public final class Setup
 				bb.onPost(request);
 				break;
 
-			case 4: // make the bulletin board send its content over the network
+			case 4: // deliver the content of the bulletin board to the environment
 				byte[] bbConent = bb.onRequestContent();
 				Environment.untrustedOutputMessage(bbConent);
 				break;
