@@ -1,5 +1,6 @@
 git archive --format=zip --prefix=EVotingMachine/ -o EVotingMachine.zip HEAD \
     README.txt \
     src \
+    proof sideeffects\
     build.xml \
     static_ifc

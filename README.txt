@@ -42,3 +42,15 @@ You are prompted for a verification target (i.e., Java method).
 All proofs can be found without user interaction; you may just press the
 auto mode button (green "play" button).
 Note that JML specifications are written in the original Java sources.
+
+
+Additional side effect analysis
+================
+
+As mentioned in the paper, we have used results that calling the logging
+component only has benign side effects. The results provided by Joana are
+listed in folder "sideeffects". For each caller context (i.e., calling method),
+an upper bound of affected heap locations is listed. These locations do not
+appear syntactically in the specification of the respective methods. Therefore,
+it can be assumed without loss of generality that these side effects were not
+present at all.
