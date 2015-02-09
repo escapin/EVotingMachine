@@ -19,7 +19,7 @@ Make sure that 'java', 'javac' and 'ant' can be executed from your shell. To inv
 KeY proofs
 ================
 
-Loading the proofs best works with the latest release 2.4,
+Loading the proofs best works with the latest release 2.4.0,
 that can be downloaded from http://key-project.org/download/index.html
 Other versions are not tested. Running KeY requires Java 1.6 or later.
 
@@ -47,10 +47,10 @@ Note that JML specifications are written in the original Java sources.
 Additional side effect analysis
 ================
 
-As mentioned in the paper, we have used results that calling the logging
-component only has benign side effects. The results provided by Joana are
-listed in folder "sideeffects". For each caller context (i.e., calling method),
-an upper bound of affected heap locations is listed. These locations do not
-appear syntactically in the specification of the respective methods. Therefore,
-it can be assumed without loss of generality that these side effects were not
-present at all.
+As mentioned in Sect. IV-F the paper, we have used results that calling the
+logging component only has benign side effects. The results provided by the PDG
+computed by Joana are listed in folder "sideeffects". For each caller context
+(i.e., calling method), an upper bound of affected heap locations is listed.
+These locations do not appear syntactically in the specification of the
+respective methods. Therefore, it can be assumed without loss of generality
+that these side effects were not present at all.
