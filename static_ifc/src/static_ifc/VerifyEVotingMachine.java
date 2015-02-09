@@ -29,9 +29,9 @@ import edu.kit.joana.wala.core.SDGBuilder.PointsToPrecision;
 
 public class VerifyEVotingMachine {
 
-	private static final String MAIN_CLASS = "de.uni.trier.infsec.eVotingMachine.core.Setup";
-	private static final String METHOD_WITH_SECRET_ARG = "de.uni.trier.infsec.eVotingMachine.core.Setup.main2(Lde/uni/trier/infsec/eVotingMachine/core/VotingMachine;Lde/uni/trier/infsec/eVotingMachine/core/BulletinBoard;IIZ)V";
-	private static final String ENV_CLASS = "Lde/uni/trier/infsec/environment/Environment";
+	private static final String MAIN_CLASS = "verif.eVotingMachine.core.Setup";
+	private static final String METHOD_WITH_SECRET_ARG = "verif.eVotingMachine.core.Setup.main2(Lverif/eVotingMachine/core/VotingMachine;Lverif/eVotingMachine/core/BulletinBoard;IIZ)V";
+	private static final String ENV_CLASS = "Lverif/environment/Environment";
 
 	public static void main(String[] args) throws ClassHierarchyException, IOException, UnsoundGraphException, CancelException {
 		if (args.length != 2) {
