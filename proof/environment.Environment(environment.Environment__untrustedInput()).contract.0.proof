@@ -43,8 +43,8 @@
 
 \proofObligation "#Proof Obligation Settings
 #Mon Feb 02 15:51:54 CET 2015
-name=de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment\\:\\:untrustedInput()].JML behavior operation contract.0
-contract=de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment\\:\\:untrustedInput()].JML behavior operation contract.0
+name=verif.environment.Environment[verif.environment.Environment\\:\\:untrustedInput()].JML behavior operation contract.0
+contract=verif.environment.Environment[verif.environment.Environment\\:\\:untrustedInput()].JML behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 

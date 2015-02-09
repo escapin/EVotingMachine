@@ -43,8 +43,8 @@
 
 \proofObligation "#Proof Obligation Settings
 #Mon Feb 02 15:53:27 CET 2015
-name=de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment\\:\\:untrustedInputMessage()].JML behavior operation contract.0
-contract=de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment\\:\\:untrustedInputMessage()].JML behavior operation contract.0
+name=verif.environment.Environment[verif.environment.Environment\\:\\:untrustedInputMessage()].JML behavior operation contract.0
+contract=verif.environment.Environment[verif.environment.Environment\\:\\:untrustedInputMessage()].JML behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
@@ -64,7 +64,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 (builtin "One Step Simplification" (formula "3"))
 (rule "variableDeclarationAssign" (formula "3") (term "1"))
 (rule "variableDeclaration" (formula "3") (term "1") (newnames "llen"))
-(builtin "Use Operation Contract" (formula "3") (newnames "heapBefore_untrustedInput,result_0,exc_0,heapAfter_untrustedInput,anon_heap_untrustedInput") (contract "de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment::untrustedInput()].JML behavior operation contract.0"))
+(builtin "Use Operation Contract" (formula "3") (newnames "heapBefore_untrustedInput,result_0,exc_0,heapAfter_untrustedInput,anon_heap_untrustedInput") (contract "verif.environment.Environment[verif.environment.Environment::untrustedInput()].JML behavior operation contract.0"))
 (branch "Post (untrustedInput)"
    (builtin "One Step Simplification" (formula "5"))
    (builtin "One Step Simplification" (formula "4"))
@@ -983,7 +983,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                               (rule "compound_byte_cast_expression" (formula "15") (term "1") (inst "#v=x_10"))
                               (rule "variableDeclarationAssign" (formula "15") (term "1"))
                               (rule "variableDeclaration" (formula "15") (term "1") (newnames "x_10"))
-                              (builtin "Use Operation Contract" (formula "15") (newnames "heapBefore_untrustedInput_0,result_1,exc_2,heapAfter_untrustedInput_0,anon_heap_untrustedInput_0") (contract "de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment::untrustedInput()].JML behavior operation contract.0"))
+                              (builtin "Use Operation Contract" (formula "15") (newnames "heapBefore_untrustedInput_0,result_1,exc_2,heapAfter_untrustedInput_0,anon_heap_untrustedInput_0") (contract "verif.environment.Environment[verif.environment.Environment::untrustedInput()].JML behavior operation contract.0"))
                               (branch "Post (untrustedInput)"
                                  (builtin "One Step Simplification" (formula "13"))
                                  (builtin "One Step Simplification" (formula "17"))

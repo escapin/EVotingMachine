@@ -43,8 +43,8 @@
 
 \proofObligation "#Proof Obligation Settings
 #Mon Feb 02 15:21:28 CET 2015
-name=de.uni.trier.infsec.eVotingMachine.core.EntryQueue[de.uni.trier.infsec.eVotingMachine.core.EntryQueue\\:\\:getEntries()].JML behavior operation contract.0
-contract=de.uni.trier.infsec.eVotingMachine.core.EntryQueue[de.uni.trier.infsec.eVotingMachine.core.EntryQueue\\:\\:getEntries()].JML behavior operation contract.0
+name=verif.eVotingMachine.core.EntryQueue[verif.eVotingMachine.core.EntryQueue\\:\\:getEntries()].JML behavior operation contract.0
+contract=verif.eVotingMachine.core.EntryQueue[verif.eVotingMachine.core.EntryQueue\\:\\:getEntries()].JML behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
@@ -468,7 +468,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
             (rule "variableDeclaration" (formula "12") (term "1") (newnames "thrownExc"))
             (rule "blockThrow" (formula "12") (term "1,0,0,1"))
             (rule "blockThrow" (formula "12") (term "1,0,0,1"))
-            (rule "pullOutSelect" (formula "9") (term "0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_EntryQueue_head_1"))
+            (rule "pullOutSelect" (formula "9") (term "0") (inst "selectSK=verif_eVotingMachine_core_EntryQueue_head_1"))
             (rule "simplifySelectOfAnon" (formula "1"))
             (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "12")) (ifInst ""  (formula "4")))
             (rule "applyEqReverse" (formula "10") (term "0") (ifseqformula "1"))
@@ -509,11 +509,11 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                   (builtin "One Step Simplification" (formula "12"))
                   (builtin "One Step Simplification" (formula "11") (ifInst ""  (formula "8")))
                   (rule "false_right" (formula "11"))
-                  (rule "pullOutSelect" (formula "11") (term "0,1,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_EntryQueue_Node_entry_0"))
+                  (rule "pullOutSelect" (formula "11") (term "0,1,0") (inst "selectSK=verif_eVotingMachine_core_EntryQueue_Node_entry_0"))
                   (rule "simplifySelectOfAnon" (formula "1"))
                   (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "9")))
                   (rule "ifthenelse_negated" (formula "1") (term "0"))
-                  (builtin "Use Operation Contract" (formula "12") (newnames "heapBefore_concatenate,result_0,exc_0,heapAfter_concatenate,anon_heap_concatenate") (contract "de.uni.trier.infsec.utils.MessageTools[de.uni.trier.infsec.utils.MessageTools::concatenate([B,[B)].JML behavior operation contract.0"))
+                  (builtin "Use Operation Contract" (formula "12") (newnames "heapBefore_concatenate,result_0,exc_0,heapAfter_concatenate,anon_heap_concatenate") (contract "verif.utils.MessageTools[verif.utils.MessageTools::concatenate([B,[B)].JML behavior operation contract.0"))
                   (branch "Post (concatenate)"
                      (builtin "One Step Simplification" (formula "14"))
                      (builtin "One Step Simplification" (formula "10"))
@@ -557,7 +557,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                         (rule "emptyModality" (formula "21") (term "1"))
                         (builtin "One Step Simplification" (formula "21"))
                         (rule "eqSymm" (formula "21") (term "1,0,0,1"))
-                        (rule "pullOutSelect" (formula "21") (term "0,0,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_EntryQueue_head_2"))
+                        (rule "pullOutSelect" (formula "21") (term "0,0,0") (inst "selectSK=verif_eVotingMachine_core_EntryQueue_head_2"))
                         (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "11"))
                         (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "21")) (ifInst ""  (formula "4")))
                         (rule "replaceKnownSelect_taclet1001_0" (formula "1") (term "0"))
@@ -866,7 +866,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
             (rule "variableDeclarationAssign" (formula "11") (term "1"))
             (rule "variableDeclaration" (formula "11") (term "1") (newnames "b_1"))
             (rule "blockEmpty" (formula "11") (term "1,0,1"))
-            (rule "pullOutSelect" (formula "8") (term "0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_EntryQueue_head_0"))
+            (rule "pullOutSelect" (formula "8") (term "0") (inst "selectSK=verif_eVotingMachine_core_EntryQueue_head_0"))
             (rule "simplifySelectOfAnon" (formula "1"))
             (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "11")) (ifInst ""  (formula "3")))
             (rule "applyEqReverse" (formula "9") (term "0") (ifseqformula "1"))

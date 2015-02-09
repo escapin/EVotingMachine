@@ -43,8 +43,8 @@
 
 \proofObligation "#Proof Obligation Settings
 #Mon Feb 02 15:43:09 CET 2015
-name=de.uni.trier.infsec.utils.MessageTools[de.uni.trier.infsec.utils.MessageTools\\:\\:copyOf([B)].JML normal_behavior operation contract.0
-contract=de.uni.trier.infsec.utils.MessageTools[de.uni.trier.infsec.utils.MessageTools\\:\\:copyOf([B)].JML normal_behavior operation contract.0
+name=verif.utils.MessageTools[verif.utils.MessageTools\\:\\:copyOf([B)].JML normal_behavior operation contract.0
+contract=verif.utils.MessageTools[verif.utils.MessageTools\\:\\:copyOf([B)].JML normal_behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 

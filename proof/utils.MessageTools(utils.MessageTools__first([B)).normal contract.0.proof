@@ -43,8 +43,8 @@
 
 \proofObligation "#Proof Obligation Settings
 #Mon Feb 02 15:43:41 CET 2015
-name=de.uni.trier.infsec.utils.MessageTools[de.uni.trier.infsec.utils.MessageTools\\:\\:first([B)].JML normal_behavior operation contract.0
-contract=de.uni.trier.infsec.utils.MessageTools[de.uni.trier.infsec.utils.MessageTools\\:\\:first([B)].JML normal_behavior operation contract.0
+name=verif.utils.MessageTools[verif.utils.MessageTools\\:\\:first([B)].JML normal_behavior operation contract.0
+contract=verif.utils.MessageTools[verif.utils.MessageTools\\:\\:first([B)].JML normal_behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
@@ -66,7 +66,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 (rule "returnUnfold" (formula "4") (term "1") (inst "#v0=x_arr"))
 (rule "variableDeclarationAssign" (formula "4") (term "1"))
 (rule "variableDeclaration" (formula "4") (term "1") (newnames "x_arr"))
-(builtin "Use Operation Contract" (formula "4") (newnames "heapBefore_project,result_0,exc_0,heapAfter_project,anon_heap_project") (contract "de.uni.trier.infsec.utils.MessageTools[de.uni.trier.infsec.utils.MessageTools::project([B,int)].JML normal_behavior operation contract.0"))
+(builtin "Use Operation Contract" (formula "4") (newnames "heapBefore_project,result_0,exc_0,heapAfter_project,anon_heap_project") (contract "verif.utils.MessageTools[verif.utils.MessageTools::project([B,int)].JML normal_behavior operation contract.0"))
 (branch "Post (project)"
    (builtin "One Step Simplification" (formula "5"))
    (builtin "One Step Simplification" (formula "6"))

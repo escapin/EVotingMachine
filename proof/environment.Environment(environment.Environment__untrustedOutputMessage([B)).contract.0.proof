@@ -43,8 +43,8 @@
 
 \proofObligation "#Proof Obligation Settings
 #Mon Feb 02 15:55:58 CET 2015
-name=de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment\\:\\:untrustedOutputMessage([B)].JML behavior operation contract.0
-contract=de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment\\:\\:untrustedOutputMessage([B)].JML behavior operation contract.0
+name=verif.environment.Environment[verif.environment.Environment\\:\\:untrustedOutputMessage([B)].JML behavior operation contract.0
+contract=verif.environment.Environment[verif.environment.Environment\\:\\:untrustedOutputMessage([B)].JML behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
@@ -74,7 +74,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
    (builtin "One Step Simplification" (formula "4"))
    (rule "replace_known_right" (formula "2") (term "0") (ifseqformula "4"))
    (builtin "One Step Simplification" (formula "2"))
-   (builtin "Use Operation Contract" (formula "5") (newnames "heapBefore_untrustedOutput,exc_1,heapAfter_untrustedOutput,anon_heap_untrustedOutput") (contract "de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment::untrustedOutput(long)].JML behavior operation contract.0"))
+   (builtin "Use Operation Contract" (formula "5") (newnames "heapBefore_untrustedOutput,exc_1,heapAfter_untrustedOutput,anon_heap_untrustedOutput") (contract "verif.environment.Environment[verif.environment.Environment::untrustedOutput(long)].JML behavior operation contract.0"))
    (branch "Post (untrustedOutput)"
       (builtin "One Step Simplification" (formula "5"))
       (builtin "One Step Simplification" (formula "7"))
@@ -211,7 +211,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                      (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "11")))
                      (rule "applyEqReverse" (formula "12") (term "0,1,0") (ifseqformula "1"))
                      (rule "hideAuxiliaryEq" (formula "1"))
-                     (builtin "Use Operation Contract" (formula "11") (newnames "heapBefore_untrustedOutput_0,exc_3,heapAfter_untrustedOutput_0,anon_heap_untrustedOutput_0") (contract "de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment::untrustedOutput(long)].JML behavior operation contract.0"))
+                     (builtin "Use Operation Contract" (formula "11") (newnames "heapBefore_untrustedOutput_0,exc_3,heapAfter_untrustedOutput_0,anon_heap_untrustedOutput_0") (contract "verif.environment.Environment[verif.environment.Environment::untrustedOutput(long)].JML behavior operation contract.0"))
                      (branch "Post (untrustedOutput)"
                         (builtin "One Step Simplification" (formula "13"))
                         (builtin "One Step Simplification" (formula "11"))

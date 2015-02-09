@@ -43,8 +43,8 @@
 
 \proofObligation "#Proof Obligation Settings
 #Mon Feb 02 15:25:40 CET 2015
-name=de.uni.trier.infsec.eVotingMachine.core.Setup[de.uni.trier.infsec.eVotingMachine.core.Setup\\:\\:createChoices(int,int)].JML behavior operation contract.0
-contract=de.uni.trier.infsec.eVotingMachine.core.Setup[de.uni.trier.infsec.eVotingMachine.core.Setup\\:\\:createChoices(int,int)].JML behavior operation contract.0
+name=verif.eVotingMachine.core.Setup[verif.eVotingMachine.core.Setup\\:\\:createChoices(int,int)].JML behavior operation contract.0
+contract=verif.eVotingMachine.core.Setup[verif.eVotingMachine.core.Setup\\:\\:createChoices(int,int)].JML behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
@@ -825,7 +825,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                      (rule "true_left" (formula "1"))
                      (rule "variableDeclarationAssign" (formula "14") (term "1"))
                      (rule "variableDeclaration" (formula "14") (term "1") (newnames "x_6"))
-                     (builtin "Use Operation Contract" (formula "14") (newnames "heapBefore_untrustedInput,result_0,exc_0,heapAfter_untrustedInput,anon_heap_untrustedInput") (contract "de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment::untrustedInput(int)].JML behavior operation contract.0"))
+                     (builtin "Use Operation Contract" (formula "14") (newnames "heapBefore_untrustedInput,result_0,exc_0,heapAfter_untrustedInput,anon_heap_untrustedInput") (contract "verif.environment.Environment[verif.environment.Environment::untrustedInput(int)].JML behavior operation contract.0"))
                      (branch "Post (untrustedInput)"
                         (builtin "One Step Simplification" (formula "13"))
                         (builtin "One Step Simplification" (formula "16"))

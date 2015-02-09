@@ -43,8 +43,8 @@
 
 \proofObligation "#Proof Obligation Settings
 #Mon Feb 02 15:15:58 CET 2015
-name=de.uni.trier.infsec.eVotingMachine.core.VotingMachine.InnerBallot[de.uni.trier.infsec.eVotingMachine.core.VotingMachine.InnerBallot\\:\\:InnerBallot(int,int,long)].JML normal_behavior operation contract.0
-contract=de.uni.trier.infsec.eVotingMachine.core.VotingMachine.InnerBallot[de.uni.trier.infsec.eVotingMachine.core.VotingMachine.InnerBallot\\:\\:InnerBallot(int,int,long)].JML normal_behavior operation contract.0
+name=verif.eVotingMachine.core.VotingMachine.InnerBallot[verif.eVotingMachine.core.VotingMachine.InnerBallot\\:\\:InnerBallot(int,int,long)].JML normal_behavior operation contract.0
+contract=verif.eVotingMachine.core.VotingMachine.InnerBallot[verif.eVotingMachine.core.VotingMachine.InnerBallot\\:\\:InnerBallot(int,int,long)].JML normal_behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
@@ -155,21 +155,21 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
    (rule "dismissNonSelectedField" (formula "6") (term "0,0,0"))
    (rule "dismissNonSelectedField" (formula "6") (term "0,0,1,0"))
    (rule "dismissNonSelectedField" (formula "6") (term "0,0,0"))
-   (rule "pullOutSelect" (formula "6") (term "0,1,1,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_VotingMachine_InnerBallot_timestamp_0"))
+   (rule "pullOutSelect" (formula "6") (term "0,1,1,0") (inst "selectSK=verif_eVotingMachine_core_VotingMachine_InnerBallot_timestamp_0"))
    (rule "simplifySelectOfStore" (formula "1"))
    (builtin "One Step Simplification" (formula "1"))
    (rule "castDel" (formula "1") (term "0"))
    (rule "applyEqReverse" (formula "7") (term "0,1,1,0") (ifseqformula "1"))
    (builtin "One Step Simplification" (formula "7"))
    (rule "hideAuxiliaryEq" (formula "1"))
-   (rule "pullOutSelect" (formula "6") (term "0,0,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_VotingMachine_InnerBallot_votersChoice_0"))
+   (rule "pullOutSelect" (formula "6") (term "0,0,0") (inst "selectSK=verif_eVotingMachine_core_VotingMachine_InnerBallot_votersChoice_0"))
    (rule "simplifySelectOfStore" (formula "1"))
    (builtin "One Step Simplification" (formula "1"))
    (rule "castDel" (formula "1") (term "0"))
    (rule "applyEqReverse" (formula "7") (term "0,0,0") (ifseqformula "1"))
    (builtin "One Step Simplification" (formula "7"))
    (rule "hideAuxiliaryEq" (formula "1"))
-   (rule "pullOutSelect" (formula "6") (term "0,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_VotingMachine_InnerBallot_voteCounter_0"))
+   (rule "pullOutSelect" (formula "6") (term "0,0") (inst "selectSK=verif_eVotingMachine_core_VotingMachine_InnerBallot_voteCounter_0"))
    (rule "simplifySelectOfStore" (formula "1"))
    (builtin "One Step Simplification" (formula "1"))
    (rule "castDel" (formula "1") (term "0"))

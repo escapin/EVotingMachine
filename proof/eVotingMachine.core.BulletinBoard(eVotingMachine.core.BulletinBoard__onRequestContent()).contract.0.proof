@@ -43,8 +43,8 @@
 
 \proofObligation "#Proof Obligation Settings
 #Mon Feb 02 15:24:28 CET 2015
-name=de.uni.trier.infsec.eVotingMachine.core.BulletinBoard[de.uni.trier.infsec.eVotingMachine.core.BulletinBoard\\:\\:onRequestContent()].JML behavior operation contract.0
-contract=de.uni.trier.infsec.eVotingMachine.core.BulletinBoard[de.uni.trier.infsec.eVotingMachine.core.BulletinBoard\\:\\:onRequestContent()].JML behavior operation contract.0
+name=verif.eVotingMachine.core.BulletinBoard[verif.eVotingMachine.core.BulletinBoard\\:\\:onRequestContent()].JML behavior operation contract.0
+contract=verif.eVotingMachine.core.BulletinBoard[verif.eVotingMachine.core.BulletinBoard\\:\\:onRequestContent()].JML behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
@@ -76,7 +76,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 (rule "variableDeclaration" (formula "8") (term "1") (newnames "e"))
 (rule "assignment_read_attribute_this" (formula "8") (term "1"))
 (builtin "One Step Simplification" (formula "8"))
-(builtin "Use Operation Contract" (formula "8") (newnames "heapBefore_getEntries,result_0,exc_0,heapAfter_getEntries,anon_heap_getEntries") (contract "de.uni.trier.infsec.eVotingMachine.core.EntryQueue[de.uni.trier.infsec.eVotingMachine.core.EntryQueue::getEntries()].JML behavior operation contract.0"))
+(builtin "Use Operation Contract" (formula "8") (newnames "heapBefore_getEntries,result_0,exc_0,heapAfter_getEntries,anon_heap_getEntries") (contract "verif.eVotingMachine.core.EntryQueue[verif.eVotingMachine.core.EntryQueue::getEntries()].JML behavior operation contract.0"))
 (branch "Post (getEntries)"
    (builtin "One Step Simplification" (formula "10"))
    (builtin "One Step Simplification" (formula "6"))

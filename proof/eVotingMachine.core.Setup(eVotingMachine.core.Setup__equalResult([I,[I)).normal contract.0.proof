@@ -43,8 +43,8 @@
 
 \proofObligation "#Proof Obligation Settings
 #Mon Feb 02 15:26:07 CET 2015
-name=de.uni.trier.infsec.eVotingMachine.core.Setup[de.uni.trier.infsec.eVotingMachine.core.Setup\\:\\:equalResult([I,[I)].JML normal_behavior operation contract.0
-contract=de.uni.trier.infsec.eVotingMachine.core.Setup[de.uni.trier.infsec.eVotingMachine.core.Setup\\:\\:equalResult([I,[I)].JML normal_behavior operation contract.0
+name=verif.eVotingMachine.core.Setup[verif.eVotingMachine.core.Setup\\:\\:equalResult([I,[I)].JML normal_behavior operation contract.0
+contract=verif.eVotingMachine.core.Setup[verif.eVotingMachine.core.Setup\\:\\:equalResult([I,[I)].JML normal_behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 

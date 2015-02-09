@@ -43,8 +43,8 @@
 
 \proofObligation "#Proof Obligation Settings
 #Mon Feb 02 15:27:31 CET 2015
-name=de.uni.trier.infsec.eVotingMachine.core.Setup[de.uni.trier.infsec.eVotingMachine.core.Setup\\:\\:mainLoop(de.uni.trier.infsec.eVotingMachine.core.VotingMachine,de.uni.trier.infsec.eVotingMachine.core.BulletinBoard,int,boolean,[I,[I)].JML behavior operation contract.0
-contract=de.uni.trier.infsec.eVotingMachine.core.Setup[de.uni.trier.infsec.eVotingMachine.core.Setup\\:\\:mainLoop(de.uni.trier.infsec.eVotingMachine.core.VotingMachine,de.uni.trier.infsec.eVotingMachine.core.BulletinBoard,int,boolean,[I,[I)].JML behavior operation contract.0
+name=verif.eVotingMachine.core.Setup[verif.eVotingMachine.core.Setup\\:\\:mainLoop(verif.eVotingMachine.core.VotingMachine,verif.eVotingMachine.core.BulletinBoard,int,boolean,[I,[I)].JML behavior operation contract.0
+contract=verif.eVotingMachine.core.Setup[verif.eVotingMachine.core.Setup\\:\\:mainLoop(verif.eVotingMachine.core.VotingMachine,verif.eVotingMachine.core.BulletinBoard,int,boolean,[I,[I)].JML behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
@@ -337,7 +337,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 (rule "true_left" (formula "12"))
 (rule "arrayLengthNotNegative" (formula "12") (term "0"))
 (rule "applyEq" (formula "12") (term "0") (ifseqformula "13"))
-(builtin "Use Operation Contract" (formula "42") (newnames "heapBefore_untrustedInput,result,exc_0,heapAfter_untrustedInput,anon_heap_untrustedInput") (contract "de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment::untrustedInput()].JML behavior operation contract.0"))
+(builtin "Use Operation Contract" (formula "42") (newnames "heapBefore_untrustedInput,result,exc_0,heapAfter_untrustedInput,anon_heap_untrustedInput") (contract "verif.environment.Environment[verif.environment.Environment::untrustedInput()].JML behavior operation contract.0"))
 (branch "Post (untrustedInput)"
    (builtin "One Step Simplification" (formula "21"))
    (builtin "One Step Simplification" (formula "44"))
@@ -351,7 +351,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
    (builtin "One Step Simplification" (formula "45"))
    (rule "variableDeclarationFinalAssign" (formula "45") (term "1"))
    (rule "variableDeclarationFinal" (formula "45") (term "1") (newnames "actions"))
-   (builtin "Use Operation Contract" (formula "45") (newnames "heapBefore_untrustedInputArray,result_0,exc_1,heapAfter_untrustedInputArray,anon_heap_untrustedInputArray") (contract "de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment::untrustedInputArray(int)].JML behavior operation contract.0"))
+   (builtin "Use Operation Contract" (formula "45") (newnames "heapBefore_untrustedInputArray,result_0,exc_1,heapAfter_untrustedInputArray,anon_heap_untrustedInputArray") (contract "verif.environment.Environment[verif.environment.Environment::untrustedInputArray(int)].JML behavior operation contract.0"))
    (branch "Post (untrustedInputArray)"
       (builtin "One Step Simplification" (formula "47"))
       (builtin "One Step Simplification" (formula "24"))
@@ -377,7 +377,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
       (builtin "One Step Simplification" (formula "53"))
       (rule "variableDeclarationFinalAssign" (formula "53") (term "1"))
       (rule "variableDeclarationFinal" (formula "53") (term "1") (newnames "audit_choices"))
-      (builtin "Use Operation Contract" (formula "53") (newnames "heapBefore_untrustedInputArray_0,result_1,exc_2,heapAfter_untrustedInputArray_0,anon_heap_untrustedInputArray_0") (contract "de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment::untrustedInputArray(int)].JML behavior operation contract.0"))
+      (builtin "Use Operation Contract" (formula "53") (newnames "heapBefore_untrustedInputArray_0,result_1,exc_2,heapAfter_untrustedInputArray_0,anon_heap_untrustedInputArray_0") (contract "verif.environment.Environment[verif.environment.Environment::untrustedInputArray(int)].JML behavior operation contract.0"))
       (branch "Post (untrustedInputArray)"
          (builtin "One Step Simplification" (formula "55"))
          (builtin "One Step Simplification" (formula "29"))
@@ -406,7 +406,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
          (builtin "One Step Simplification" (formula "62"))
          (rule "variableDeclarationAssign" (formula "62") (term "1"))
          (rule "variableDeclaration" (formula "62") (term "1") (newnames "requests"))
-         (builtin "Use Operation Contract" (formula "62") (newnames "heapBefore_untrustedInputMessages,result_2,exc_3,heapAfter_untrustedInputMessages,anon_heap_untrustedInputMessages") (contract "de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment::untrustedInputMessages(int)].JML behavior operation contract.0"))
+         (builtin "Use Operation Contract" (formula "62") (newnames "heapBefore_untrustedInputMessages,result_2,exc_3,heapAfter_untrustedInputMessages,anon_heap_untrustedInputMessages") (contract "verif.environment.Environment[verif.environment.Environment::untrustedInputMessages(int)].JML behavior operation contract.0"))
          (branch "Post (untrustedInputMessages)"
             (builtin "One Step Simplification" (formula "64"))
             (builtin "One Step Simplification" (formula "34"))
@@ -476,7 +476,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
             (rule "onlyCreatedObjectsAreReferenced" (formula "71") (term "0") (ifseqformula "11"))
             (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "72"))
             (builtin "One Step Simplification" (formula "1"))
-            (builtin "Use Operation Contract" (formula "84") (newnames "heapBefore_innerMain,exc_4,heapAfter_innerMain,anon_heap_innerMain") (contract "de.uni.trier.infsec.eVotingMachine.core.Setup[de.uni.trier.infsec.eVotingMachine.core.Setup::innerMain(de.uni.trier.infsec.eVotingMachine.core.VotingMachine,de.uni.trier.infsec.eVotingMachine.core.BulletinBoard,int,boolean,[I,[I,int,[I,[I,[[B)].JML behavior operation contract.0"))
+            (builtin "Use Operation Contract" (formula "84") (newnames "heapBefore_innerMain,exc_4,heapAfter_innerMain,anon_heap_innerMain") (contract "verif.eVotingMachine.core.Setup[verif.eVotingMachine.core.Setup::innerMain(verif.eVotingMachine.core.VotingMachine,verif.eVotingMachine.core.BulletinBoard,int,boolean,[I,[I,int,[I,[I,[[B)].JML behavior operation contract.0"))
             (branch "Post (innerMain)"
                (builtin "One Step Simplification" (formula "51"))
                (builtin "One Step Simplification" (formula "86"))
@@ -488,7 +488,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                (rule "typeEqDerived" (formula "53") (term "0,1,0,0,0,1,1") (ifseqformula "52"))
                (rule "typeEqDerived" (formula "53") (term "0,0,0,0,0,1,1") (ifseqformula "52"))
                (builtin "One Step Simplification" (formula "53") (ifInst ""  (formula "52")) (ifInst ""  (formula "52")))
-               (rule "pullOutSelect" (formula "51") (term "0,1,0,1,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_VotingMachine_votesForCandidates_2"))
+               (rule "pullOutSelect" (formula "51") (term "0,1,0,1,0") (inst "selectSK=verif_eVotingMachine_core_VotingMachine_votesForCandidates_2"))
                (rule "simplifySelectOfAnonEQ" (formula "51") (ifseqformula "46"))
                (builtin "One Step Simplification" (formula "51") (ifInst ""  (formula "88")))
                (rule "selectCreatedOfAnonAsFormulaEQ" (formula "51") (term "0,1,0,0") (ifseqformula "41"))
@@ -519,7 +519,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                (builtin "One Step Simplification" (formula "51") (ifInst ""  (formula "88")))
                (rule "applyEqReverse" (formula "52") (term "0,1,0,1,0") (ifseqformula "51"))
                (rule "hideAuxiliaryEq" (formula "51"))
-               (rule "pullOutSelect" (formula "53") (term "0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_Setup_flag_0"))
+               (rule "pullOutSelect" (formula "53") (term "0") (inst "selectSK=verif_eVotingMachine_core_Setup_flag_0"))
                (rule "simplifySelectOfAnonEQ" (formula "53") (ifseqformula "51"))
                (builtin "One Step Simplification" (formula "53"))
                (rule "applyEqRigid" (formula "53") (term "1") (ifseqformula "54"))
@@ -735,7 +735,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                (rule "true_left" (formula "53"))
                (rule "replace_known_right" (formula "53") (term "0,0") (ifseqformula "54"))
                (builtin "One Step Simplification" (formula "53"))
-               (rule "pullOutSelect" (formula "51") (term "0,1,0,1,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_VotingMachine_votesForCandidates_1"))
+               (rule "pullOutSelect" (formula "51") (term "0,1,0,1,0") (inst "selectSK=verif_eVotingMachine_core_VotingMachine_votesForCandidates_1"))
                (rule "simplifySelectOfAnonEQ" (formula "51") (ifseqformula "46"))
                (builtin "One Step Simplification" (formula "51") (ifInst ""  (formula "89")))
                (rule "selectCreatedOfAnonAsFormulaEQ" (formula "51") (term "0,1,0,0") (ifseqformula "41"))
@@ -1139,7 +1139,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                (rule "polySimp_mulLiterals" (formula "84") (term "1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1"))
                (rule "mul_literals" (formula "84") (term "0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1"))
                (rule "polySimp_elimOne" (formula "84") (term "1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1"))
-               (rule "pullOutSelect" (formula "84") (term "0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_VotingMachine_votesForCandidates_0"))
+               (rule "pullOutSelect" (formula "84") (term "0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1") (inst "selectSK=verif_eVotingMachine_core_VotingMachine_votesForCandidates_0"))
                (rule "applyEq" (formula "85") (term "0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1") (ifseqformula "1"))
                (rule "applyEq" (formula "85") (term "1,0,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1") (ifseqformula "1"))
                (rule "applyEq" (formula "85") (term "0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1") (ifseqformula "1"))
@@ -1197,7 +1197,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                (builtin "One Step Simplification" (formula "84") (ifInst ""  (formula "78")) (ifInst ""  (formula "73")))
                (rule "applyEq" (formula "84") (term "1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1") (ifseqformula "21"))
                (rule "applyEq" (formula "84") (term "1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1") (ifseqformula "21"))
-               (rule "pullOutSelect" (formula "84") (term "0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_Setup_correctResult_0"))
+               (rule "pullOutSelect" (formula "84") (term "0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1") (inst "selectSK=verif_eVotingMachine_core_Setup_correctResult_0"))
                (rule "applyEq" (formula "85") (term "0,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1") (ifseqformula "1"))
                (rule "applyEq" (formula "85") (term "0,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1") (ifseqformula "1"))
                (rule "applyEq" (formula "85") (term "1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1") (ifseqformula "1"))
@@ -1249,7 +1249,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                (rule "hideAuxiliaryEq" (formula "1"))
                (rule "eqSymm" (formula "84") (term "0,0,1,1,1,1,1,1,1,1,1,1,1,1"))
                (rule "eqSymm" (formula "84") (term "0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1"))
-               (rule "pullOutSelect" (formula "84") (term "0,0,0,1,1") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_Params_MACHINE_ENTRY_0"))
+               (rule "pullOutSelect" (formula "84") (term "0,0,0,1,1") (inst "selectSK=verif_eVotingMachine_core_Params_MACHINE_ENTRY_0"))
                (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "47"))
                (builtin "One Step Simplification" (formula "1"))
                (rule "elementOfSingleton" (formula "1") (term "0,0"))
@@ -1270,7 +1270,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                (rule "hideAuxiliaryEq" (formula "1"))
                (rule "replace_known_right" (formula "84") (term "0,0,1,1") (ifseqformula "65"))
                (builtin "One Step Simplification" (formula "84"))
-               (rule "pullOutSelect" (formula "84") (term "0,0,0,1,1,1") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_Params_LOG_0"))
+               (rule "pullOutSelect" (formula "84") (term "0,0,0,1,1,1") (inst "selectSK=verif_eVotingMachine_core_Params_LOG_0"))
                (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "47"))
                (builtin "One Step Simplification" (formula "1"))
                (rule "elementOfSingleton" (formula "1") (term "0,0"))
@@ -1291,7 +1291,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                (rule "hideAuxiliaryEq" (formula "1"))
                (rule "replace_known_right" (formula "84") (term "0,0,1,1,1") (ifseqformula "62"))
                (builtin "One Step Simplification" (formula "84"))
-               (rule "pullOutSelect" (formula "84") (term "0,0,0,1,1,1,1") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_VotingMachine_signer_0"))
+               (rule "pullOutSelect" (formula "84") (term "0,0,0,1,1,1,1") (inst "selectSK=verif_eVotingMachine_core_VotingMachine_signer_0"))
                (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "47"))
                (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "84")))
                (rule "selectCreatedOfAnonAsFormulaEQ" (formula "1") (term "0,1,0,0") (ifseqformula "42"))
@@ -1324,7 +1324,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                (rule "hideAuxiliaryEq" (formula "1"))
                (rule "replace_known_right" (formula "84") (term "0,0,1,1,1,1") (ifseqformula "71"))
                (builtin "One Step Simplification" (formula "84"))
-               (rule "pullOutSelect" (formula "84") (term "0,0,0,1,1,1,1,1") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_BulletinBoard_verifier_0"))
+               (rule "pullOutSelect" (formula "84") (term "0,0,0,1,1,1,1,1") (inst "selectSK=verif_eVotingMachine_core_BulletinBoard_verifier_0"))
                (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "47"))
                (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "82")))
                (rule "selectCreatedOfAnonAsFormulaEQ" (formula "1") (term "0,1,0,0") (ifseqformula "42"))
@@ -1357,7 +1357,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                (rule "hideAuxiliaryEq" (formula "1"))
                (rule "replace_known_right" (formula "84") (term "0,0,1,1,1,1,1") (ifseqformula "69"))
                (builtin "One Step Simplification" (formula "84"))
-               (rule "pullOutSelect" (formula "84") (term "1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_VotingMachine_numberOfCandidates_0"))
+               (rule "pullOutSelect" (formula "84") (term "1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1") (inst "selectSK=verif_eVotingMachine_core_VotingMachine_numberOfCandidates_0"))
                (rule "applyEq" (formula "85") (term "0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1") (ifseqformula "1"))
                (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "47"))
                (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "84")))
@@ -1395,7 +1395,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                (rule "replace_known_left" (formula "84") (term "0,1,1,1,1,1,1,1,1,1,1,1,1,1,1") (ifseqformula "19"))
                (builtin "One Step Simplification" (formula "84"))
                (rule "applyEq" (formula "84") (term "1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1") (ifseqformula "19"))
-               (rule "pullOutSelect" (formula "84") (term "0,0,0,1") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_Params_CANCEL_0"))
+               (rule "pullOutSelect" (formula "84") (term "0,0,0,1") (inst "selectSK=verif_eVotingMachine_core_Params_CANCEL_0"))
                (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "47"))
                (builtin "One Step Simplification" (formula "1"))
                (rule "elementOfSingleton" (formula "1") (term "0,0"))
@@ -1416,7 +1416,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                (rule "hideAuxiliaryEq" (formula "1"))
                (rule "replace_known_right" (formula "84") (term "0,0,1") (ifseqformula "66"))
                (builtin "One Step Simplification" (formula "84"))
-               (rule "pullOutSelect" (formula "84") (term "0,0,0,1") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_Params_RESULTS_0"))
+               (rule "pullOutSelect" (formula "84") (term "0,0,0,1") (inst "selectSK=verif_eVotingMachine_core_Params_RESULTS_0"))
                (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "47"))
                (builtin "One Step Simplification" (formula "1"))
                (rule "elementOfSingleton" (formula "1") (term "0,0"))
@@ -1437,7 +1437,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                (rule "hideAuxiliaryEq" (formula "1"))
                (rule "replace_known_right" (formula "84") (term "0,0,1") (ifseqformula "63"))
                (builtin "One Step Simplification" (formula "84"))
-               (rule "pullOutSelect" (formula "84") (term "0,0,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_Params_VOTE_0"))
+               (rule "pullOutSelect" (formula "84") (term "0,0,0") (inst "selectSK=verif_eVotingMachine_core_Params_VOTE_0"))
                (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "47"))
                (builtin "One Step Simplification" (formula "1"))
                (rule "elementOfSingleton" (formula "1") (term "0,0"))
@@ -1458,7 +1458,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                (rule "hideAuxiliaryEq" (formula "1"))
                (rule "replace_known_right" (formula "84") (term "0,0") (ifseqformula "67"))
                (builtin "One Step Simplification" (formula "84"))
-               (rule "pullOutSelect" (formula "84") (term "0,0,0,1,1") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_BulletinBoard_entryLog_0"))
+               (rule "pullOutSelect" (formula "84") (term "0,0,0,1,1") (inst "selectSK=verif_eVotingMachine_core_BulletinBoard_entryLog_0"))
                (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "47"))
                (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "82")))
                (rule "selectCreatedOfAnonAsFormulaEQ" (formula "1") (term "0,1,0,0") (ifseqformula "42"))
@@ -1491,7 +1491,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                (rule "hideAuxiliaryEq" (formula "1"))
                (rule "replace_known_right" (formula "84") (term "0,0,1,1") (ifseqformula "68"))
                (builtin "One Step Simplification" (formula "84"))
-               (rule "pullOutSelect" (formula "84") (term "0,0,0,1") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_VotingMachine_entryLog_0"))
+               (rule "pullOutSelect" (formula "84") (term "0,0,0,1") (inst "selectSK=verif_eVotingMachine_core_VotingMachine_entryLog_0"))
                (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "47"))
                (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "84")))
                (rule "selectCreatedOfAnonAsFormulaEQ" (formula "1") (term "0,1,0,0") (ifseqformula "42"))
@@ -1524,7 +1524,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                (rule "hideAuxiliaryEq" (formula "1"))
                (rule "replace_known_right" (formula "84") (term "0,0,1") (ifseqformula "70"))
                (builtin "One Step Simplification" (formula "84"))
-               (rule "pullOutSelect" (formula "84") (term "0,0,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_VotingMachine_bb_encryptor_0"))
+               (rule "pullOutSelect" (formula "84") (term "0,0,0") (inst "selectSK=verif_eVotingMachine_core_VotingMachine_bb_encryptor_0"))
                (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "47"))
                (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "84")))
                (rule "selectCreatedOfAnonAsFormulaEQ" (formula "1") (term "0,1,0,0") (ifseqformula "42"))
@@ -1706,12 +1706,12 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                         (branch "CUT: result_1 = choices0 FALSE"
                            (builtin "One Step Simplification" (formula "89"))
                            (rule "cut_direct" (formula "89") (term "0,0"))
-                           (branch "CUT: de.uni.trier.infsec.eVotingMachine.core.Setup.correctResult = result_0 TRUE"
+                           (branch "CUT: verif.eVotingMachine.core.Setup.correctResult = result_0 TRUE"
                               (builtin "One Step Simplification" (formula "90"))
                               (rule "referencedObjectIsCreatedRightEQ" (formula "61") (ifseqformula "1") (ifseqformula "63"))
                               (rule "close" (formula "61") (ifseqformula "13"))
                            )
-                           (branch "CUT: de.uni.trier.infsec.eVotingMachine.core.Setup.correctResult = result_0 FALSE"
+                           (branch "CUT: verif.eVotingMachine.core.Setup.correctResult = result_0 FALSE"
                               (builtin "One Step Simplification" (formula "90"))
                               (rule "cut_direct" (formula "90") (term "0,0"))
                               (branch "CUT: vm.votesForCandidates = result_0 TRUE"
@@ -1730,12 +1730,12 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                  (branch "CUT: vm.votesForCandidates = result_1 FALSE"
                                     (builtin "One Step Simplification" (formula "92"))
                                     (rule "cut_direct" (formula "92") (term "0,0"))
-                                    (branch "CUT: de.uni.trier.infsec.eVotingMachine.core.Setup.correctResult = result_1 TRUE"
+                                    (branch "CUT: verif.eVotingMachine.core.Setup.correctResult = result_1 TRUE"
                                        (builtin "One Step Simplification" (formula "93"))
                                        (rule "referencedObjectIsCreatedRightEQ" (formula "57") (ifseqformula "1") (ifseqformula "60"))
                                        (rule "close" (formula "57") (ifseqformula "13"))
                                     )
-                                    (branch "CUT: de.uni.trier.infsec.eVotingMachine.core.Setup.correctResult = result_1 FALSE"
+                                    (branch "CUT: verif.eVotingMachine.core.Setup.correctResult = result_1 FALSE"
                                        (builtin "One Step Simplification" (formula "93"))
                                        (rule "andRight" (formula "93"))
                                        (branch

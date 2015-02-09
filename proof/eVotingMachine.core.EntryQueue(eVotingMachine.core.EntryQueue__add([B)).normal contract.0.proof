@@ -43,8 +43,8 @@
 
 \proofObligation "#Proof Obligation Settings
 #Mon Feb 02 15:21:57 CET 2015
-name=de.uni.trier.infsec.eVotingMachine.core.EntryQueue[de.uni.trier.infsec.eVotingMachine.core.EntryQueue\\:\\:add([B)].JML normal_behavior operation contract.0
-contract=de.uni.trier.infsec.eVotingMachine.core.EntryQueue[de.uni.trier.infsec.eVotingMachine.core.EntryQueue\\:\\:add([B)].JML normal_behavior operation contract.0
+name=verif.eVotingMachine.core.EntryQueue[verif.eVotingMachine.core.EntryQueue\\:\\:add([B)].JML normal_behavior operation contract.0
+contract=verif.eVotingMachine.core.EntryQueue[verif.eVotingMachine.core.EntryQueue\\:\\:add([B)].JML normal_behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
@@ -73,7 +73,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 (builtin "One Step Simplification" (formula "8"))
 (rule "variableDeclarationAssign" (formula "8") (term "1"))
 (rule "variableDeclaration" (formula "8") (term "1") (newnames "newEntry"))
-(builtin "Use Operation Contract" (formula "8") (newnames "heapBefore_Node,self_0,exc_0,heapAfter_Node,anon_heap_Node") (contract "de.uni.trier.infsec.eVotingMachine.core.EntryQueue.Node[de.uni.trier.infsec.eVotingMachine.core.EntryQueue.Node::Node([B)].JML normal_behavior operation contract.0"))
+(builtin "Use Operation Contract" (formula "8") (newnames "heapBefore_Node,self_0,exc_0,heapAfter_Node,anon_heap_Node") (contract "verif.eVotingMachine.core.EntryQueue.Node[verif.eVotingMachine.core.EntryQueue.Node::Node([B)].JML normal_behavior operation contract.0"))
 (branch "Post (Node)"
    (builtin "One Step Simplification" (formula "8"))
    (builtin "One Step Simplification" (formula "10"))
@@ -93,12 +93,12 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
    (builtin "One Step Simplification" (formula "10"))
    (rule "assignment" (formula "18") (term "1"))
    (builtin "One Step Simplification" (formula "18"))
-   (rule "pullOutSelect" (formula "12") (term "0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_EntryQueue_Node_entry_0"))
+   (rule "pullOutSelect" (formula "12") (term "0") (inst "selectSK=verif_eVotingMachine_core_EntryQueue_Node_entry_0"))
    (rule "simplifySelectOfAnonEQ" (formula "12") (ifseqformula "8"))
    (builtin "One Step Simplification" (formula "12") (ifInst ""  (formula "17")) (ifInst ""  (formula "16")))
    (rule "applyEqReverse" (formula "13") (term "0") (ifseqformula "12"))
    (rule "hideAuxiliaryEq" (formula "12"))
-   (rule "pullOutSelect" (formula "13") (term "0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_EntryQueue_Node_next_0"))
+   (rule "pullOutSelect" (formula "13") (term "0") (inst "selectSK=verif_eVotingMachine_core_EntryQueue_Node_next_0"))
    (rule "simplifySelectOfAnonEQ" (formula "13") (ifseqformula "8"))
    (builtin "One Step Simplification" (formula "13") (ifInst ""  (formula "17")) (ifInst ""  (formula "16")))
    (rule "applyEqReverse" (formula "14") (term "0") (ifseqformula "13"))
@@ -110,7 +110,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
    (rule "variableDeclaration" (formula "18") (term "1") (newnames "n"))
    (rule "assignment_read_attribute_this" (formula "18") (term "1"))
    (builtin "One Step Simplification" (formula "18"))
-   (rule "pullOutSelect" (formula "18") (term "0,1,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_EntryQueue_head_0"))
+   (rule "pullOutSelect" (formula "18") (term "0,1,0") (inst "selectSK=verif_eVotingMachine_core_EntryQueue_head_0"))
    (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "9"))
    (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "18")) (ifInst ""  (formula "3")))
    (rule "applyEq" (formula "1") (term "2,0") (ifseqformula "7"))
@@ -146,7 +146,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
             (builtin "One Step Simplification" (formula "19"))
             (builtin "One Step Simplification" (formula "18") (ifInst ""  (formula "17")))
             (rule "false_right" (formula "18"))
-            (rule "pullOutSelect" (formula "18") (term "0,1,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_EntryQueue_last_0"))
+            (rule "pullOutSelect" (formula "18") (term "0,1,0") (inst "selectSK=verif_eVotingMachine_core_EntryQueue_last_0"))
             (rule "simplifySelectOfStore" (formula "1"))
             (builtin "One Step Simplification" (formula "1"))
             (rule "castDel" (formula "1") (term "0"))
@@ -185,7 +185,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
             (rule "replaceKnownAuxiliaryConstant_taclet0_1" (formula "18") (term "0,0,1,1,0"))
             (rule "replace_known_left" (formula "18") (term "0,1,1,0") (ifseqformula "12"))
             (builtin "One Step Simplification" (formula "18"))
-            (rule "pullOutSelect" (formula "18") (term "1,0,0,1,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_EntryQueue_head_1"))
+            (rule "pullOutSelect" (formula "18") (term "1,0,0,1,0") (inst "selectSK=verif_eVotingMachine_core_EntryQueue_head_1"))
             (rule "applyEq" (formula "19") (term "1,0,0,0,1,1,0") (ifseqformula "1"))
             (rule "applyEq" (formula "19") (term "0,0,1,1,1,0") (ifseqformula "1"))
             (rule "applyEq" (formula "19") (term "0,0,0,0") (ifseqformula "1"))

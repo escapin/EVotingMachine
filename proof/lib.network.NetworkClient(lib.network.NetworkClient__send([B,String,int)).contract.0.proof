@@ -43,8 +43,8 @@
 
 \proofObligation "#Proof Obligation Settings
 #Mon Feb 02 15:38:57 CET 2015
-name=de.uni.trier.infsec.lib.network.NetworkClient[de.uni.trier.infsec.lib.network.NetworkClient\\:\\:send([B,java.lang.String,int)].JML behavior operation contract.0
-contract=de.uni.trier.infsec.lib.network.NetworkClient[de.uni.trier.infsec.lib.network.NetworkClient\\:\\:send([B,java.lang.String,int)].JML behavior operation contract.0
+name=verif.lib.network.NetworkClient[verif.lib.network.NetworkClient\\:\\:send([B,java.lang.String,int)].JML behavior operation contract.0
+contract=verif.lib.network.NetworkClient[verif.lib.network.NetworkClient\\:\\:send([B,java.lang.String,int)].JML behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
@@ -75,7 +75,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 (rule "elementOfSingleton" (formula "7") (term "1,0,0,0,0,1,0,1"))
 (rule "methodBodyExpand" (formula "7") (term "1") (newnames "heapBefore_send,savedHeapBefore_send"))
 (builtin "One Step Simplification" (formula "7"))
-(builtin "Use Operation Contract" (formula "7") (newnames "heapBefore_untrustedOutput,exc_0,heapAfter_untrustedOutput,anon_heap_untrustedOutput") (contract "de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment::untrustedOutput(long)].JML behavior operation contract.0"))
+(builtin "Use Operation Contract" (formula "7") (newnames "heapBefore_untrustedOutput,exc_0,heapAfter_untrustedOutput,anon_heap_untrustedOutput") (contract "verif.environment.Environment[verif.environment.Environment::untrustedOutput(long)].JML behavior operation contract.0"))
 (branch "Post (untrustedOutput)"
    (builtin "One Step Simplification" (formula "6"))
    (builtin "One Step Simplification" (formula "9"))
@@ -85,7 +85,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
    (rule "typeEqDerived" (formula "8") (term "0,1,1") (ifseqformula "7"))
    (builtin "One Step Simplification" (formula "8") (ifInst ""  (formula "7")))
    (rule "true_left" (formula "8"))
-   (builtin "Use Operation Contract" (formula "10") (newnames "heapBefore_untrustedOutputMessage,exc_1,heapAfter_untrustedOutputMessage,anon_heap_untrustedOutputMessage") (contract "de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment::untrustedOutputMessage([B)].JML behavior operation contract.0"))
+   (builtin "Use Operation Contract" (formula "10") (newnames "heapBefore_untrustedOutputMessage,exc_1,heapAfter_untrustedOutputMessage,anon_heap_untrustedOutputMessage") (contract "verif.environment.Environment[verif.environment.Environment::untrustedOutputMessage([B)].JML behavior operation contract.0"))
    (branch "Post (untrustedOutputMessage)"
       (builtin "One Step Simplification" (formula "12"))
       (builtin "One Step Simplification" (formula "9"))
@@ -95,7 +95,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
       (rule "typeEqDerived" (formula "11") (term "0,1,1") (ifseqformula "10"))
       (builtin "One Step Simplification" (formula "11") (ifInst ""  (formula "10")))
       (rule "true_left" (formula "11"))
-      (builtin "Use Operation Contract" (formula "13") (newnames "heapBefore_untrustedOutputString,exc_2,heapAfter_untrustedOutputString,anon_heap_untrustedOutputString") (contract "de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment::untrustedOutputString(java.lang.String)].JML behavior operation contract.0"))
+      (builtin "Use Operation Contract" (formula "13") (newnames "heapBefore_untrustedOutputString,exc_2,heapAfter_untrustedOutputString,anon_heap_untrustedOutputString") (contract "verif.environment.Environment[verif.environment.Environment::untrustedOutputString(java.lang.String)].JML behavior operation contract.0"))
       (branch "Post (untrustedOutputString)"
          (builtin "One Step Simplification" (formula "15"))
          (builtin "One Step Simplification" (formula "12"))
@@ -105,7 +105,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
          (rule "typeEqDerived" (formula "14") (term "0,1,1") (ifseqformula "13"))
          (builtin "One Step Simplification" (formula "14") (ifInst ""  (formula "13")))
          (rule "true_left" (formula "14"))
-         (builtin "Use Operation Contract" (formula "16") (newnames "heapBefore_untrustedOutput_0,exc_3,heapAfter_untrustedOutput_0,anon_heap_untrustedOutput_0") (contract "de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment::untrustedOutput(long)].JML behavior operation contract.0"))
+         (builtin "Use Operation Contract" (formula "16") (newnames "heapBefore_untrustedOutput_0,exc_3,heapAfter_untrustedOutput_0,anon_heap_untrustedOutput_0") (contract "verif.environment.Environment[verif.environment.Environment::untrustedOutput(long)].JML behavior operation contract.0"))
          (branch "Post (untrustedOutput)"
             (builtin "One Step Simplification" (formula "18"))
             (builtin "One Step Simplification" (formula "15"))
@@ -120,7 +120,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
             (rule "compound_equality_comparison_1" (formula "19") (term "1") (inst "#v0=x_5"))
             (rule "variableDeclarationAssign" (formula "19") (term "1"))
             (rule "variableDeclaration" (formula "19") (term "1") (newnames "x_5"))
-            (builtin "Use Operation Contract" (formula "19") (newnames "heapBefore_untrustedInput,result,exc_4,heapAfter_untrustedInput,anon_heap_untrustedInput") (contract "de.uni.trier.infsec.environment.Environment[de.uni.trier.infsec.environment.Environment::untrustedInput()].JML behavior operation contract.0"))
+            (builtin "Use Operation Contract" (formula "19") (newnames "heapBefore_untrustedInput,result,exc_4,heapAfter_untrustedInput,anon_heap_untrustedInput") (contract "verif.environment.Environment[verif.environment.Environment::untrustedInput()].JML behavior operation contract.0"))
             (branch "Post (untrustedInput)"
                (builtin "One Step Simplification" (formula "18"))
                (builtin "One Step Simplification" (formula "21"))

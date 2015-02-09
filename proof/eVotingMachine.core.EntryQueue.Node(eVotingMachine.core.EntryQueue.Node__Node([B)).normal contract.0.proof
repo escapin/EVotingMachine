@@ -43,8 +43,8 @@
 
 \proofObligation "#Proof Obligation Settings
 #Mon Feb 02 15:21:03 CET 2015
-name=de.uni.trier.infsec.eVotingMachine.core.EntryQueue.Node[de.uni.trier.infsec.eVotingMachine.core.EntryQueue.Node\\:\\:Node([B)].JML normal_behavior operation contract.0
-contract=de.uni.trier.infsec.eVotingMachine.core.EntryQueue.Node[de.uni.trier.infsec.eVotingMachine.core.EntryQueue.Node\\:\\:Node([B)].JML normal_behavior operation contract.0
+name=verif.eVotingMachine.core.EntryQueue.Node[verif.eVotingMachine.core.EntryQueue.Node\\:\\:Node([B)].JML normal_behavior operation contract.0
+contract=verif.eVotingMachine.core.EntryQueue.Node[verif.eVotingMachine.core.EntryQueue.Node\\:\\:Node([B)].JML normal_behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
@@ -138,21 +138,21 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
    (rule "dismissNonSelectedField" (formula "7") (term "0,0,0,0"))
    (rule "dismissNonSelectedField" (formula "7") (term "0,1,0,0"))
    (rule "dismissNonSelectedField" (formula "7") (term "0,0,0,0"))
-   (rule "pullOutSelect" (formula "7") (term "0,1,0,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_EntryQueue_Node_next_0"))
+   (rule "pullOutSelect" (formula "7") (term "0,1,0,0") (inst "selectSK=verif_eVotingMachine_core_EntryQueue_Node_next_0"))
    (rule "simplifySelectOfStore" (formula "1"))
    (builtin "One Step Simplification" (formula "1"))
    (rule "castDel" (formula "1") (term "0"))
    (rule "applyEqReverse" (formula "8") (term "0,1,0,0") (ifseqformula "1"))
    (builtin "One Step Simplification" (formula "8"))
    (rule "hideAuxiliaryEq" (formula "1"))
-   (rule "pullOutSelect" (formula "7") (term "0,0,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_EntryQueue_Node_entry_0"))
+   (rule "pullOutSelect" (formula "7") (term "0,0,0") (inst "selectSK=verif_eVotingMachine_core_EntryQueue_Node_entry_0"))
    (rule "simplifySelectOfStore" (formula "1"))
    (builtin "One Step Simplification" (formula "1"))
    (rule "castDel" (formula "1") (term "0"))
    (rule "applyEqReverse" (formula "8") (term "0,0,0") (ifseqformula "1"))
    (builtin "One Step Simplification" (formula "8"))
    (rule "hideAuxiliaryEq" (formula "1"))
-   (rule "Class_invariant_axiom_for_de_uni_trier_infsec_eVotingMachine_core_EntryQueue_Node" (formula "7") (term "0") (ifseqformula "1"))
+   (rule "Class_invariant_axiom_for_verif_eVotingMachine_core_EntryQueue_Node" (formula "7") (term "0") (ifseqformula "1"))
    (builtin "One Step Simplification" (formula "7"))
    (rule "allRight" (formula "7") (inst "sk=f_0"))
    (rule "allRight" (formula "7") (inst "sk=o_0"))

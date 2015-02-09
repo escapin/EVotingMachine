@@ -43,8 +43,8 @@
 
 \proofObligation "#Proof Obligation Settings
 #Mon Feb 02 15:17:46 CET 2015
-name=de.uni.trier.infsec.eVotingMachine.core.VotingMachine[de.uni.trier.infsec.eVotingMachine.core.VotingMachine\\:\\:publishLog()].JML behavior operation contract.0
-contract=de.uni.trier.infsec.eVotingMachine.core.VotingMachine[de.uni.trier.infsec.eVotingMachine.core.VotingMachine\\:\\:publishLog()].JML behavior operation contract.0
+name=verif.eVotingMachine.core.VotingMachine[verif.eVotingMachine.core.VotingMachine\\:\\:publishLog()].JML behavior operation contract.0
+contract=verif.eVotingMachine.core.VotingMachine[verif.eVotingMachine.core.VotingMachine\\:\\:publishLog()].JML behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
@@ -97,7 +97,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 (rule "variableDeclaration" (formula "13") (term "1") (newnames "e"))
 (rule "assignment_read_attribute_this" (formula "13") (term "1"))
 (builtin "One Step Simplification" (formula "13"))
-(builtin "Use Operation Contract" (formula "13") (newnames "heapBefore_getEntries,result,exc_0,heapAfter_getEntries,anon_heap_getEntries") (contract "de.uni.trier.infsec.eVotingMachine.core.EntryQueue[de.uni.trier.infsec.eVotingMachine.core.EntryQueue::getEntries()].JML behavior operation contract.0"))
+(builtin "Use Operation Contract" (formula "13") (newnames "heapBefore_getEntries,result,exc_0,heapAfter_getEntries,anon_heap_getEntries") (contract "verif.eVotingMachine.core.EntryQueue[verif.eVotingMachine.core.EntryQueue::getEntries()].JML behavior operation contract.0"))
 (branch "Post (getEntries)"
    (builtin "One Step Simplification" (formula "7"))
    (builtin "One Step Simplification" (formula "15"))
@@ -114,13 +114,13 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
    (rule "variableDeclaration" (formula "17") (term "1") (newnames "var_2"))
    (rule "assignment_read_attribute_this" (formula "17") (term "1"))
    (builtin "One Step Simplification" (formula "17"))
-   (rule "pullOutSelect" (formula "17") (term "0,1,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_VotingMachine_signer_0"))
+   (rule "pullOutSelect" (formula "17") (term "0,1,0") (inst "selectSK=verif_eVotingMachine_core_VotingMachine_signer_0"))
    (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "8"))
    (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "13")) (ifInst ""  (formula "3")))
    (rule "applyEqReverse" (formula "18") (term "0,1,0") (ifseqformula "1"))
    (rule "hideAuxiliaryEq" (formula "1"))
    (rule "shift_paren_or" (formula "9"))
-   (builtin "Use Operation Contract" (formula "17") (newnames "heapBefore_signAndPost,exc_1,heapAfter_signAndPost,anon_heap_signAndPost") (contract "de.uni.trier.infsec.eVotingMachine.core.VotingMachine[de.uni.trier.infsec.eVotingMachine.core.VotingMachine::signAndPost([B,[B,de.uni.trier.infsec.functionalities.pkisig.Signer)].JML behavior operation contract.0"))
+   (builtin "Use Operation Contract" (formula "17") (newnames "heapBefore_signAndPost,exc_1,heapAfter_signAndPost,anon_heap_signAndPost") (contract "verif.eVotingMachine.core.VotingMachine[verif.eVotingMachine.core.VotingMachine::signAndPost([B,[B,verif.functionalities.pkisig.Signer)].JML behavior operation contract.0"))
    (branch "Post (signAndPost)"
       (builtin "One Step Simplification" (formula "19"))
       (builtin "One Step Simplification" (formula "11"))
@@ -136,7 +136,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
       (rule "emptyModality" (formula "20") (term "1"))
       (builtin "One Step Simplification" (formula "20"))
       (rule "eqSymm" (formula "20") (term "1,0,0,1"))
-      (rule "pullOutSelect" (formula "20") (term "0,0,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_VotingMachine_votesForCandidates_0"))
+      (rule "pullOutSelect" (formula "20") (term "0,0,0") (inst "selectSK=verif_eVotingMachine_core_VotingMachine_votesForCandidates_0"))
       (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "12"))
       (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "16")))
       (rule "selectCreatedOfAnonAsFormulaEQ" (formula "1") (term "0,1,0,0") (ifseqformula "8"))
@@ -153,7 +153,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
       (rule "applyEqReverse" (formula "21") (term "0,1,0") (ifseqformula "1"))
       (rule "hideAuxiliaryEq" (formula "1"))
       (rule "applyEq" (formula "20") (term "1,0") (ifseqformula "5"))
-      (rule "pullOutSelect" (formula "20") (term "0,0") (inst "selectSK=de_uni_trier_infsec_eVotingMachine_core_VotingMachine_numberOfCandidates_0"))
+      (rule "pullOutSelect" (formula "20") (term "0,0") (inst "selectSK=verif_eVotingMachine_core_VotingMachine_numberOfCandidates_0"))
       (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "12"))
       (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "16")))
       (rule "selectCreatedOfAnonAsFormulaEQ" (formula "1") (term "0,1,0,0") (ifseqformula "8"))
