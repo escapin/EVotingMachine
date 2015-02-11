@@ -11,16 +11,16 @@ Note that this Java code describes a privacy game (see Section VI of
 the accompanying paper). And hence, as is, it is not meant be
 runnable: In this code, the cryptographic operations have been
 replaced by ideal functionalalities as explained in Section VI. In a
-runnable system the ideal functinalities would have to be replaced
+runnable system the ideal functionalities would have to be replaced
 back by the actual cryptographic operations, i.e., the realization of
 the ideal functionalities as provided in the paper referred to in
 Section VI-C. Also, the Java code now contains the environment
 Etilde_u. This environment, among others, models untrusted network
 libraries. So, in order for the system to be runnable one would simply
-have to replace the environment by an actual network library. (Note
-that we have proven security of the system for all network
-libraries. That is, the security does not depend on which specific
-library we take.)
+have to replace the environment by an actual network library.
+(Note that we have proven security of the system for all network
+libraries. That is, the security does not depend on which
+specific library we take.)
 
 Static IFC check
 ================
