@@ -1,0 +1,13 @@
+echo Fetch the files
+(cd .. ; ./make_package)
+unzip -q ../EVotingMachine.zip
+rm ../EVotingMachine.zip
+echo Change the date of all the files
+# find EVotingMachine | xargs touch --date='2015-02-11 11:54'
+find EVotingMachine -exec touch --date='2015-02-11 11:54' '{}' \;
+rm -f EVotingMachine.zip
+echo Create the zip package
+zip -rq EVotingMachine.zip EVotingMachine
+rm -r EVotingMachine
+echo Change the date of the zip file
+touch --date='2015-02-11 11:54' EVotingMachine.zip
